@@ -11,7 +11,7 @@ namespace HomeWork
         static void Main(string[] args)
         {
 
-            Game game = new Game("Li", "Male", 30, 70, 80, 90);
+            Game game = new Game("Lin", "Female", 30, 80, 80, 80);
 
             while (game.isRunning)
             {

@@ -8,7 +8,7 @@ namespace HomeWork
 {
     class Game
     {
-        student student;
+        Student student;
 
         public bool isRunning;
 
@@ -17,14 +17,14 @@ namespace HomeWork
         public Game(string name, string sex, int age, int Chinese, int math, int English)
         {
             isRunning = true;
-            student = new student( name,  sex,  age,  Chinese,  math,  English);
+            student = new Student( name,  sex,  age,  Chinese,  math,  English);
         }
 
         public void Loop()
         {
             Input();
-            UpDate();
-            Reader();
+            Update();
+            Render();
         }
 
         public void Input()
@@ -33,12 +33,12 @@ namespace HomeWork
             input = Console.ReadLine();
         }
 
-        public void UpDate()
+        public void Update()
         {
 
         }
 
-        public void Reader()
+        public void Render()
         {
             if(input == "1")
             {

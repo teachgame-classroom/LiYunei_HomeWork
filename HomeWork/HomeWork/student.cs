@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace HomeWork
 {
-    class student
+    class Student
     {
         public string name;
         public string sex;
         public int age;
-        public int Chinese;
+        public int chinese;
         public int math;
-        public int English;
+        public int english;
 
         private int average;
         private int total;
@@ -24,18 +24,18 @@ namespace HomeWork
         private const int GOOD = 2;
         private const int VERYGOOD = 3;
 
-        public student(string name, string sex, int age, int Chinese, int math, int English)
+        public Student(string name, string sex, int age, int chinese, int math, int english)
         {
             this.name = name;
             this.sex = sex;
             this.age = age;
-            this.Chinese = Chinese;
+            this.chinese = chinese;
             this.math = math;
-            this.English = English;
+            this.english = english;
 
-            Total(this.Chinese, this.math, this.English);
-            Average(total);
-            Grade(average);
+            //Total(this.chinese, this.math, this.english);
+            //Average(total);
+            //Grade(average);
         }
 
         public void Sayhello()
@@ -43,20 +43,20 @@ namespace HomeWork
             Console.WriteLine("I'm:" + name + ",I'm:" + age + " years old ," + "I'm:" + sex);
         }
 
-        public void Total(int Chinese, int math, int English)
+        public int Total()
         {
-            total = Chinese + math + English;
+            return this.chinese + this.math + this.english;
         }
 
-        public void Average(int total)
+        public int Average()
         {
-            int amount = 3;
-            this.total = total;
-             average = total / amount;
+            return Total() / 3;
         }
 
-        public int contrast(int average)
+        public int contrast()
         {
+            int average = Average();
+
             grade = VERYGOOD;
 
             if (average <= 100)
@@ -81,47 +81,37 @@ namespace HomeWork
             return grade;
         }
 
-        public void Grade(int average)
+        public string Grade()
         {
-            grade = contrast(average);
+            int grade = contrast();
+
+            string ret = "VeryGood";
 
             switch (grade)
             {
-                case FAIL:                    
+                case FAIL:
+                    ret = "Fail";
                     break;
 
                 case MEDIUM:
+                    ret = "Medium";
                     break;
 
                 case GOOD:
+                    ret = "Good";
                     break;
 
                 case VERYGOOD:
+                    ret = "VeryGood";
                     break;
             }
+
+            return ret;
         }
 
         public void PrintScore()
         {
-            string Grade = "test";
-            if(grade == 0)
-            {
-                Grade = "VeryGood";
-            }
-            if (grade == 1)
-            {
-                Grade = "Good";
-            }
-            if (grade == 2)
-            {
-                Grade = "Medium";
-            }
-            if (grade == 3)
-            {
-                Grade = "Fail";
-            }
-
-            Console.WriteLine("I'm:" + name + ", Toatl:" + total + ", Average:" + average + ", Constrast:"+ Grade);
+            Console.WriteLine("I'm:" + name + ", Total:" + Total() + ", Average:" + Average() + ", Constrast:"+ Grade());
         }
     }
 }
