@@ -10,11 +10,11 @@ namespace _19_03_25_Homework
     {
         static void Main(string[] args)
         {
-            Question1();
+           // Question1();
 
-            Question2();
+            //Question2();
 
-            Question3();
+            //Question3();
 
             Qunstion4();
 
@@ -33,7 +33,18 @@ namespace _19_03_25_Homework
             Console.Write("c: ");
             int.TryParse(Console.ReadLine(), out int c);
 
-            if (a > b && b > c)
+            //b=2;c=3;
+            if (c > b)
+            {
+                int t = b; b = c; c = t;
+            }
+            if(b > a)
+            {
+                int t = a; a = b; b = t;
+            }
+            Console.WriteLine("a:" + a + " b:" + b + " c:" + c);
+
+            /*if (a > b && b > c)
             {
                 Console.WriteLine("a:" + a + " b:" + b + " c:" + c);
             }
@@ -56,7 +67,8 @@ namespace _19_03_25_Homework
             else if (b > c && c > a)
             {
                 Console.WriteLine("b:" + b + " c:" + c + " a:" + a);
-            }
+            }*/
+
         }
 
         static void Question2()
@@ -99,30 +111,13 @@ namespace _19_03_25_Homework
 
         }
 
-        static void PrimeNumber()
+        static bool PrimeNumber(int d)
         {
-            int[] number = new int[100];
-            //int[] prime = new int[100];
-
-            /*
-            for(int i =0; i < number.Length; i++)
+            for(int i = 2; i < d; i++)
             {
-                int num = i + 1;
-                for(int t = 2; t < num; t++)
-                {
-                    int rem = t;
-
-                    if(num % rem ==0 && rem!=num)
-                    {
-                        
-                    }
-                    else
-                    {
-                        Console.Write(num);
-                    }
-                }
+                if (d % i == 0) return false;
             }
-            */
+            return true;
         }
 
         static void Qunstion4()
@@ -133,14 +128,11 @@ namespace _19_03_25_Homework
 
             int num = 100;
 
-            for (int i = 2; i <= num; i++)
+            for (int i = 1; i <= num; i++)
             {
-                if (i != 2)
+                if (PrimeNumber(i))
                 {
-                    if (St(i))
-                    {
-                        Console.Write(i + ", ");
-                    }
+                   Console.Write(i + ", ");
                 }
             }
         }
