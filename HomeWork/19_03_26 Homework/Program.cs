@@ -36,9 +36,9 @@ namespace _19_03_26_Homework
             Console.ReadLine();
 
 
-            characters[0].Equip(equipments[0]);
+            characters[0].Equip(equipments[0],false);
 
-            characters[1].Equip(equipments[3]);
+            characters[1].Equip(equipments[3],false);
 
             characters[0].Attack(characters[1]);
             
