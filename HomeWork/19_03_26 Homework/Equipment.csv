@@ -1,0 +1,6 @@
+﻿Equipment number,Equipment name,Atk,Def,Price,description
+0,sword,50,0,20,sw
+1,shield,0,50,30,sh
+2,armour,0,30,40,ar
+3,bigSword,100,20,100,bsw
+4,doubleSword,25,0,25,dsw
