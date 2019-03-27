@@ -9,12 +9,12 @@ namespace _19_03_26_Homework
 {
     class Equipment
     {
-        int equipmentNum;
-        string equipmentName;
-        int atk;
-        int def;
-        int price;
-        string description;
+        public int equipmentNum;
+        public string equipmentName;
+        public int atk;
+        public int def;
+        public int price;
+        public string description;
 
         public Equipment(int equipmentNum,string equipmentName, int atk, int def,int price, string description)
         {

@@ -41,7 +41,7 @@ namespace _19_03_26_Homework
             characters[1].Equip(equipments[3]);
 
             characters[0].Attack(characters[1]);
-
+            
             characters[1].ShowCharacterFile();
 
             Console.Read();

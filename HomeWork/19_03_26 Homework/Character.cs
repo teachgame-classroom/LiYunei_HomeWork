@@ -35,6 +35,7 @@ namespace _19_03_26_Homework
         public void Attack(Character target)
         {
             int amount = atk + GetDamage() - target.GetDefense();
+            target.Hurt(amount);
         }
 
         public void Equip(Equipment equipment)
@@ -44,20 +45,12 @@ namespace _19_03_26_Homework
 
         public int GetDefense()
         {
-            string equip = equipment.ToString();
-            string[] strings = equip.Split(',');
-
-            int def = int.Parse(strings[3]);
-            return def;
+            return equipment.def;
         }
 
         public int GetDamage()
         {
-            string equip = equipment.ToString();
-            string[] strings = equip.Split(',');
-
-            int atk = int.Parse(strings[2]);
-            return atk;
+            return equipment.atk;
         }
 
         public static Character CreateCharacterFromText(string info)
