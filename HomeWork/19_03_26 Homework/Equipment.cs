@@ -15,6 +15,7 @@ namespace _19_03_26_Homework
         public int def;
         public int price;
         public string description;
+        public Character owner;
 
         public Equipment(int equipmentNum,string equipmentName, int atk, int def,int price, string description)
         {
@@ -41,6 +42,8 @@ namespace _19_03_26_Homework
             {
                 //Console.WriteLine(':'+strings[i]);
             }
+
+
 
             int equipmentNum = int.Parse(strings[0]);
             string equipmentName = strings[1];
