@@ -10,14 +10,28 @@ public class PlayerMove : MonoBehaviour
     public int level;
 
     public float speed = 10;
-    public float jumpWeight = 100;
+    public float jumpWeight = 1;
 
-    public bool colloider = false;
+    private bool isOnGround = true;
+
+    string savePath;
+
 
     // Start is called before the first frame update
     void Start()
     {
+
         body = GetComponent<Rigidbody>();
+        savePath = Application.persistentDataPath + "/" + "score.sav";
+        
+        SaveData data = (SaveData)UseFileInUnity.Load(savePath);
+
+        score = data.info.score;
+        level = data.info.level;
+
+        Debug.Log("Score:" +score +  "Level:" + level);
+
+
     }
 
     // Update is called once per frame
@@ -28,10 +42,16 @@ public class PlayerMove : MonoBehaviour
 
         body.AddForce((Vector3.forward * vertical + Vector3.right * horizontal) * speed);
 
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            body.AddForce(Vector3.up*jumpWeight);
+            if (isOnGround)
+            {
+                body.transform.position += Vector3.up * jumpWeight;
+                isOnGround = false;
+            }          
         }
+        
         
     }
 
@@ -41,26 +61,38 @@ public class PlayerMove : MonoBehaviour
 
         Debug.Log("+1");
 
-        if(score % 5 == 0&&score != 0)
+        if (score % 5 == 0 && score != 0)
         {
             level += 1;
             Debug.Log("LevelUp");
         }
+
+        Save();
     }
 
-    private bool OnTriggerEnter(Collider other)
+    private void Save()
     {
-        
+        SaveData data = new SaveData();
+        data.info = new ScoreInfo(score, level);
+
+        UseFileInUnity.Save(data, savePath);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {        
         if (other.tag == "Score")
         {
             AddScore();
+            isOnGround = true;
+        }
 
-            return colloider = true;
+        if (other.tag == "Ground")
+        {
+            isOnGround = true;
         }
         else
         {
-            return colloider = false;
+            isOnGround = false;
         }
-       
     }
 }
