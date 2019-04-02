@@ -67,6 +67,12 @@
     <Compile Include="Assets\19_03_28 Homework\UseFileInUnity.cs" />
     <Compile Include="Assets\19_03_29\GameController_CollectItem.cs" />
     <Compile Include="Assets\19_03_29\Vectorthree.cs" />
+    <Compile Include="Assets\19_04_02 ClassExercise\AutoMove.cs" />
+    <Compile Include="Assets\Gradius\BulletDamage.cs" />
+    <Compile Include="Assets\Gradius\BulletMove.cs" />
+    <Compile Include="Assets\Gradius\Enemy.cs" />
+    <Compile Include="Assets\Gradius\SquadonManager.cs" />
+    <Compile Include="Assets\Gradius\VicViper.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/CSharp/LiYunei_HomeWork/Unity Homework/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
