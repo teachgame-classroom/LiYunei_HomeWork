@@ -1,0 +1,72 @@
+﻿1. 已知三维坐标系中两个点 A 和 B，如果要求出两点连线 AB 上某一位置的坐标，在Unity中可以通过线性插值方法（ C ）来计算
+
+A. Vector3.Distance()
+B. Mathf.Max()
+C. Mathf.Lerp()
+D. Vector3.Lerp()
+
+
+2. 已知数轴上的点 A = 2，点 B = 8，那么线段 AB 的中点 C = （ A ）
+
+A. 3
+B. 4
+C. 5
+D. 6
+
+
+3. 线性插值运算中，使用线段的起点 A，终点 B，以及插值系数 t 可以求出线段 AB 上任一点 P 的值，计算公式为（ D ）
+
+A. P = A + B * t
+B. P = A - B * t
+C. P = (B - A) * t
+D. P = A + (B - A) * t
+
+
+4. 线性插值运算中，对于任意的线段 AB，插值系数 t = 0，t = 0.5，t = 1 分别对应线段上的（ C ）
+
+A. 点 A，点 B，中点
+B. 点 B，点 A，中点
+C. 点 A，中点，点 B
+D. 中点，点 A，点 B
+
+
+5. 已知数轴上的点 A = 2，点 B = 8，那么插值系数 t = 0.25 对应的点 P = （ B ）
+
+A. 2.25
+B. 3.5
+C. 4.5
+D. 8.25
+
+
+6. 已知三维向量 v1(1,2,3)，v2(5,6,7)，v3 = Vector3.Lerp(v1, v2, 0.75f)，那么 v3 的值是（ C ）
+
+A. (2,3,4)
+B. (3,4,5)
+C. (4,5,6)
+D. (6,7,8)
+
+
+7. 在Unity场景中有两个独立的游戏对象，名称分别是 objA 和 objB，（ B ）身上有一个脚本，其中的（   ）语句可以将 objB 设置为 objA 的子对象
+
+A. objA, GameObject.Find("objB").transform.SetParent(transform);
+B. objB, GameObject.Find("objA").transform.parent = transform;
+C. objA, gameObject.Find("objB").transform.SetParent(this);
+D. objB, transform.Find("objA").parent = transform;
+
+
+8. 已知三维向量 v1(1,2,3)，v2(10,2,3)，浮点数 s = 5.0f，某一帧的经过时间 dt = 0.016f，那么 Vector3.MoveTowards(v1,v2,s * dt) 等于（ A ）
+
+A. (1.08f,2f,3f)
+B. (1.08f,2.08f,3.08f)
+C. (6,2,3)
+D. (6,7,8)
+
+
+9. 已知三维向量 v1(4,5,6)，v2(4,6,6)，浮点数 s = 100.0f，某一帧的经过时间 dt = 0.02f，那么 Vector3.MoveTowards(v1,v2,s * dt) 等于（ C ）
+
+A. (4,7,6)
+B. (6,7,8)
+C. (4,6,6)
+D. (4,5.02f,6)
+
+
