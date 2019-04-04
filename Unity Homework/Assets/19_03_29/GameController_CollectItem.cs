@@ -7,7 +7,7 @@ public class GameController_CollectItem : MonoBehaviour
     public int collectavleCounts = 10;
     public int pickupRadiusRange = 2;
     public int pickupRadiusSize = 4;
-    private float pickupRadius = 5;
+    public float pickupRadius = 5;
 
     public Material pickupMat;
     public Material normalMat;

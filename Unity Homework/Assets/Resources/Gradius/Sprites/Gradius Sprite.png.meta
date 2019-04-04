@@ -69,7 +69,7 @@ TextureImporter:
     21300128: Gradius Sprite_64
     21300130: Gradius Sprite_65
     21300132: Gradius Sprite_66
-    21300134: Gradius Sprite_67
+    21300134: Enemy_2
     21300136: Gradius Sprite_68
     21300138: Gradius Sprite_69
     21300140: Gradius Sprite_70
@@ -1737,7 +1737,7 @@ TextureImporter:
         serializedVersion: 2
         x: 167
         y: 747
-        width: 14
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -1757,7 +1757,7 @@ TextureImporter:
         serializedVersion: 2
         x: 184
         y: 747
-        width: 18
+        width: 20
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -1935,7 +1935,7 @@ TextureImporter:
       name: Gradius Sprite_65
       rect:
         serializedVersion: 2
-        x: 357
+        x: 358
         y: 747
         width: 16
         height: 16
@@ -1972,12 +1972,12 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_67
+      name: Enemy_2
       rect:
         serializedVersion: 2
-        x: 7
+        x: 8
         y: 725
-        width: 16
+        width: 15
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}

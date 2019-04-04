@@ -5,12 +5,12 @@ using UnityEngine;
 public class LerpTest : MonoBehaviour
 {
     public float pointSize = 0.1f;
-    public float moveSpeed = 5;
+    //public float moveSpeed = 5;
 
-    private Vector3 a;
-    private Vector3 b;
+    public Vector3 a;
+    public Vector3 b;
 
-    private float t = 0.5f;
+    public float t = 0.5f;
 
     private float currentPathLength =0;
     private float currentPathDesireTime = 0;
@@ -19,7 +19,7 @@ public class LerpTest : MonoBehaviour
     private int currentWaypointIdx = 0;
 
     private GameObject cube;
-    private Vector3 c;
+    public Vector3 c;
 
     // Start is called before the first frame update
     void Start()
@@ -31,13 +31,13 @@ public class LerpTest : MonoBehaviour
             waypoints[i] = transform.GetChild(i);
         }
 
-        cube = GameObject.Find("Cube");
-        cube.transform.position = waypoints[currentWaypointIdx].position;
+        //cube = GameObject.Find("Cube");
+        //cube.transform.position = waypoints[currentWaypointIdx].position;
         currentWaypointIdx += 1;
 
         currentPathLength = Vector3.Distance(waypoints[currentWaypointIdx].position, waypoints[currentWaypointIdx-1].position);
 
-        currentPathDesireTime = currentPathLength / moveSpeed;
+        //currentPathDesireTime = currentPathLength / moveSpeed;
 
         t = 0;
     }
@@ -45,7 +45,8 @@ public class LerpTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        cube.transform.position = MoveAlongPath(cube.transform.position);
+        FollowThePath();
+        //cube.transform.position = MoveAlongPath(cube.transform.position);
 
         /*
         if(cube.transform.position == waypoints[currentWaypointIdx].position)
@@ -112,17 +113,22 @@ public class LerpTest : MonoBehaviour
             }
         }
 
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawSphere(a,pointSize );
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(a,pointSize );
 
-        //Gizmos.color = Color.green;
-        //Gizmos.DrawSphere(b, pointSize);
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(b, pointSize);
 
-        //Gizmos.color = Color.yellow;
-        //Gizmos.DrawLine(a, b);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(a, b);
+
+        //c = Vector3.Lerp(a, b, t);
+        c = Vector3.MoveTowards(a, b, t);
 
         Gizmos.color = Color.cyan;
         Gizmos.DrawSphere(c, pointSize);
+
+
 
         for(int i = 0; i < waypoints.Length; i++)
         {
