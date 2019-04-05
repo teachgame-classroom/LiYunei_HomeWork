@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class VicViper : MonoBehaviour
 {
-    private float radius = 1;
+    //private float radius = 1;
     public float speed = 10;
 
     private Transform shotPosTrans;
 
     private GameObject[] bullets;
+    private GameObject targetIconPrefab;
+    private GameObject targetIcon;
 
     private float lastFireTime = 0;
     private float fireInterval = 0.5f;
@@ -18,18 +20,27 @@ public class VicViper : MonoBehaviour
     void Start()
     {
         bullets = Resources.LoadAll<GameObject>("Gradius/Prefabs/Bullets");
+        targetIconPrefab = Resources.Load<GameObject>("Gradius/Prefabs/Effects/TargetIcon");
         shotPosTrans = transform.Find("ShotPos");
+
+        Vector3 v = MouseTarget();
+        targetIconPrefab.transform.position = v;
+        targetIcon = Instantiate(targetIconPrefab, targetIconPrefab.transform.position, Quaternion.identity);
     }
+
+ 
 
     // Update is called once per frame
     void Update()
     {
-        radius = (Mathf.Sin(Time.time*4) * 0.25f + 1)*0.5f; 
+        //radius = (Mathf.Sin(Time.time*4) * 0.25f + 1)*0.5f; 
 
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
         transform.position += (Vector3.right * h+Vector3.up * v) * speed * Time.deltaTime;
+
+        targetIcon.transform.position = MouseTarget();
 
         if (Time.time - lastFireTime > fireInterval)
         {
@@ -38,11 +49,16 @@ public class VicViper : MonoBehaviour
         }
     }
 
-    void Shoot()
+    private static Vector3 MouseTarget()
     {
         Vector3 v = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         v = Vector3.Scale(v, Vector3.right + Vector3.up);
-        Vector3 direction = v - transform.position;
+        return v;
+    }
+
+    void Shoot()
+    {
+        Vector3 direction = MouseTarget();
 
         GameObject bullet = Instantiate(bullets[0], shotPosTrans.position, Quaternion.identity);
         bullet.transform.right = direction.normalized;
@@ -55,8 +71,8 @@ public class VicViper : MonoBehaviour
         Vector3 direction = v - transform.position;
 
         //Gizmos.DrawLine(transform.position, transform.position + direction);
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(v, radius);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireSphere(v, radius);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
