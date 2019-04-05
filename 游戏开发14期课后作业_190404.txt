@@ -1,0 +1,64 @@
+﻿1. 三维向量 v(1,1,0) 所指方向与 X 轴的夹角是（ B ）度
+
+A. 30
+B. 45
+C. 60
+D. 90
+
+
+2. 长度为 1 的向量叫做单位向量，求出和某个向量方向相同的单位向量的运算叫做（ C ）
+
+A. 求模
+B. 泛化
+C. 归一化
+D. 点乘
+
+
+3. 向量(1,1,0)的长度（ A ）它的归一化向量
+
+A. 大于
+B. 等于
+C. 小于
+D. 小于等于
+
+
+4. 一个Unity脚本的 Update 方法中有以下语句：float f = Mathf.Sin(2 * Mathf.PI * Time.time) * 5 + 5; ，关于变量 f 的描述，错误的是（ D ）
+
+A. 它的值每隔一秒重复一次
+B. 它的最大值是 10
+C. 它的最小值是 0
+D. 它的最初的值是 2
+
+
+5. 一个游戏对象从原点出发，沿着(1,-1,0)方向移动，速度大小是 10m/s，以下说法正确的是（ C ）
+
+A. 它在坐标系的右上方
+B. 它在 X 方向的速度大小等于 10m/s
+C. 它在 Y 方向的速度大小小于 10m/s
+D. 经过 1 秒钟后，它的坐标将变成(10,-10,0)
+
+
+6. 三维向量 v = Vector3.left + Vector3.up,它的值是（ C ）
+
+A. (1,1,0)
+B. (-1,-1,0)
+C. (-1,1,0)
+D. (1,-1,0)
+
+
+7. 在Unity脚本中通过transform变量可以查询到游戏对象局部坐标系的XYZ轴的正方向，以下属性哪一个是不存在的（ D ）
+
+A. transform.right
+B. transform.left
+C. transform.up
+D. transform.forward
+
+
+8. 在Unity场景中有两个游戏对象 objA 和 objB，其中 objB 是 objA 的子对象，objA 的位置是 (3,4,5)，objB 相对于 objA 的位置是 (-1,4,0)，那么（ A ）
+
+A. objB 的世界坐标是 (2,8,5)
+B. objB 的世界坐标是 (-1,4,0)
+C. objB.transform.position 的值是(-1,4,0) 
+D. objB.transform.localPosition 的值是(2,8,5)
+
+
