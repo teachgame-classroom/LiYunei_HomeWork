@@ -46,7 +46,7 @@ C. (-1,1,0)
 D. (1,-1,0)
 
 
-7. 在Unity脚本中通过transform变量可以查询到游戏对象局部坐标系的XYZ轴的正方向，以下属性哪一个是不存在的（ D ）
+7. 在Unity脚本中通过transform变量可以查询到游戏对象局部坐标系的XYZ轴的正方向，以下属性哪一个是不存在的（ D ）B
 
 A. transform.right
 B. transform.left

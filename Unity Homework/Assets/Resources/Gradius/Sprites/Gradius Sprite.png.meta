@@ -160,12 +160,12 @@ TextureImporter:
     21300310: Gradius Sprite_155
     21300312: Gradius Sprite_156
     21300314: Gradius Sprite_157
-    21300316: Gradius Sprite_158
-    21300318: Gradius Sprite_159
-    21300320: Gradius Sprite_160
-    21300322: Gradius Sprite_161
-    21300324: Gradius Sprite_162
-    21300326: Gradius Sprite_163
+    21300316: Enemy_4_0
+    21300318: Enemy_4_1
+    21300320: Enemy_4_2
+    21300322: Enemy_4_3
+    21300324: Enemy_4_4
+    21300326: Enemy_4_5
     21300328: Gradius Sprite_164
     21300330: Gradius Sprite_165
     21300332: Gradius Sprite_166
@@ -246,7 +246,7 @@ TextureImporter:
     21300482: Gradius Sprite_241
     21300484: Gradius Sprite_242
     21300486: Gradius Sprite_243
-    21300488: Gradius Sprite_244
+    21300488: Bullet_10
     21300490: Gradius Sprite_245
     21300492: Gradius Sprite_246
     21300494: Gradius Sprite_247
@@ -2958,7 +2958,7 @@ TextureImporter:
         x: 7
         y: 674
         width: 14
-        height: 11
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2978,7 +2978,7 @@ TextureImporter:
         x: 24
         y: 674
         width: 14
-        height: 13
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2998,7 +2998,7 @@ TextureImporter:
         x: 41
         y: 674
         width: 14
-        height: 14
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -3018,7 +3018,7 @@ TextureImporter:
         x: 58
         y: 674
         width: 14
-        height: 15
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -3038,7 +3038,7 @@ TextureImporter:
         x: 75
         y: 674
         width: 14
-        height: 15
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -3058,7 +3058,7 @@ TextureImporter:
         x: 92
         y: 674
         width: 14
-        height: 15
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -3098,7 +3098,7 @@ TextureImporter:
         x: 126
         y: 674
         width: 14
-        height: 15
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -3118,7 +3118,7 @@ TextureImporter:
         x: 143
         y: 674
         width: 14
-        height: 15
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -3138,7 +3138,7 @@ TextureImporter:
         x: 160
         y: 674
         width: 14
-        height: 15
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -3158,7 +3158,7 @@ TextureImporter:
         x: 177
         y: 674
         width: 14
-        height: 14
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -3178,7 +3178,7 @@ TextureImporter:
         x: 194
         y: 674
         width: 14
-        height: 13
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -3198,7 +3198,7 @@ TextureImporter:
         x: 211
         y: 674
         width: 14
-        height: 11
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -3792,7 +3792,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_158
+      name: Enemy_4_0
       rect:
         serializedVersion: 2
         x: 7
@@ -3812,12 +3812,12 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_159
+      name: Enemy_4_1
       rect:
         serializedVersion: 2
         x: 31
         y: 635
-        width: 20
+        width: 21
         height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -3832,12 +3832,12 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_160
+      name: Enemy_4_2
       rect:
         serializedVersion: 2
         x: 54
         y: 635
-        width: 20
+        width: 21
         height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -3852,12 +3852,12 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_161
+      name: Enemy_4_3
       rect:
         serializedVersion: 2
         x: 77
         y: 635
-        width: 20
+        width: 21
         height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -3872,7 +3872,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_162
+      name: Enemy_4_4
       rect:
         serializedVersion: 2
         x: 100
@@ -3892,12 +3892,12 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_163
+      name: Enemy_4_5
       rect:
         serializedVersion: 2
-        x: 122
+        x: 121
         y: 635
-        width: 18
+        width: 19
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -5512,7 +5512,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_244
+      name: Bullet_10
       rect:
         serializedVersion: 2
         x: 345

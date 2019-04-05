@@ -6,6 +6,7 @@ public class VicViper : MonoBehaviour
 {
     //private float radius = 1;
     public float speed = 10;
+    public float shootAngle = 30f;
 
     private Transform shotPosTrans;
 
@@ -56,12 +57,29 @@ public class VicViper : MonoBehaviour
         return v;
     }
 
+    float GetAngle(Vector3 direction)
+    {
+        float angle = Vector3.SignedAngle(Vector3.right, direction, Vector3.forward);
+        return angle;
+    }
+
     void Shoot()
     {
-        Vector3 direction = MouseTarget();
+        Vector3 direction = (MouseTarget() - shotPosTrans.position).normalized;
+
+        if(GetAngle(direction) > shootAngle)
+        {
+            direction = Quaternion.Euler(0, 0, shootAngle) * Vector3.right;
+        }
+
+        if(GetAngle(direction) < -shootAngle)
+        {
+            direction = Quaternion.Euler(0, 0, -shootAngle) * Vector3.right;
+        }
 
         GameObject bullet = Instantiate(bullets[0], shotPosTrans.position, Quaternion.identity);
-        bullet.transform.right = direction.normalized;
+        bullet.transform.right = direction;
+        bullet.GetComponent<BulletMove>().moveDirection = direction;
     }
 
     private void OnDrawGizmos()
