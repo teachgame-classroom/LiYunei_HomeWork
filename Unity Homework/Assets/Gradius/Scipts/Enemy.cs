@@ -104,14 +104,14 @@ public class Enemy : MonoBehaviour
         Vector3 direction = Vector3.zero;
         bool findTarget = false;
 
-        if(GetStraightAngle(GetAimDirection(player.transform.position)) > 90)
+        if(GetStraightAngle(GetAimDirection(player.transform.position)) > 95)
         {
             direction = Vector3.left;
             transform.rotation = Quaternion.Euler(0, 0, 0);
 
             findTarget = GetAngle(GetAimDirection(player.transform.position)) < 150 && GetAngle(GetAimDirection(player.transform.position)) > 120;
         }
-        if (GetStraightAngle(GetAimDirection(player.transform.position)) < 90)
+        if (GetStraightAngle(GetAimDirection(player.transform.position)) < 85)
         {
             direction = Vector3.right;
             transform.rotation = Quaternion.Euler(0, 180, 0);
@@ -229,7 +229,9 @@ public class Enemy : MonoBehaviour
             }
 
             GameObject bulletInstance = Instantiate(bulletPerfab, shotPos.position, Quaternion.identity);
-            bulletPerfab.GetComponent<BulletMove>().moveDirection =direction;
+            bulletInstance.GetComponent<BulletMove>().moveDirection =direction;
+
+            Debug.DrawLine(shotPos.position, shotPos.position + direction * 5, Color.red, 5f);
 
             lastFireTime = Time.time;
         }
