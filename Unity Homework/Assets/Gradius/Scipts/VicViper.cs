@@ -14,6 +14,8 @@ public class VicViper : MonoBehaviour
     private GameObject targetIconPrefab;
     private GameObject targetIcon;
 
+    private Animator anim;
+
     private float lastFireTime = 0;
     private float fireInterval = 0.5f;
 
@@ -27,9 +29,9 @@ public class VicViper : MonoBehaviour
         Vector3 v = MouseTarget();
         targetIconPrefab.transform.position = v;
         targetIcon = Instantiate(targetIconPrefab, targetIconPrefab.transform.position, Quaternion.identity);
-    }
 
- 
+        anim = GetComponent<Animator>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -38,6 +40,20 @@ public class VicViper : MonoBehaviour
 
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
+
+        if(v > 0)
+        {
+            anim.SetInteger("Move", 1);
+        }
+        else if (v < 0)
+        {
+            anim.SetInteger("Move", 2);
+        }
+        else
+        {
+            anim.SetInteger("Move", 0);
+        }
+        
 
         transform.position += (Vector3.right * h+Vector3.up * v) * speed * Time.deltaTime;
 

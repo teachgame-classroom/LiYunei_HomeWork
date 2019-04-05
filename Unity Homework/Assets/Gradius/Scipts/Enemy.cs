@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     public MovePattern movePattern;
 
     public MoveDirection straightmoveDirection;
-    public float straightMoveDistance = 0;
+    private  float straightMoveDistance = 1;
 
     private float straightMoveTotalDistance;
 
@@ -83,10 +83,6 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        if(bulletPerfab != null)
-        {
-            shoot();
-        }
     }
     /// <summary>
     /// 原地
@@ -94,28 +90,54 @@ public class Enemy : MonoBehaviour
     void StaticMove()
     {
         SetSpriteByAimDirection(GetAimDirection(player.transform.position));
+
+        if (bulletPerfab != null)
+        {
+            shoot();
+        }
     }
     /// <summary>
     /// 直线飞行
     /// </summary>
     void StraightMove()
     {
+        Vector3 direction = Vector3.zero;
+        bool findTarget = false;
+
+        if(GetStraightAngle(GetAimDirection(player.transform.position)) > 90)
+        {
+            direction = Vector3.left;
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+
+            findTarget = GetAngle(GetAimDirection(player.transform.position)) < 150 && GetAngle(GetAimDirection(player.transform.position)) > 120;
+        }
+        if (GetStraightAngle(GetAimDirection(player.transform.position)) < 90)
+        {
+            direction = Vector3.right;
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+            findTarget = GetAngle(GetAimDirection(player.transform.position)) < 60 && GetAngle(GetAimDirection(player.transform.position)) > 30;
+        }
+
         if (straightMoveDistance > 0)
         {
-            straightMoveTotalDistance += speed * Time.deltaTime;
-
-            if(straightMoveTotalDistance < straightMoveDistance)
+            if (!findTarget)
             {
-                transform.Translate(Vector3.left * speed * Time.deltaTime, Space.World);
+                anim.SetBool("Stop", false);
+                transform.Translate(direction * speed * Time.deltaTime,Space.World);
             }
             else
             {
                 anim.SetBool("Stop", true);
+
+                if (bulletPerfab != null)
+                {
+                    shoot();
+                }
             }
         }
         else
         {
-            transform.Translate(Vector3.left * speed * Time.deltaTime, Space.World);
+            transform.Translate(direction * speed * Time.deltaTime, Space.World);
         }
     }
 
@@ -184,6 +206,13 @@ public class Enemy : MonoBehaviour
     float GetAngle(Vector3 direction)
     {
         float angle = Vector3.SignedAngle(Vector3.right, direction, Vector3.forward);
+        return angle;
+    }
+
+    float GetStraightAngle(Vector3 direction)
+    {
+        float angle = Vector3.SignedAngle(Vector3.right, direction, Vector3.forward);
+        Debug.Log(angle);
         return angle;
     }
 
