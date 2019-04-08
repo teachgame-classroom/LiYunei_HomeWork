@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class BulletDamage : MonoBehaviour
 {
+    public bool isLaser =false;
+    public int laserCount = 3;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -13,7 +16,7 @@ public class BulletDamage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -25,7 +28,18 @@ public class BulletDamage : MonoBehaviour
         if(enemy != null)
         {
             enemy.Hurt(1);
-            Destroy(gameObject);
+            if (isLaser == false)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                laserCount--;
+                if(laserCount == 0)
+                {
+                    Destroy(gameObject);
+                }
+            }
         }
     }
 

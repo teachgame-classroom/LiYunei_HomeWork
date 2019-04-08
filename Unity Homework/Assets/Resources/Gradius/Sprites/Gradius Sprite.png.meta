@@ -13,7 +13,7 @@ TextureImporter:
     21300016: Gradius Sprite_8
     21300018: Gradius Sprite_9
     21300020: Gradius Sprite_534
-    21300022: Gradius Sprite_11
+    21300022: Bullet_3
     21300024: Gradius Sprite_12
     21300026: Gradius Sprite_13
     21300028: Gradius Sprite_14
@@ -537,6 +537,7 @@ TextureImporter:
     21301064: Gradius Sprite_532
     21301066: Gradius Sprite_533
     21301068: PowerUp_2
+    21301070: Bullet_02
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -852,7 +853,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_11
+      name: Bullet_3
       rect:
         serializedVersion: 2
         x: 251
@@ -11287,6 +11288,26 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f98165be32ab36443809b25817b02885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bullet_02
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 816
+        width: 32
+        height: 1
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9b35b2b19563da49a33e1b15f25f89d
       vertices: []
       indices: 
       edges: []

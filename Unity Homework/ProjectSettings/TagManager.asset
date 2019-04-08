@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Score
   - Ground
+  - PowerUp
   layers:
   - Default
   - TransparentFX

@@ -212,7 +212,6 @@ public class Enemy : MonoBehaviour
     float GetStraightAngle(Vector3 direction)
     {
         float angle = Vector3.SignedAngle(Vector3.right, direction, Vector3.forward);
-        Debug.Log(angle);
         return angle;
     }
 
