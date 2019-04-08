@@ -9,37 +9,52 @@ public class VicViper : MonoBehaviour
     public float speed = 10;
     public float shootAngle = 30f;
     public float dubleAngle = 50f;
-    public PrimaryWeaponType primaryWeapon;
+    private PrimaryWeaponType primaryWeapon;
 
     private bool isUpDouble = false;
     private bool isUpLaser = false;
+    private int missileLevel = 0; 
 
     private const int NORMAL = 0;
     private const int LASER = 1;
+    private const int MISSILE = 2;
 
     private int powerUp = 0;
 
     private Transform shotPosTrans;
 
     private GameObject[] bullets;
+
+    private GameObject optionPrefab;
+    //private GameObject[] options;
+
+    private List<Vector3> trackList = new List<Vector3>();
+    private float trackNodeDistance = 0.1f;
+
     private GameObject targetIconPrefab;
     private GameObject targetIcon;
 
     private Animator anim;
 
     private float lastFireTime = 0;
-    private float fireInterval = 0.5f;
+    private float fireInterval = 0.5f*0.5f;
 
     void Start()
     {
         bullets = Resources.LoadAll<GameObject>("Gradius/Prefabs/Bullets");
         targetIconPrefab = Resources.Load<GameObject>("Gradius/Prefabs/Effects/TargetIcon");
+        optionPrefab = Resources.Load<GameObject>("Gradius/Prefabs/Option");
         shotPosTrans = transform.Find("ShotPos");
+
+        //UpdataTrackList();
+
+        //optionPrefab.transform.position = Vector3.MoveTowards(optionPrefab.transform.position, trackList[0], speed * Time.deltaTime);
+
+        trackList.Add(transform.position);
 
         Vector3 v = MouseTarget();
         targetIconPrefab.transform.position = v;
         targetIcon = Instantiate(targetIconPrefab, targetIconPrefab.transform.position, Quaternion.identity);
-
 
         anim = GetComponent<Animator>();
     }
@@ -48,17 +63,19 @@ public class VicViper : MonoBehaviour
     {
         MoveAnim();
 
+        UpdataTrackList();
+
         if (Input.GetKeyDown(KeyCode.K))
         {
             TryPowerUp();
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1)&&isUpDouble==true)
+        if (Input.GetKeyDown(KeyCode.Alpha1) && isUpDouble == true)
         {
             ChangePrimaryWeapon(PrimaryWeaponType.Double);
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2)&&isUpLaser==true)
+        if (Input.GetKeyDown(KeyCode.Alpha2) && isUpLaser == true)
         {
             ChangePrimaryWeapon(PrimaryWeaponType.Laser);
         }
@@ -77,6 +94,8 @@ public class VicViper : MonoBehaviour
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
+        //Debug.Log(h + "," + v);
+
         if (v > 0)
         {
             anim.SetInteger("Move", 1);
@@ -89,7 +108,6 @@ public class VicViper : MonoBehaviour
         {
             anim.SetInteger("Move", 0);
         }
-
 
         transform.position += (Vector3.right * h + Vector3.up * v) * speed * Time.deltaTime;
     }
@@ -121,6 +139,11 @@ public class VicViper : MonoBehaviour
                 ShootLaser();
                 break;
         }
+
+        if (missileLevel > 0)
+        {
+            ShootMissile();
+        }
     }
 
     void TryPowerUp()
@@ -131,6 +154,7 @@ public class VicViper : MonoBehaviour
             case 1:
                 break;
             case 2:
+                PowerUPMissle();
                 break;
             case 3:
                 if (isUpDouble == false)
@@ -229,10 +253,41 @@ public class VicViper : MonoBehaviour
         bullet.GetComponent<BulletMove>().moveDirection = Vector3.right;
     }
 
+    void ShootMissile()
+    {
+        GameObject bullet = Instantiate(bullets[MISSILE], transform.position, Quaternion.Euler(0,0,-45));
+
+        if(missileLevel == 2)
+        {
+            Instantiate(bullets[MISSILE], transform.position + transform.right*0.5f, Quaternion.Euler(0, 0, -45));
+        }
+    }
+
+    void PowerUPMissle()
+    {
+        if (missileLevel < 2)
+        {
+            missileLevel++;
+            powerUp -= MISSILE;
+        }
+    }
+
+    void UpdataTrackList()
+    {
+        if (Vector3.SqrMagnitude(transform.position - trackList[trackList.Count - 1])>trackNodeDistance)
+        {
+            trackList.Add(transform.position);
+
+            if(trackList.Count > 16)
+            {
+                trackList.RemoveAt(0);
+            }
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Is collider " + collision.gameObject.name);
+        //Debug.Log("Is collider " + collision.gameObject.name);
 
         if(collision.tag == "PowerUp")
         {
@@ -243,6 +298,11 @@ public class VicViper : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        for(int i = 0; i<trackList.Count; i++)
+        {
+            Gizmos.DrawSphere(trackList[i], 0.1f);
+        }
+
         //Vector3 direction =(MouseTarget() - shotPosTrans.position);
 
         //float distance = direction.magnitude;
@@ -264,6 +324,8 @@ public class VicViper : MonoBehaviour
     {
         GUILayout.BeginVertical();
         GUILayout.Label(string.Format("PowerUp:{0}", powerUp));
+        GUILayout.Label(string.Format("Missle level:{0}", missileLevel));
+        GUILayout.Label(string.Format("Track Node Count:" + trackList.Count));
         GUILayout.EndVertical();
     }
 }

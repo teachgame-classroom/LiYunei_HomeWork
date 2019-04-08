@@ -1,0 +1,51 @@
+﻿1. 垂直于某个平面的单位向量叫做这个平面的（ B ）
+
+A. 切线
+B. 法线
+C. 中线
+D. 割线
+
+
+2. 要使一个游戏对象的旋转角度变为(0,0,90)，以下写法正确的是（ A ）
+
+A. transform.rotation = Quaternion.Euler(0,0,90);
+B. transform.rotation = new Quaternion(0,0,90,0);
+C. transform.rotation = new Vector3(0,0,90);
+D. transform.rotation.z = 90;
+
+
+3. 射线检测语句 RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.up, 1f) 实现的功能是（ A ）
+
+A. 从游戏对象的位置往局部坐标的正上方作一条射线，射线的长度是 1，将射线检测的结果保存在 hit 变量中
+B. 从游戏对象的位置往局部坐标的正上方作一条射线，将射线接触的碰撞体保存在 hit 变量中
+C. 从游戏对象的位置往世界坐标的正上方作一条射线，射线的长度是 1，将射线检测的结果保存在 hit 变量中
+D. 从游戏对象的位置往世界坐标的正上方作一条射线，射线长度无限大，将射线检测的结果保存在 hit 变量中
+
+
+4. Unity中用于设置不同动画片段之间的迁移条件的组件是（ B ）
+
+A. Animation
+B. Animator
+C. Transform
+D. Sprite Renderer
+
+
+5. 有一个指向 Animator 组件的变量 anim，以下语句中，可以通过这个变量将动画状态机中的一个布尔变量 walk 设为 true的是（ D ）
+
+A. Animator.SetBool(walk,true);
+B. Animator.SetBool("walk",true);
+C. anim.SetBool(walk,true);
+D. anim.SetBool("walk",true);
+
+
+6. 有一张 Sprite 图片的 Pixel Per Unit 数值为100，实际拖动到场景以后发现生成的游戏对象的尺寸太大，想让其长宽缩小一半，应该（ D ）
+
+A. 将 Pixel Per Unit 设为 50
+B. 将 Pixel Per Unit 设为 75
+C. 将 Pixel Per Unit 设为 150
+D. 将 Pixel Per Unit 设为 200
+
+
+7. 为宇宙巡航机游戏的玩家设计一种新武器。可使用课堂上已实现的代码片段来组合。
+
+

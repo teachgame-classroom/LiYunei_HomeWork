@@ -137,6 +137,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 15
+  isMissle: 0
+  moveDirection: {x: 0, y: 0, z: 0}
 --- !u!61 &6504441417055541739
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -175,3 +177,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eab3567213faad94c9816f69438cb9fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isLaser: 0
+  laserCount: 3

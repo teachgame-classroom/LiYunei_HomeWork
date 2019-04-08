@@ -5,8 +5,10 @@ using UnityEngine;
 public class BulletMove : MonoBehaviour
 {
     public float speed = 15;
-
+    public bool isMissle;
     public Vector3 moveDirection;
+
+    private string[] stageLayeMask = new string[]{"Stage"};
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +22,33 @@ public class BulletMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //transform.Translate(Vector3.right * speed * Time.deltaTime);
+        if (isMissle)
+        {
+            if(GetGroundNormal()!= Vector3.zero)
+            {
+                transform.up = GetGroundNormal();
+                moveDirection = transform.right;
+            }
+        }
+
         transform.Translate(moveDirection * speed * Time.deltaTime, Space.World);
+    }
+
+    Vector3 GetGroundNormal()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position - transform.up * 0.2f,-transform.up,0.5f,LayerMask.GetMask(stageLayeMask));
+
+        if(hit.transform != null)
+        {
+            Debug.DrawLine(hit.point, hit.point + hit.normal, Color.red, 1f);
+
+            //Debug.Log(string.Format("The missile is approaching the :{0}", hit.transform.name));
+
+            return hit.normal;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
     }
 }
