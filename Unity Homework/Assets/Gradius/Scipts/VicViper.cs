@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PrimaryWeaponType { Normal,Double=3,Laser=4}
+public enum PrimaryWeaponType { Normal,Missile,Double,Laser}
 
 public class VicViper : MonoBehaviour
 {
     public float speed = 10;
-    public float fireInterval = 1f;
+    public float fireInterval = 0.5f;
+    public float fireLaser = 0.5f;
+    public float fireMissIles = 1f;
     public float shootAngle = 30f;
     public float dubleAngle = 50f;
     public int optionMax = 3;
@@ -19,6 +21,8 @@ public class VicViper : MonoBehaviour
     private bool isUpLaser = false;
     private int missileLevel = 0;
     private int optionLevel = 0;
+
+    private float[] intervals;
 
     private const int NORMAL = 0;
     private const int LASER = 1;
@@ -55,6 +59,7 @@ public class VicViper : MonoBehaviour
         targetIconPrefab.transform.position = v;
         targetIcon = Instantiate(targetIconPrefab, targetIconPrefab.transform.position, Quaternion.identity);
 
+        intervals= new float[]{ fireInterval, fireMissIles, fireInterval, fireLaser };
         options = new GameObject[optionMax];
         anim = GetComponent<Animator>();
     }
@@ -91,11 +96,7 @@ public class VicViper : MonoBehaviour
 
         targetIcon.transform.position = MouseTarget();
 
-        if (Time.time - lastFireTime > fireInterval)
-        {
-            Shoot();
-            lastFireTime = Time.time;
-        }
+        Shoot();
     }
 
     private void MoveAnim()
@@ -154,22 +155,28 @@ public class VicViper : MonoBehaviour
 
     void Shoot()
     {
-        switch (primaryWeapon)
+        if(Time.time - lastFireTime > intervals[(int)primaryWeapon])
         {
-            case PrimaryWeaponType.Normal:
-                ShootNormal();
-                break;
-            case PrimaryWeaponType.Double:
-                ShootDouble();
-                break;
-            case PrimaryWeaponType.Laser:
-                ShootLaser();
-                break;
-        }
-
-        if (missileLevel > 0)
-        {
-            ShootMissile();
+            switch (primaryWeapon)
+            {
+                case PrimaryWeaponType.Normal:
+                    ShootNormal();
+                    break;
+                case PrimaryWeaponType.Double:
+                    ShootDouble();
+                    break;
+                case PrimaryWeaponType.Laser:
+                    ShootLaser();
+                    break;
+            }
+            if(Time.time -lastFireTime> fireMissIles)
+            {
+                if (missileLevel > 0)
+                {
+                    ShootMissile();
+                }
+            }
+            lastFireTime = Time.time;
         }
     }
 
@@ -335,7 +342,7 @@ public class VicViper : MonoBehaviour
         }
         else
         {
-            GetComponent<BulletDamage>().laserCount++;
+            bullets[1].GetComponent<BulletDamage>().laserCount++;
         }
         ChangePrimaryWeapon(PrimaryWeaponType.Laser);
     }
