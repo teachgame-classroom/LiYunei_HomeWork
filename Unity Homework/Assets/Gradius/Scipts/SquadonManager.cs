@@ -95,6 +95,7 @@ public class SquadonManager : MonoBehaviour
             //如果已经到达最后一个路径点，路径点编号不在增加，停留在终点位置
             if(waypointIdx == waypoints.Length - 1)
             {
+                OutDestroy(members[memberIdx]);
                 return newPos;
             }
 
@@ -104,6 +105,16 @@ public class SquadonManager : MonoBehaviour
         }
 
         return newPos;
+    }
+
+    void OutDestroy(GameObject member)
+    {
+        Destroy(member);
+        memberCount--;
+        if(memberCount <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void OnMenberDestroy(Vector3 diePosition)

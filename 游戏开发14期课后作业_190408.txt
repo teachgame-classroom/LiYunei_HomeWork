@@ -14,7 +14,7 @@ C. transform.rotation = new Vector3(0,0,90);
 D. transform.rotation.z = 90;
 
 
-3. 射线检测语句 RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.up, 1f) 实现的功能是（ A ）
+3. 射线检测语句 RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.up, 1f) 实现的功能是（ A ）C
 
 A. 从游戏对象的位置往局部坐标的正上方作一条射线，射线的长度是 1，将射线检测的结果保存在 hit 变量中
 B. 从游戏对象的位置往局部坐标的正上方作一条射线，将射线接触的碰撞体保存在 hit 变量中

@@ -71,6 +71,7 @@
     <Compile Include="Assets\19_04_04 Homework\Test.cs" />
     <Compile Include="Assets\Gradius\Scipts\BulletDamage.cs" />
     <Compile Include="Assets\Gradius\Scipts\BulletMove.cs" />
+    <Compile Include="Assets\Gradius\Scipts\CameraMove.cs" />
     <Compile Include="Assets\Gradius\Scipts\Enemy.cs" />
     <Compile Include="Assets\Gradius\Scipts\SquadonManager.cs" />
     <Compile Include="Assets\Gradius\Scipts\VicViper.cs" />

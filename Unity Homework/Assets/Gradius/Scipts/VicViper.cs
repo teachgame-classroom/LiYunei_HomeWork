@@ -10,7 +10,7 @@ public class VicViper : MonoBehaviour
     public float fireInterval = 1f;
     public float shootAngle = 30f;
     public float dubleAngle = 50f;
-    public int optionMax = 2;
+    public int optionMax = 3;
     private PrimaryWeaponType primaryWeapon;
 
     private float lastFireTime = 0;
@@ -119,6 +119,24 @@ public class VicViper : MonoBehaviour
         }
 
         transform.position += (Vector3.right * h + Vector3.up * v) * speed * Time.deltaTime;
+
+        ClampPlayerPosition();
+    }
+
+    private void ClampPlayerPosition()
+    {
+        Vector3 camPos = Camera.main.transform.position;
+        float left = camPos.x - Camera.main.orthographicSize * Camera.main.aspect+0.5f;
+        float right = camPos.x + Camera.main.orthographicSize * Camera.main.aspect-0.5f;
+        float top = camPos.y + Camera.main.orthographicSize-0.2f;
+        float bottom = camPos.y - Camera.main.orthographicSize+0.2f;
+
+        float clamp_x = Mathf.Clamp(transform.position.x, left, right);
+        float clamp_y = Mathf.Clamp(transform.position.y, bottom, top);
+
+        Vector3 clampPos = Vector3.right * clamp_x + Vector3.up * clamp_y;
+
+        transform.position = clampPos;
     }
 
     private static Vector3 MouseTarget()
@@ -163,32 +181,19 @@ public class VicViper : MonoBehaviour
             case 1:
                 break;
             case 2:
-                PowerUPMissle();
+                PowerUpMissle();
                 break;
             case 3:
-                if (isUpDouble == false)
-                {
-                    powerUp -= (int)(PrimaryWeaponType.Double);
-                    isUpDouble = true;
-                }
-                ChangePrimaryWeapon(PrimaryWeaponType.Double);
+                PowerUpDouble();
                 break;
             case 4:
-                powerUp -= (int)(PrimaryWeaponType.Laser);
-                if (isUpLaser == false)
-                {
-                    isUpLaser = true;
-                }
-                else
-                {
-                    GetComponent<BulletDamage>().laserCount++;
-                }
-                ChangePrimaryWeapon(PrimaryWeaponType.Laser);
+                PowerUpLaser();
                 break;
             case 5:
                 PowerUpOption();
                 break;
             case 6:
+                PowerUpBarrier();
                 break;
         }
     }
@@ -233,10 +238,10 @@ public class VicViper : MonoBehaviour
 
     void ShootDouble()
     {
-        Vector3 direction = (MouseTarget() - shotPosTrans.position).normalized;
-
-        Vector2 direntionMagnitude = MouseTarget() - shotPosTrans.position;
+        Vector3 direntionMagnitude = MouseTarget() - shotPosTrans.position;
         float distance = direntionMagnitude.magnitude;
+
+        Vector3 direction =direntionMagnitude.normalized;
 
         if (distance < 1)
         {
@@ -255,15 +260,15 @@ public class VicViper : MonoBehaviour
 
         GameObject bullet = Instantiate(bullets[NORMAL], shotPosTrans.position, Quaternion.identity);
         GameObject bulletUpper = Instantiate(bullets[NORMAL], shotPosTrans.position, Quaternion.Euler(0, 0, dubleAngle/distance));
-        GameObject Lower = Instantiate(bullets[NORMAL], shotPosTrans.position, Quaternion.Euler(0, 0, -dubleAngle/distance));
+        GameObject bulletLower = Instantiate(bullets[NORMAL], shotPosTrans.position, Quaternion.Euler(0, 0, -dubleAngle/distance));
 
         bullet.transform.right = direction;
         bulletUpper.transform.right = (Quaternion.Euler(0,0, dubleAngle / distance) * direction).normalized;
-        Lower.transform.right = (Quaternion.Euler(0,0, -dubleAngle / distance) * direction).normalized;
+        bulletLower.transform.right = (Quaternion.Euler(0,0, -dubleAngle / distance) * direction).normalized;
 
         bullet.GetComponent<BulletMove>().moveDirection = direction;
         bulletUpper.GetComponent<BulletMove>().moveDirection = (Quaternion.Euler(0, 0,dubleAngle / distance) * direction).normalized;
-        Lower.GetComponent<BulletMove>().moveDirection = (Quaternion.Euler(0, 0, -dubleAngle / distance) * direction).normalized;
+        bulletLower.GetComponent<BulletMove>().moveDirection = (Quaternion.Euler(0, 0, -dubleAngle / distance) * direction).normalized;
 
 
         if(optionLevel>0)
@@ -311,7 +316,31 @@ public class VicViper : MonoBehaviour
         }
     }
 
-    void PowerUPMissle()
+    void PowerUpDouble()
+    {
+        if (isUpDouble == false)
+        {
+            powerUp -= (int)(PrimaryWeaponType.Double);
+            isUpDouble = true;
+        }
+        ChangePrimaryWeapon(PrimaryWeaponType.Double);
+    }
+
+    void PowerUpLaser()
+    {
+        powerUp -= (int)(PrimaryWeaponType.Laser);
+        if (isUpLaser == false)
+        {
+            isUpLaser = true;
+        }
+        else
+        {
+            GetComponent<BulletDamage>().laserCount++;
+        }
+        ChangePrimaryWeapon(PrimaryWeaponType.Laser);
+    }
+
+    void PowerUpMissle()
     {
         if (missileLevel < 2)
         {
@@ -335,15 +364,25 @@ public class VicViper : MonoBehaviour
         }
     }
 
+    void PowerUpBarrier()
+    {
+        transform.Find("Bullet_4_1").gameObject.SetActive(true);
+        transform.Find("Bullet_4_2").gameObject.SetActive(true);
+        powerUp = 0;
+    }
+
     void UpdataTrackList()
     {
-        if (Vector3.SqrMagnitude(transform.position - trackList[trackList.Count - 1])>trackNodeDistance)
+        if(optionLevel > 0)
         {
-            trackList.Add(transform.position);
-
-            if(trackList.Count > 16)
+            if (Vector3.SqrMagnitude(transform.position - trackList[trackList.Count - 1]) > trackNodeDistance)
             {
-                trackList.RemoveAt(0);
+                trackList.Add(transform.position);
+
+                if (trackList.Count > optionLevel * 8) 
+                {
+                    trackList.RemoveAt(0);
+                }
             }
         }
     }

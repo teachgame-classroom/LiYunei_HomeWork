@@ -4,20 +4,20 @@ using UnityEngine;
 
 public enum MovePattern { Static, Straight, ZigSaw, Sine}
 
-public enum MoveDirection { Left, Right, Up, Down }
 
 public class Enemy : MonoBehaviour
 {
     public MovePattern movePattern;
 
-    public MoveDirection straightmoveDirection;
     private  float straightMoveDistance = 1;
 
     private float straightMoveTotalDistance;
 
     public float speed = 5;
     public float changeDiectionPeriod = 1f;
-    public float sinAmp = 1; 
+    public float sinAmp = 1;
+
+    private bool targetInRange;
 
     private float lastChangDirectionTime = 0;
     private Vector3 velocity_h = Vector3.left ;
@@ -95,67 +95,110 @@ public class Enemy : MonoBehaviour
         {
             shoot();
         }
+
+        ClampPosition();
     }
     /// <summary>
-    /// 直线飞行
+    /// 直线巡逻
     /// </summary>
     void StraightMove()
     {
-        Vector3 direction = Vector3.zero;
-        bool findTarget = false;
+        Vector3 direction = -transform.right;
+        Vector3 aimDirection = GetAimDirection(player.transform.position);//获取玩家和自己的位置关系
+        float aimAngle = GetAngle(aimDirection);//获取玩家在x轴的度数
 
-        if(GetStraightAngle(GetAimDirection(player.transform.position)) > 95)
+        bool facingLeft = transform.right.x > 0;
+        bool targetOnLeftSide = aimDirection.x < 0;//玩家是否在左边
+
+        //if(facingLeft)
+        //{
+        //    targetOnLeftSide = aimAngle > 85;
+        //}
+        //else
+        //{
+        //    targetOnLeftSide = aimAngle > 95;
+        //}
+
+        float aimAngleUpperLimit_L = 150;
+        float aimAngleLowerLimit_L = 120;
+
+        float aimAngleUpperLimit_R = 60;
+        float aimAngleLowerLimit_R = 30;
+
+        if (targetInRange)//玩家在射击范围内
         {
-            direction = Vector3.left;
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-
-            findTarget = GetAngle(GetAimDirection(player.transform.position)) < 150 && GetAngle(GetAimDirection(player.transform.position)) > 120;
+            aimAngleUpperLimit_L += 10;
+            aimAngleLowerLimit_L -= 10;
+            aimAngleUpperLimit_R += 10;
+            aimAngleLowerLimit_R -= 10;
         }
-        if (GetStraightAngle(GetAimDirection(player.transform.position)) < 85)
+
+        if (targetOnLeftSide)//如果玩家在左边
         {
-            direction = Vector3.right;
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-            findTarget = GetAngle(GetAimDirection(player.transform.position)) < 60 && GetAngle(GetAimDirection(player.transform.position)) > 30;
+            targetInRange = aimAngle < aimAngleUpperLimit_L && aimAngle > aimAngleLowerLimit_L;//玩家在射击范围内
+
+            if (aimAngle > aimAngleUpperLimit_L)//玩家位置超过了射击范围最大度数，玩家在左边
+            {
+                direction = Vector3.left;       //移动方向设置为左
+                transform.right = -direction;   
+            }
+
+            if (aimAngle < aimAngleLowerLimit_L)//玩家位置小于射击范围最小度数，玩家在右边
+            {
+                direction = Vector3.right;      //移动方向设置为右
+                transform.right = -direction;   
+            }
+        }
+        else//玩家不在左边
+        {
+            targetInRange = aimAngle < aimAngleUpperLimit_R && aimAngle > aimAngleLowerLimit_R;
+
+            if (aimAngle > aimAngleUpperLimit_R)
+            {
+                direction = Vector3.left;
+                transform.right = -direction;
+            }
+
+            if (aimAngle < aimAngleLowerLimit_R)
+            {
+                direction = Vector3.right;
+                transform.right = -direction;
+            }
         }
 
-        if (straightMoveDistance > 0)
-        {
-            if (!findTarget)
-            {
-                anim.SetBool("Stop", false);
-                transform.Translate(direction * speed * Time.deltaTime,Space.World);
-            }
-            else
-            {
-                anim.SetBool("Stop", true);
 
-                if (bulletPerfab != null)
-                {
-                    shoot();
-                }
-            }
+        //if (aimAngle > 95)
+        //{
+        //    direction = Vector3.left;
+        //    transform.rotation = Quaternion.Euler(0, 0, 0);
+
+        //    targetInRange = aimAngle < 150 && aimAngle > 120;
+        //}
+        //else if (aimAngle < 85)
+        //{
+        //    direction = Vector3.right;
+        //    transform.rotation = Quaternion.Euler(0, 180, 0);
+        //    targetInRange = aimAngle < 60 && aimAngle > 30;
+        //}
+
+        if (!targetInRange)
+        {
+            Debug.Log("find");
+            anim.SetBool("Stop", false);
+            transform.Translate(direction * speed * Time.deltaTime, Space.World);
         }
         else
         {
-            transform.Translate(direction * speed * Time.deltaTime, Space.World);
-        }
-    }
+            transform.right = -aimDirection.x * Vector3.right;
 
-    Vector3 GetStraightMoveDirection()
-    {
-        switch (straightmoveDirection)
-        {
-            case MoveDirection.Left:
-                return Vector3.left;
-            case MoveDirection.Right:
-                return Vector3.right;
-            case MoveDirection.Up:
-                return Vector3.up;
-            case MoveDirection.Down:
-                return Vector3.down;
-            default:
-                return Vector3.right;
+            anim.SetBool("Stop", true);
+
+            if (bulletPerfab != null)
+            {
+                shoot();
+            }
         }
+
     }
 
     /// <summary>
@@ -174,6 +217,8 @@ public class Enemy : MonoBehaviour
         transform.right = -velocity;
 
         transform.Translate(velocity *speed* Time.deltaTime, Space.World);
+
+        ClampPosition();
     }
     /// <summary>
     /// 正弦飞行
@@ -185,6 +230,24 @@ public class Enemy : MonoBehaviour
         Vector3 velocity =velocity_h *speed + velocity_v;
 
         transform.Translate(velocity * speed * Time.deltaTime, Space.World);
+
+        ClampPosition();
+    }
+
+    void ClampPosition()
+    {
+        Vector3 pos = transform.position;
+
+        Vector3 camPos = Camera.main.transform.position;
+        float left = camPos.x - Camera.main.orthographicSize * Camera.main.aspect - 2f;
+        float right = camPos.x + Camera.main.orthographicSize * Camera.main.aspect + 2f;
+        float top = camPos.y + Camera.main.orthographicSize + 1f;
+        float bottom = camPos.y - Camera.main.orthographicSize - 1f;
+
+        if (pos.x < left || pos.y < bottom || pos.y > top)
+        {
+            Destroy(gameObject);
+        }
     }
 
     Vector3 GetAimDirection(Vector3 targetPosition)
@@ -204,12 +267,6 @@ public class Enemy : MonoBehaviour
     }
 
     float GetAngle(Vector3 direction)
-    {
-        float angle = Vector3.SignedAngle(Vector3.right, direction, Vector3.forward);
-        return angle;
-    }
-
-    float GetStraightAngle(Vector3 direction)
     {
         float angle = Vector3.SignedAngle(Vector3.right, direction, Vector3.forward);
         return angle;
@@ -246,7 +303,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void Die()
+    public void Die()
     {
         if(squadonManager != null)
         {

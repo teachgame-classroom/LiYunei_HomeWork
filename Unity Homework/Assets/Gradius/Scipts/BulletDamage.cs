@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BulletDamage : MonoBehaviour
 {
+    public bool isBarrier = false;
     public bool isLaser =false;
     public int laserCount = 3;
 
@@ -16,7 +17,21 @@ public class BulletDamage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Vector3 pos = transform.position;
 
+        Vector3 camPos = Camera.main.transform.position;
+        float left = camPos.x - Camera.main.orthographicSize * Camera.main.aspect -2f;
+        float right = camPos.x + Camera.main.orthographicSize * Camera.main.aspect + 2f;
+        float top = camPos.y + Camera.main.orthographicSize +1f;
+        float bottom = camPos.y - Camera.main.orthographicSize - 1f;
+
+        if (pos.x < left || pos.x > right || pos.y < bottom || pos.y > top)
+        {
+            if(isBarrier == false)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -30,7 +45,10 @@ public class BulletDamage : MonoBehaviour
             enemy.Hurt(1);
             if (isLaser == false)
             {
-                Destroy(gameObject);
+                if(isBarrier == false)
+                {
+                    Destroy(gameObject);
+                }
             }
             else
             {
