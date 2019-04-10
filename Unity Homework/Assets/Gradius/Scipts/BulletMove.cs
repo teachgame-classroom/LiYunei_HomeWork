@@ -50,7 +50,7 @@ public class BulletMove : MonoBehaviour
 
         if(hit.transform != null)
         {
-            Debug.DrawLine(hit.point, hit.point + hit.normal, Color.red, 1f);
+            //Debug.DrawLine(hit.point, hit.point + hit.normal, Color.red, 1f);
 
             //Debug.Log(string.Format("The missile is approaching the :{0}", hit.transform.name));
 

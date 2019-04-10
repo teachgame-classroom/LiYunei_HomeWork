@@ -172,3 +172,7 @@ MonoBehaviour:
   sinAmp: 4
   hp: 3
   squadonManager: {fileID: 0}
+  waitForplayer: 1
+  turrentSprites: []
+  bulletPerfab: {fileID: 0}
+  fireInterval: 0

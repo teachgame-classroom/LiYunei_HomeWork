@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MovePattern { Static, Straight, ZigSaw, Sine}
+public enum MovePattern { Static, Straight, ZigSaw, Sine, Normal}
 
 
 public class Enemy : MonoBehaviour
@@ -31,10 +31,18 @@ public class Enemy : MonoBehaviour
     /// </summary>
     public SquadonManager squadonManager;
 
+    public bool waitForplayer = true;
+    private bool activated = false;
+    /// <summary>
+    /// 激活摄像机距离
+    /// </summary>
+    private float activeDistance;
+
     private GameObject player;
 
     public Sprite[] turrentSprites;
     private SpriteRenderer spriteRenderer;
+    private Collider2D col2D;
     private Transform shotPos;
 
     private Animator anim;
@@ -59,31 +67,63 @@ public class Enemy : MonoBehaviour
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        col2D = GetComponent<Collider2D>();
+
+        activeDistance = Camera.main.orthographicSize * Camera.main.aspect + 2;
+
+        if (waitForplayer == true)
+        {
+            SetEnemyActive(false);
+        }
+        else
+        {
+            SetEnemyActive(true);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(squadonManager == null)
+        if (activated == false)
         {
-            switch (movePattern)
+            if (IsCameraCloseEnough())
             {
-                case MovePattern.Static:
-                    StaticMove();
-                    break;
-                case MovePattern.Straight:
-                    StraightMove();
-                    break;
-                case MovePattern.ZigSaw:
-                    ZigSawMove();
-                    break;
-                case MovePattern.Sine:
-                    SineMove();
-                    break;
+                SetEnemyActive(true);
+            }
+        }
+        else
+        {
+            if (squadonManager == null)
+            {
+                switch (movePattern)
+                {
+                    case MovePattern.Static:
+                        StaticMove();
+                        break;
+                    case MovePattern.Straight:
+                        StraightMove();
+                        break;
+                    case MovePattern.ZigSaw:
+                        ZigSawMove();
+                        break;
+                    case MovePattern.Sine:
+                        SineMove();
+                        break;
+                    case MovePattern.Normal:
+                        break;
+                }
             }
         }
 
+        IsCameraLeaveEnough();
     }
+
+    private void SetEnemyActive(bool isActive)
+    {
+        col2D.enabled = isActive;
+        activated = isActive;
+    }
+
     /// <summary>
     /// 原地
     /// </summary>
@@ -93,10 +133,8 @@ public class Enemy : MonoBehaviour
 
         if (bulletPerfab != null)
         {
-            shoot();
+            Shoot();
         }
-
-        ClampPosition();
     }
     /// <summary>
     /// 直线巡逻
@@ -195,7 +233,7 @@ public class Enemy : MonoBehaviour
 
             if (bulletPerfab != null)
             {
-                shoot();
+                Shoot();
             }
         }
 
@@ -217,8 +255,6 @@ public class Enemy : MonoBehaviour
         transform.right = -velocity;
 
         transform.Translate(velocity *speed* Time.deltaTime, Space.World);
-
-        ClampPosition();
     }
     /// <summary>
     /// 正弦飞行
@@ -230,21 +266,20 @@ public class Enemy : MonoBehaviour
         Vector3 velocity =velocity_h *speed + velocity_v;
 
         transform.Translate(velocity * speed * Time.deltaTime, Space.World);
-
-        ClampPosition();
     }
 
-    void ClampPosition()
+    bool IsCameraCloseEnough()
     {
-        Vector3 pos = transform.position;
+        float right = transform.position.x - Camera.main.transform.position.x;
 
-        Vector3 camPos = Camera.main.transform.position;
-        float left = camPos.x - Camera.main.orthographicSize * Camera.main.aspect - 2f;
-        float right = camPos.x + Camera.main.orthographicSize * Camera.main.aspect + 2f;
-        float top = camPos.y + Camera.main.orthographicSize + 1f;
-        float bottom = camPos.y - Camera.main.orthographicSize - 1f;
+        return right < activeDistance;
+    }
 
-        if (pos.x < left || pos.y < bottom || pos.y > top)
+    void IsCameraLeaveEnough()
+    {
+        float left = Camera.main.transform.position.x - transform.position.x;
+
+        if (activeDistance < left )
         {
             Destroy(gameObject);
         }
@@ -272,7 +307,7 @@ public class Enemy : MonoBehaviour
         return angle;
     }
 
-    public void shoot()
+    public void Shoot()
     {
         if(Time.time - lastFireTime > fireInterval)
         {
@@ -316,11 +351,10 @@ public class Enemy : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-
         if(shotPos != null&& player !=null)
         {
-            Gizmos.color = Color.white;
-            Gizmos.DrawLine(shotPos.position, shotPos.position + GetAimDirection(player.transform.position) * 5);
+            //Gizmos.color = Color.white;
+            //Gizmos.DrawLine(shotPos.position, shotPos.position + GetAimDirection(player.transform.position) * 5);
         }
        
     }

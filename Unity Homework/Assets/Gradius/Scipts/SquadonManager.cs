@@ -36,6 +36,20 @@ public class SquadonManager : MonoBehaviour
     /// </summary>
     private int[] memberWaypointIdx;
 
+    /// <summary>
+    /// 存放玩家
+    /// </summary>
+    private GameObject Player;
+    /// <summary>
+    /// 小队成员是否已被激活
+    /// </summary>
+    private bool isMemberActivated;
+
+    /// <summary>
+    /// 激活小队成员的摄像机距离
+    /// </summary>
+    private float activeDistance;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +65,8 @@ public class SquadonManager : MonoBehaviour
             members[i] = Instantiate(enemyPrefabs[0], transform.position + Vector3.right * i, Quaternion.identity);
 
             members[i].GetComponent<Enemy>().squadonManager = this;
+
+            members[i].SetActive(false);
         }
 
         waypoints = new Transform[transform.childCount];
@@ -59,19 +75,54 @@ public class SquadonManager : MonoBehaviour
         {
             waypoints[i] = transform.GetChild(i);
         }
+
+        Player = GameObject.Find("Vic Viper");
+
+        activeDistance = Camera.main.orthographicSize * Camera.main.aspect + 2;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //让每个小队成员沿路径点移动
-        for(int i = 0; i<members.Length; i++)
+        if (!isMemberActivated)
         {
-            if(members[i] != null)
+            if (IsCameraCloseEnough())
             {
-                members[i].transform.position = MoveAlongPath(members[i].transform.position, i);
+                ActivateMembers();
             }
         }
+        else
+        {
+            //让每个小队成员沿路径点移动
+            for (int i = 0; i < members.Length; i++)
+            {
+                if (members[i] != null)
+                {
+                    members[i].transform.position = MoveAlongPath(members[i].transform.position, i);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 检查摄像机与生产点的距离
+    /// </summary>
+    /// <returns></returns>
+    private bool IsCameraCloseEnough()
+    {
+        float CameraDistanceX = transform.position.x - Camera.main.transform.position.x;
+
+        return CameraDistanceX < activeDistance;
+    }
+
+    private void ActivateMembers()
+    {
+        for(int i = 0; i< members.Length; i++)
+        {
+            members[i].SetActive(true);
+        }
+
+        isMemberActivated = true;
     }
 
     /// <summary>

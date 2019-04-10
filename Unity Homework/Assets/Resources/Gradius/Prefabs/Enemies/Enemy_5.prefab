@@ -166,12 +166,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movePattern: 1
-  straightmoveDirection: 0
   speed: 5
   changeDiectionPeriod: 1
   sinAmp: 1
   hp: 3
   squadonManager: {fileID: 0}
+  waitForplayer: 1
   turrentSprites: []
   bulletPerfab: {fileID: 2944205083741680376, guid: 903116a21b3fd8d4d9af908b9b7f1c12,
     type: 3}

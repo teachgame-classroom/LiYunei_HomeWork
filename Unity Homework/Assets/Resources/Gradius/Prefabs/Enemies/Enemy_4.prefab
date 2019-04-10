@@ -99,6 +99,7 @@ MonoBehaviour:
   sinAmp: 1
   hp: 1
   squadonManager: {fileID: 0}
+  waitForplayer: 1
   turrentSprites:
   - {fileID: 21300256, guid: f5660b541b7396a478e0048879cdc18e, type: 3}
   - {fileID: 21300254, guid: f5660b541b7396a478e0048879cdc18e, type: 3}

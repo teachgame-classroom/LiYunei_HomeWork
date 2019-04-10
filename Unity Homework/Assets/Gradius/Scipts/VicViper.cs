@@ -16,6 +16,8 @@ public class VicViper : MonoBehaviour
     private PrimaryWeaponType primaryWeapon;
 
     private float lastFireTime = 0;
+    private float lastMissileTime = 0;
+
 
     private bool isUpDouble = false;
     private bool isUpLaser = false;
@@ -84,9 +86,16 @@ public class VicViper : MonoBehaviour
             TryPowerUp();
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1) && isUpDouble == true)
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            ChangePrimaryWeapon(PrimaryWeaponType.Double);
+            if (!isUpDouble)
+            {
+                ChangePrimaryWeapon(PrimaryWeaponType.Normal);
+            }
+            else
+            {
+                ChangePrimaryWeapon(PrimaryWeaponType.Double);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2) && isUpLaser == true)
@@ -169,14 +178,17 @@ public class VicViper : MonoBehaviour
                     ShootLaser();
                     break;
             }
-            if(Time.time -lastFireTime> fireMissIles)
-            {
-                if (missileLevel > 0)
-                {
-                    ShootMissile();
-                }
-            }
+
             lastFireTime = Time.time;
+        }
+
+        if (missileLevel > 0)
+        {
+            if (Time.time - lastMissileTime > fireMissIles)
+            {
+                ShootMissile();
+                lastMissileTime = Time.time;
+            }
         }
     }
 
