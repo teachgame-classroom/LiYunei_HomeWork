@@ -51,6 +51,10 @@ public class Enemy : MonoBehaviour
     public float fireInterval;
     private float lastFireTime;
 
+    private string[] stageLayeMask = new string[] { "Stage" };
+
+    private Vector3 scaleVec = new Vector3(-1, 1, 1);
+
     // Start is called before the first frame update
     void Start()
     {
@@ -171,6 +175,9 @@ public class Enemy : MonoBehaviour
             aimAngleLowerLimit_R -= 10;
         }
 
+        Vector3 groundNormal = GetGroundNormal();
+        Vector3 footPos = GetFootPos();
+
         if (targetOnLeftSide)//如果玩家在左边
         {
             targetInRange = aimAngle < aimAngleUpperLimit_L && aimAngle > aimAngleLowerLimit_L;//玩家在射击范围内
@@ -178,13 +185,21 @@ public class Enemy : MonoBehaviour
             if (aimAngle > aimAngleUpperLimit_L)//玩家位置超过了射击范围最大度数，玩家在左边
             {
                 direction = Vector3.left;       //移动方向设置为左
-                transform.right = -direction;   
+                direction = Vector3.ProjectOnPlane(direction, groundNormal);
+
+                Quaternion rot = Quaternion.LookRotation(Vector3.forward, groundNormal);
+                transform.rotation = rot;
+                //transform.right = -direction;
+                //transform.up = groundNormal;
             }
 
             if (aimAngle < aimAngleLowerLimit_L)//玩家位置小于射击范围最小度数，玩家在右边
             {
                 direction = Vector3.right;      //移动方向设置为右
-                transform.right = -direction;   
+                direction = Vector3.ProjectOnPlane(direction, groundNormal);
+
+                Quaternion rot = Quaternion.LookRotation(Vector3.back, groundNormal);
+                transform.rotation = rot;
             }
         }
         else//玩家不在左边
@@ -194,16 +209,27 @@ public class Enemy : MonoBehaviour
             if (aimAngle > aimAngleUpperLimit_R)
             {
                 direction = Vector3.left;
-                transform.right = -direction;
+                direction = Vector3.ProjectOnPlane(direction, groundNormal);
+
+                Quaternion rot = Quaternion.LookRotation(Vector3.forward, groundNormal);
+                transform.rotation = rot;
             }
 
             if (aimAngle < aimAngleLowerLimit_R)
             {
                 direction = Vector3.right;
-                transform.right = -direction;
+                direction = Vector3.ProjectOnPlane(direction, groundNormal);
+                Quaternion rot = Quaternion.LookRotation(Vector3.back, groundNormal);
+                transform.rotation = rot;
             }
         }
 
+        if (groundNormal != Vector3.zero)
+        {
+            transform.position = footPos;
+        }
+
+        Debug.DrawLine(transform.position, transform.position + direction, Color.cyan);
 
         //if (aimAngle > 95)
         //{
@@ -221,13 +247,17 @@ public class Enemy : MonoBehaviour
 
         if (!targetInRange)
         {
-            Debug.Log("find");
+            //Debug.Log("find");
+
             anim.SetBool("Stop", false);
-            transform.Translate(direction * speed * Time.deltaTime, Space.World);
+            transform.Translate((direction) * speed * Time.deltaTime, Space.World);
         }
         else
         {
             transform.right = -aimDirection.x * Vector3.right;
+
+            Quaternion rot = Quaternion.LookRotation(Vector3.forward, groundNormal);
+            transform.rotation = rot;
 
             anim.SetBool("Stop", true);
 
@@ -306,6 +336,39 @@ public class Enemy : MonoBehaviour
         float angle = Vector3.SignedAngle(Vector3.right, direction, Vector3.forward);
         return angle;
     }
+
+    Vector3 GetGroundNormal()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + transform.up * 0.5f, -transform.up, 1f, LayerMask.GetMask(stageLayeMask));
+
+        if (hit.transform != null)
+        {
+            Debug.Log(hit.transform.name);
+            Debug.DrawLine(hit.point, hit.point + hit.normal, Color.red, 1f);
+
+            return hit.normal;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
+    }
+
+    Vector3 GetFootPos()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + transform.up * 0.5f, -transform.up, 1f, LayerMask.GetMask(stageLayeMask));
+
+        if (hit.transform != null)
+        {
+            Debug.DrawLine(hit.point, hit.point + hit.normal, Color.red, 1f);
+            return hit.point;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
+    }
+
 
     public void Shoot()
     {
