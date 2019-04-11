@@ -171,8 +171,7 @@ public class SquadonManager : MonoBehaviour
 
     public void OnMenberDestroy(Vector3 diePosition)
     {
-        Debug.Log(diePosition);
-
+        //Debug.Log(diePosition);
         memberCount--;
 
         if(memberCount <= 0)

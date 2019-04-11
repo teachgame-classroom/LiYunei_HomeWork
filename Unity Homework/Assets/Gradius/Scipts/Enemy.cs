@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MovePattern { Static, Straight, ZigSaw, Sine, Evade, Normal}
+public enum MovePattern { Static, Straight, ZigSaw, Sine, InvertSine, Evade, Normal}
 public enum Position { Up,Down}
 
 public class Enemy : MonoBehaviour
@@ -31,12 +31,17 @@ public class Enemy : MonoBehaviour
     public SquadonManager squadonManager;
 
     public bool waitForplayer = true;
+    public bool setActivePos = false;
     private bool activated = false;
-    public float activefloat = 2f;
+    public float activeFloat = 2f;
+    public float activePos = 0;
     /// <summary>
     /// 激活摄像机距离
     /// </summary>
     private float activeDistance;
+
+    private List<Vector3> tracks = new List<Vector3>();
+    private float lastRecordTime = 0;
 
     private GameObject player;
     private GameObject[] playerBullets;
@@ -83,7 +88,7 @@ public class Enemy : MonoBehaviour
         anim = GetComponent<Animator>();
         col2D = GetComponent<Collider2D>();
 
-        activeDistance = Camera.main.orthographicSize * Camera.main.aspect + activefloat;
+        activeDistance = Camera.main.orthographicSize * Camera.main.aspect + activeFloat;
 
         if (waitForplayer == true)
         {
@@ -99,11 +104,27 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (activated == false)
         {
             if (IsCameraCloseEnough())
             {
-                SetEnemyActive(true);
+                if (setActivePos)
+                {
+                    transform.position += Vector3.left * 0.5f * speed * Time.deltaTime;
+
+                    float distanceToCamera = transform.position.x - Camera.main.transform.position.x;
+                    float distanceToExitSpawnState = Camera.main.orthographicSize * Camera.main.aspect * activePos;
+
+                    if (distanceToCamera < distanceToExitSpawnState)
+                    {
+                        SetEnemyActive(true);
+                    }
+                }
+                else
+                {
+                    SetEnemyActive(true);
+                }
             }
         }
         else
@@ -123,6 +144,9 @@ public class Enemy : MonoBehaviour
                         break;
                     case MovePattern.Sine:
                         SineMove();
+                        break;
+                    case MovePattern.InvertSine:
+                        InvertSineMove();
                         break;
                     case MovePattern.Evade:
                         EvadeMove();
@@ -321,6 +345,26 @@ public class Enemy : MonoBehaviour
         transform.Translate(velocity * speed * Time.deltaTime, Space.World);
     }
     /// <summary>
+    /// 跳跃移动
+    /// </summary>
+    void InvertSineMove()
+    {
+        float sine = 1 * Mathf.Sin(Mathf.PI * 2 * Time.time / changeDiectionPeriod) * sinAmp;
+
+        Debug.Log(sine);
+
+        if (sine > -2.5 && sine < 2.5)
+        {
+            sine = -sine;
+        }
+        velocity_v = Vector3.up * sine;
+
+        Vector3 velocity = velocity_h * speed + velocity_v;
+
+        transform.Translate(velocity * speed * Time.deltaTime, Space.World);
+
+    }
+    /// <summary>
     /// 规避
     /// </summary>
     void EvadeMove()
@@ -433,7 +477,7 @@ public class Enemy : MonoBehaviour
 
         if (hit.transform != null)
         {
-            Debug.Log(hit.transform.name);
+            //Debug.Log(hit.transform.name);
             Debug.DrawLine(hit.point, hit.point + hit.normal, Color.red, 1f);
 
             return hit.normal;
@@ -547,9 +591,22 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
+    void DrawFollor()
+    {
+        if(Time.time -lastRecordTime > 0.1f)
+        {
+            tracks.Add(transform.position);
+            if(tracks.Count > 48)
+            {
+                tracks.RemoveAt(0);
+            }
+            lastRecordTime = Time.time;
+        }
+    }
+
     private void OnDrawGizmos()
     {
-        if(shotPos != null&& player !=null)
+        if (shotPos != null&& player !=null)
         {
             //Gizmos.color = Color.white;
             //Gizmos.DrawLine(shotPos.position, shotPos.position + GetAimDirection(player.transform.position) * 5);

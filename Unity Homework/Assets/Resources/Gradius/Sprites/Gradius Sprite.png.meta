@@ -139,10 +139,10 @@ TextureImporter:
     21300268: Gradius Sprite_134
     21300270: Gradius Sprite_135
     21300272: Gradius Sprite_136
-    21300274: Gradius Sprite_137
-    21300276: Gradius Sprite_138
-    21300278: Gradius Sprite_139
-    21300280: Gradius Sprite_140
+    21300274: Enemy_7_0
+    21300276: Enemy_7_1
+    21300278: Enemy_7_2
+    21300280: Enemy_7_3
     21300282: Gradius Sprite_141
     21300284: Gradius Sprite_142
     21300286: Gradius Sprite_143
@@ -3373,7 +3373,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_137
+      name: Enemy_7_0
       rect:
         serializedVersion: 2
         x: 220
@@ -3393,7 +3393,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_138
+      name: Enemy_7_1
       rect:
         serializedVersion: 2
         x: 239
@@ -3413,7 +3413,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_139
+      name: Enemy_7_2
       rect:
         serializedVersion: 2
         x: 256
@@ -3433,7 +3433,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_140
+      name: Enemy_7_3
       rect:
         serializedVersion: 2
         x: 275
