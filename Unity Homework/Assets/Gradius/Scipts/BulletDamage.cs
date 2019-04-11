@@ -20,10 +20,10 @@ public class BulletDamage : MonoBehaviour
         Vector3 pos = transform.position;
 
         Vector3 camPos = Camera.main.transform.position;
-        float left = camPos.x - Camera.main.orthographicSize * Camera.main.aspect -2f;
-        float right = camPos.x + Camera.main.orthographicSize * Camera.main.aspect + 2f;
-        float top = camPos.y + Camera.main.orthographicSize +1f;
-        float bottom = camPos.y - Camera.main.orthographicSize - 1f;
+        float left = camPos.x - Camera.main.orthographicSize * Camera.main.aspect -1f;
+        float right = camPos.x + Camera.main.orthographicSize * Camera.main.aspect + 1f;
+        float top = camPos.y + Camera.main.orthographicSize +0.5f;
+        float bottom = camPos.y - Camera.main.orthographicSize - 0.5f;
 
         if (pos.x < left || pos.x > right || pos.y < bottom || pos.y > top)
         {

@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 4496916540722513384}
   m_Layer: 0
   m_Name: Bullet_1
-  m_TagString: Untagged
+  m_TagString: PlayerBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -138,6 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 15
   isMissle: 0
+  isBarrier: 0
   moveDirection: {x: 0, y: 0, z: 0}
 --- !u!61 &6504441417055541739
 BoxCollider2D:
@@ -177,5 +178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eab3567213faad94c9816f69438cb9fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBarrier: 0
   isLaser: 0
   laserCount: 3

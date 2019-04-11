@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MovePattern { Static, Straight, ZigSaw, Sine, Normal}
+public enum MovePattern { Static, Straight, ZigSaw, Sine, Evade, Normal}
 
 
 public class Enemy : MonoBehaviour
 {
     public MovePattern movePattern;
-
-    private  float straightMoveDistance = 1;
 
     private float straightMoveTotalDistance;
 
@@ -39,6 +37,7 @@ public class Enemy : MonoBehaviour
     private float activeDistance;
 
     private GameObject player;
+    private GameObject[] playerBullets;
 
     public Sprite[] turrentSprites;
     private SpriteRenderer spriteRenderer;
@@ -54,6 +53,10 @@ public class Enemy : MonoBehaviour
     private string[] stageLayeMask = new string[] { "Stage" };
 
     private Vector3 scaleVec = new Vector3(-1, 1, 1);
+
+    private bool isEvading;
+    private Vector3 evadeVelocity;
+    private float lastEvadeTime;
 
     // Start is called before the first frame update
     void Start()
@@ -113,12 +116,14 @@ public class Enemy : MonoBehaviour
                     case MovePattern.Sine:
                         SineMove();
                         break;
+                    case MovePattern.Evade:
+                        EvadeMove();
+                        break;
                     case MovePattern.Normal:
                         break;
                 }
             }
         }
-
         IsCameraLeaveEnough();
     }
 
@@ -247,17 +252,24 @@ public class Enemy : MonoBehaviour
 
         if (!targetInRange)
         {
-            //Debug.Log("find");
-
             anim.SetBool("Stop", false);
             transform.Translate((direction) * speed * Time.deltaTime, Space.World);
         }
         else
         {
-            transform.right = -aimDirection.x * Vector3.right;
 
-            Quaternion rot = Quaternion.LookRotation(Vector3.forward, groundNormal);
-            transform.rotation = rot;
+            if (targetOnLeftSide)
+            {
+                transform.right =  Vector3.right;
+                Quaternion rot = Quaternion.LookRotation(Vector3.forward, groundNormal);
+                transform.rotation = rot;
+            }
+            else
+            {
+                transform.right =  Vector3.left;
+                Quaternion rot = Quaternion.LookRotation(Vector3.back, groundNormal);
+                transform.rotation = rot;
+            }
 
             anim.SetBool("Stop", true);
 
@@ -268,7 +280,6 @@ public class Enemy : MonoBehaviour
         }
 
     }
-
     /// <summary>
     /// 折线飞行
     /// </summary>
@@ -297,6 +308,40 @@ public class Enemy : MonoBehaviour
 
         transform.Translate(velocity * speed * Time.deltaTime, Space.World);
     }
+    /// <summary>
+    /// 规避
+    /// </summary>
+    void EvadeMove()
+    {
+        if(!isEvading)
+        {
+            float evade = GetPlayerBullets();
+
+            if(Mathf.Abs(evade) > 0.001f)
+            {
+                isEvading = true;
+                evadeVelocity = Vector3.up * evade;
+                lastEvadeTime = Time.time;
+            }
+            else
+            {
+                velocity_v = Vector3.up * Mathf.Sin(Mathf.PI * 2 * Time.time / changeDiectionPeriod) * sinAmp;
+            }
+        }
+        else
+        {
+            transform.Translate(evadeVelocity * Time.deltaTime, Space.World);
+
+            if(Time.time - lastEvadeTime > 1f)
+            {
+                isEvading = false;
+            }
+        }
+
+        //ClampPosition();
+
+        Shoot();
+    }
 
     bool IsCameraCloseEnough()
     {
@@ -311,6 +356,10 @@ public class Enemy : MonoBehaviour
 
         if (activeDistance < left )
         {
+            if (squadonManager != null)
+            {
+                squadonManager.OnMenberDestroy(transform.position);
+            }
             Destroy(gameObject);
         }
     }
@@ -369,6 +418,48 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    int GetPlayerBullets()
+    {
+        Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, 3f);
+
+        for (int i = 0; i < cols.Length; i++)
+        {
+            if (cols[i].tag != "PlayerBullet") continue;
+
+            //playerBullets[i] = cols[i].gameObject;
+
+            float distance = BulletsDistance(transform.position, cols[i].transform.position);
+            if (distance < 3f)
+            {
+                int test = Random.Range(-5, 5);
+                return test;
+            }
+        }
+        return 0;
+    }
+
+    public float BulletsDistance(Vector3 selfPos, Vector3 bulletPos)
+    {
+        Vector3 distance = bulletPos - selfPos;
+        
+        return distance.magnitude;
+    }
+
+    private void ClampPosition()
+    {
+        Vector3 camPos = Camera.main.transform.position;
+
+        float left = camPos.x - Camera.main.orthographicSize * Camera.main.aspect ;
+        float top = camPos.y + Camera.main.orthographicSize ;
+        float bottom = camPos.y - Camera.main.orthographicSize;
+
+        float clamp_x = Mathf.Clamp(transform.position.x, left, 100);
+        float clamp_y = Mathf.Clamp(transform.position.y, bottom, top);
+
+        Vector3 clampPos = Vector3.up * clamp_y+ Vector3.right*clamp_x;
+
+        transform.position = clampPos;
+    }
 
     public void Shoot()
     {
@@ -376,10 +467,12 @@ public class Enemy : MonoBehaviour
         {
             Vector3 direction = GetAimDirection(player.transform.position);
 
-
-            if (GetAngle(direction) < 0f)
+            if (movePattern == 0)
             {
-                direction.y = -direction.y;
+                if (GetAngle(direction) < 0f)
+                {
+                    direction.y = -direction.y;
+                }
             }
 
             GameObject bulletInstance = Instantiate(bulletPerfab, shotPos.position, Quaternion.identity);

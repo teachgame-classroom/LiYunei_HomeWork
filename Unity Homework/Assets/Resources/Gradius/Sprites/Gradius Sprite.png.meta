@@ -59,11 +59,11 @@ TextureImporter:
     21300108: Gradius Sprite_54
     21300110: Gradius Sprite_55
     21300112: Gradius Sprite_56
-    21300114: Gradius Sprite_57
-    21300116: Gradius Sprite_58
-    21300118: Gradius Sprite_59
-    21300120: Gradius Sprite_60
-    21300122: Gradius Sprite_61
+    21300114: Enemy_6_0
+    21300116: Enemy_6_1
+    21300118: Enemy_6_2
+    21300120: Enemy_6_3
+    21300122: Enemy_6_4
     21300124: Gradius Sprite_62
     21300126: Gradius Sprite_63
     21300128: Gradius Sprite_64
@@ -1773,7 +1773,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_57
+      name: Enemy_6_0
       rect:
         serializedVersion: 2
         x: 205
@@ -1793,13 +1793,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_58
+      name: Enemy_6_1
       rect:
         serializedVersion: 2
         x: 224
-        y: 749
+        y: 747
         width: 16
-        height: 11
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1813,13 +1813,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_59
+      name: Enemy_6_2
       rect:
         serializedVersion: 2
         x: 243
-        y: 752
+        y: 747
         width: 16
-        height: 7
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1833,13 +1833,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_60
+      name: Enemy_6_3
       rect:
         serializedVersion: 2
         x: 262
-        y: 749
+        y: 747
         width: 16
-        height: 11
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1853,7 +1853,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_61
+      name: Enemy_6_4
       rect:
         serializedVersion: 2
         x: 281
