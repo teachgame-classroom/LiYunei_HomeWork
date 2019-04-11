@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum MovePattern { Static, Straight, ZigSaw, Sine, Evade, Normal}
-
+public enum Position { Up,Down}
 
 public class Enemy : MonoBehaviour
 {
     public MovePattern movePattern;
+    public Position position;
 
     private float straightMoveTotalDistance;
 
@@ -31,6 +32,7 @@ public class Enemy : MonoBehaviour
 
     public bool waitForplayer = true;
     private bool activated = false;
+    public float activefloat = 2f;
     /// <summary>
     /// 激活摄像机距离
     /// </summary>
@@ -58,14 +60,19 @@ public class Enemy : MonoBehaviour
     private Vector3 evadeVelocity;
     private float lastEvadeTime;
 
+    private GameObject powerUpPrefab;
+    public bool dropPowerUp = false;
+
     // Start is called before the first frame update
     void Start()
     {
         explosionPrefab = Resources.Load<GameObject>("Gradius/Prefabs/Effects/Explosion_Red");
+        powerUpPrefab = Resources.Load<GameObject>("Gradius/Prefabs/PowerUp");
 
         player = GameObject.Find("Vic Viper");
 
         shotPos = transform.Find("ShotPos");
+
 
         if(shotPos == null)
         {
@@ -76,11 +83,12 @@ public class Enemy : MonoBehaviour
         anim = GetComponent<Animator>();
         col2D = GetComponent<Collider2D>();
 
-        activeDistance = Camera.main.orthographicSize * Camera.main.aspect + 2;
+        activeDistance = Camera.main.orthographicSize * Camera.main.aspect + activefloat;
 
         if (waitForplayer == true)
         {
             SetEnemyActive(false);
+            
         }
         else
         {
@@ -131,6 +139,10 @@ public class Enemy : MonoBehaviour
     {
         col2D.enabled = isActive;
         activated = isActive;
+        if(anim != null)
+        {
+            anim.enabled = isActive;
+        }
     }
 
     /// <summary>
@@ -313,11 +325,35 @@ public class Enemy : MonoBehaviour
     /// </summary>
     void EvadeMove()
     {
-        if(!isEvading)
+        velocity_v = Vector3.up * Mathf.Sin(Mathf.PI * 2 * Time.time / changeDiectionPeriod) * sinAmp;
+        Vector3 velocity = velocity_v;
+
+        if (!isEvading)
         {
             float evade = GetPlayerBullets();
 
-            if(Mathf.Abs(evade) > 0.001f)
+            float top = Camera.main.transform.position.y + Camera.main.orthographicSize;
+            float bottom = Camera.main.transform.position.y - Camera.main.orthographicSize;
+
+            float topDistance = top - transform.position.y;
+            float bottomDistance = transform.position.y - bottom;
+
+            if(bottomDistance < 5)
+            {
+                if(evade < 0)
+                {
+                    evade = -evade;
+                }
+            }
+            else if (topDistance < 5)
+            {
+                if (evade > 0)
+                {
+                    evade = -evade;
+                }
+            }
+
+            if (Mathf.Abs(evade) > 0.001f)
             {
                 isEvading = true;
                 evadeVelocity = Vector3.up * evade;
@@ -325,20 +361,20 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                velocity_v = Vector3.up * Mathf.Sin(Mathf.PI * 2 * Time.time / changeDiectionPeriod) * sinAmp;
+                velocity = velocity_v;
+                transform.Translate(velocity * Time.deltaTime + Vector3.right * Time.deltaTime, Space.World);
             }
         }
         else
         {
-            transform.Translate(evadeVelocity * Time.deltaTime, Space.World);
-
-            if(Time.time - lastEvadeTime > 1f)
+            velocity =velocity_v+evadeVelocity;
+            transform.Translate(velocity * Time.deltaTime + Vector3.right * Time.deltaTime, Space.World);
+            if (Time.time - lastEvadeTime > 1f)
             {
+
                 isEvading = false;
             }
         }
-
-        //ClampPosition();
 
         Shoot();
     }
@@ -356,11 +392,10 @@ public class Enemy : MonoBehaviour
 
         if (activeDistance < left )
         {
-            if (squadonManager != null)
+            if (squadonManager == null)
             {
-                squadonManager.OnMenberDestroy(transform.position);
+                Destroy(gameObject);
             }
-            Destroy(gameObject);
         }
     }
 
@@ -383,6 +418,12 @@ public class Enemy : MonoBehaviour
     float GetAngle(Vector3 direction)
     {
         float angle = Vector3.SignedAngle(Vector3.right, direction, Vector3.forward);
+        return angle;
+    }
+
+    float GetAngle(Vector3 direction,Vector3 distance)
+    {
+        float angle = Vector3.SignedAngle(distance, direction, Vector3.forward);
         return angle;
     }
 
@@ -426,8 +467,6 @@ public class Enemy : MonoBehaviour
         {
             if (cols[i].tag != "PlayerBullet") continue;
 
-            //playerBullets[i] = cols[i].gameObject;
-
             float distance = BulletsDistance(transform.position, cols[i].transform.position);
             if (distance < 3f)
             {
@@ -445,22 +484,6 @@ public class Enemy : MonoBehaviour
         return distance.magnitude;
     }
 
-    private void ClampPosition()
-    {
-        Vector3 camPos = Camera.main.transform.position;
-
-        float left = camPos.x - Camera.main.orthographicSize * Camera.main.aspect ;
-        float top = camPos.y + Camera.main.orthographicSize ;
-        float bottom = camPos.y - Camera.main.orthographicSize;
-
-        float clamp_x = Mathf.Clamp(transform.position.x, left, 100);
-        float clamp_y = Mathf.Clamp(transform.position.y, bottom, top);
-
-        Vector3 clampPos = Vector3.up * clamp_y+ Vector3.right*clamp_x;
-
-        transform.position = clampPos;
-    }
-
     public void Shoot()
     {
         if(Time.time - lastFireTime > fireInterval)
@@ -469,9 +492,19 @@ public class Enemy : MonoBehaviour
 
             if (movePattern == 0)
             {
-                if (GetAngle(direction) < 0f)
+                if (position == 0)
                 {
-                    direction.y = -direction.y;
+                    if (GetAngle(direction) > 0f)
+                    {
+                        direction.y = -direction.y;
+                    }
+                }
+                else
+                {
+                    if (GetAngle(direction) < 0f)
+                    {
+                        direction.y = -direction.y;
+                    }
                 }
             }
 
@@ -486,11 +519,14 @@ public class Enemy : MonoBehaviour
 
     public void Hurt(int damage)
     {
-        hp -= damage;
-
-        if(hp<= 0)
+        if(hp > 0)
         {
-            Die();
+            hp -= damage;
+
+            if (hp <= 0)
+            {
+                Die();
+            }
         }
     }
 
@@ -502,6 +538,12 @@ public class Enemy : MonoBehaviour
         }
 
         Instantiate(explosionPrefab, transform.position,Quaternion.identity);
+
+        if (dropPowerUp)
+        {
+            Instantiate(powerUpPrefab, transform.position, Quaternion.identity);
+        }
+
         Destroy(gameObject);
     }
 

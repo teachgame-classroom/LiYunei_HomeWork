@@ -23,6 +23,8 @@ public class BulletMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
         if (isMissle)
         {
             if(GetGroundNormal()!= Vector3.zero)
@@ -42,17 +44,30 @@ public class BulletMove : MonoBehaviour
             transform.Translate(moveDirection * speed * Time.deltaTime, Space.World);
         }
 
+        Vector3 pos = transform.position;
+
+        Vector3 camPos = Camera.main.transform.position;
+        float left = camPos.x - Camera.main.orthographicSize * Camera.main.aspect - 1f;
+        float right = camPos.x + Camera.main.orthographicSize * Camera.main.aspect + 1f;
+        float top = camPos.y + Camera.main.orthographicSize + 0.5f;
+        float bottom = camPos.y - Camera.main.orthographicSize - 0.5f;
+
+        if (pos.x < left || pos.x > right || pos.y < bottom || pos.y > top)
+        {
+            if (!isBarrier)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 
     Vector3 GetGroundNormal()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position - transform.up * 0.2f,-transform.up,0.5f,LayerMask.GetMask(stageLayeMask));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position - transform.up * 0.2f,-transform.up,0.2f,LayerMask.GetMask(stageLayeMask));
 
         if(hit.transform != null)
         {
             //Debug.DrawLine(hit.point, hit.point + hit.normal, Color.red, 1f);
-
-            //Debug.Log(string.Format("The missile is approaching the :{0}", hit.transform.name));
 
             return hit.normal;
         }

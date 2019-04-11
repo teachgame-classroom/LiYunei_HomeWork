@@ -118,6 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   isMissle: 1
+  isBarrier: 0
   moveDirection: {x: 0, y: 0, z: 0}
 --- !u!61 &6504441417055541739
 BoxCollider2D:
@@ -136,14 +137,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.6, y: 0.2}
+    oldSize: {x: 0.3, y: 0.1}
     newSize: {x: 0.45, y: 0.1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6, y: 0.2}
+  m_Size: {x: 0.3, y: 0.1}
   m_EdgeRadius: 0
 --- !u!114 &4496916540722513384
 MonoBehaviour:
@@ -157,5 +158,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eab3567213faad94c9816f69438cb9fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isLaser: 0
+  bulletType: 1
   laserCount: 3

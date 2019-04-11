@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7306786205289649838}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.4, y: 2.49, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4323984176048795}
@@ -117,14 +117,14 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.5, y: 0.55}
+    oldSize: {x: 0.75, y: 0.275}
     newSize: {x: 3, y: 1.1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -132,27 +132,16 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.42699003, y: 0.08804178}
-      - {x: 0.12575793, y: 0.09335065}
-      - {x: -0.20497346, y: 0.27376795}
-      - {x: -0.40540433, y: 0.2754705}
-      - {x: -0.40242553, y: 0.22072148}
-      - {x: -0.31427693, y: 0.078543425}
-      - {x: -0.49040437, y: 0.07937765}
-      - {x: -0.608341, y: 0.05412674}
-      - {x: -0.6762786, y: -0.016669989}
-      - {x: -0.763973, y: -0.01952815}
-      - {x: -0.76397324, y: -0.08636451}
-      - {x: -0.6698241, y: -0.09081745}
-      - {x: -0.5764773, y: -0.15554595}
-      - {x: -0.45405698, y: -0.16609907}
-      - {x: -0.3001263, y: -0.16196561}
-      - {x: -0.017495394, y: -0.2794664}
-      - {x: 0.2569785, y: -0.2807927}
-      - {x: 0.58232355, y: -0.14924264}
-      - {x: 0.7463155, y: -0.15049934}
-      - {x: 0.75634146, y: 0.0043125153}
-      - {x: 0.5893097, y: 0.0444448}
+    - - {x: -0.11532736, y: 0.14727253}
+      - {x: -0.2712388, y: 0.15500242}
+      - {x: -0.17372179, y: 0.05999273}
+      - {x: -0.2602148, y: 0.045136034}
+      - {x: -0.2349801, y: -0.049987927}
+      - {x: -0.142416, y: -0.059264347}
+      - {x: -0.05692053, y: -0.14319116}
+      - {x: 0.24988723, y: -0.13594341}
+      - {x: 0.4537611, y: -0.041236654}
+      - {x: 0.07745886, y: 0.06749025}
 --- !u!95 &7554247941392669140
 Animator:
   serializedVersion: 3
@@ -184,8 +173,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e66a903fd245e4cbcb1787bc9a4194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  fireInterval: 0.5
+  hp: 5
+  life: 10
+  speed: 8
+  fireInterval: 0.25
   fireLaser: 0.25
   fireMissIles: 1
   shootAngle: 30
@@ -215,7 +206,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7847730726059845102}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.853, y: -0.077, z: 0}
+  m_LocalPosition: {x: 0.5, y: -0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7306786205289649836}
@@ -246,7 +237,7 @@ PrefabInstance:
     - target: {fileID: 8146507405665566011, guid: 87836d36f07a2d945a683f638891950e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8146507405665566011, guid: 87836d36f07a2d945a683f638891950e,
         type: 3}
@@ -326,7 +317,7 @@ PrefabInstance:
     - target: {fileID: 8146507405665566011, guid: 87836d36f07a2d945a683f638891950e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.5
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 8146507405665566011, guid: 87836d36f07a2d945a683f638891950e,
         type: 3}

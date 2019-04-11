@@ -94,6 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movePattern: 0
+  position: 1
   speed: 5
   changeDiectionPeriod: 1
   sinAmp: 1
@@ -134,7 +135,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.7, y: 0.8}
+    oldSize: {x: 0.35, y: 0.4}
     newSize: {x: 0.7, y: 0.8}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -142,9 +143,9 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.15, y: 0.4}
-      - {x: -0.35, y: 0.15}
-      - {x: -0.35, y: -0.4}
-      - {x: 0.35, y: -0.4}
-      - {x: 0.35, y: 0.2}
-      - {x: 0.25, y: 0.4}
+    - - {x: -0.075, y: 0.2}
+      - {x: -0.175, y: 0.075}
+      - {x: -0.175, y: -0.2}
+      - {x: 0.175, y: -0.2}
+      - {x: 0.175, y: 0.1}
+      - {x: 0.125, y: 0.2}

@@ -62,7 +62,7 @@ public class SquadonManager : MonoBehaviour
         // 生成小队中的每个敌人
         for(int i = 0; i<memberCount; i++)
         {
-            members[i] = Instantiate(enemyPrefabs[0], transform.position + Vector3.right * i, Quaternion.identity);
+            members[i] = Instantiate(enemyPrefabs[0], transform.position + Vector3.right * i*0.5f, Quaternion.identity);
 
             members[i].GetComponent<Enemy>().squadonManager = this;
 
@@ -146,8 +146,9 @@ public class SquadonManager : MonoBehaviour
             //如果已经到达最后一个路径点，路径点编号不在增加，停留在终点位置
             if(waypointIdx == waypoints.Length - 1)
             {
+                Vector3 pos = newPos;
                 OutDestroy(members[memberIdx]);
-                return newPos;
+                return pos;
             }
 
             //如果后面还有路径点，路径点编号加一
@@ -170,6 +171,8 @@ public class SquadonManager : MonoBehaviour
 
     public void OnMenberDestroy(Vector3 diePosition)
     {
+        Debug.Log(diePosition);
+
         memberCount--;
 
         if(memberCount <= 0)

@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c2825691ae04d342933f7076730aa2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 25
+  speed: 35
   isMissle: 0
   isBarrier: 0
   moveDirection: {x: 0, y: 0, z: 0}
@@ -133,18 +133,18 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.8, y: 0}
+  m_Offset: {x: 0.4, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0.5}
-    oldSize: {x: 1.6, y: 0.05}
+    oldSize: {x: 0.8, y: 0.025}
     newSize: {x: 0.45, y: 0.1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.6, y: 0.05}
+  m_Size: {x: 0.8, y: 0.025}
   m_EdgeRadius: 0
 --- !u!114 &4496916540722513384
 MonoBehaviour:
@@ -158,6 +158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eab3567213faad94c9816f69438cb9fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isBarrier: 0
-  isLaser: 1
+  bulletType: 2
+  damage: 1
   laserCount: 2

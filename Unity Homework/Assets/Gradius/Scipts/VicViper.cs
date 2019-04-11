@@ -4,9 +4,16 @@ using UnityEngine;
 
 public enum PrimaryWeaponType { Normal,Missile,Double,Laser}
 
+
 public class VicViper : MonoBehaviour
 {
-    public float speed = 10;
+    /// <summary>
+    /// from 0 to 1
+    /// </summary>
+    public float spawnPos = 0.8f;
+    public int hp=5;
+    public int life=10;
+    public float speed = 8;
     public float fireInterval = 0.5f;
     public float fireLaser = 0.5f;
     public float fireMissIles = 1f;
@@ -14,6 +21,11 @@ public class VicViper : MonoBehaviour
     public float dubleAngle = 50f;
     public int optionMax = 3;
     private PrimaryWeaponType primaryWeapon;
+
+    private bool isJustSpawned = true;
+    private bool isInvincible = false;
+    private float lastSpawnTime = 0;
+    private float lastBlinkTime = 0;
 
     private float lastFireTime = 0;
     private float lastMissileTime = 0;
@@ -34,8 +46,11 @@ public class VicViper : MonoBehaviour
     private int powerUp = 0;
 
     private Transform shotPosTrans;
+    private Transform spawnTans;
 
     private GameObject[] bullets;
+
+    private GameObject explosionPrefab;
 
     private GameObject optionPrefab;
     private GameObject[] options;
@@ -47,13 +62,16 @@ public class VicViper : MonoBehaviour
     private GameObject targetIcon;
 
     private Animator anim;
+    private SpriteRenderer spriteRender;
 
     void Start()
     {
         bullets = Resources.LoadAll<GameObject>("Gradius/Prefabs/Bullets");
         targetIconPrefab = Resources.Load<GameObject>("Gradius/Prefabs/Effects/TargetIcon");
+        explosionPrefab = Resources.Load<GameObject>("Gradius/Prefabs/Effects/Explosion_Player");
         optionPrefab = Resources.Load<GameObject>("Gradius/Prefabs/Option");
         shotPosTrans = transform.Find("ShotPos");
+        spawnTans = Camera.main.transform.Find("PlayerSpawn");
 
         trackList.Add(transform.position);
 
@@ -64,48 +82,84 @@ public class VicViper : MonoBehaviour
         intervals= new float[]{ fireInterval, fireMissIles, fireInterval, fireLaser };
         options = new GameObject[optionMax];
         anim = GetComponent<Animator>();
+        spriteRender = GetComponent<SpriteRenderer>();
+
+        Spawn();
     }
 
     void Update()
     {
-        MoveAnim();
-
-        if (optionLevel > 0)
+        if (isInvincible)
         {
-            UpdataTrackList();
-
-            options[0].transform.position = Vector3.MoveTowards(options[0].transform.position, trackList[0], speed * Time.deltaTime);
-            if(optionLevel > 1)
+            if(Time.time - lastBlinkTime > 0.1f)
             {
-                options[1].transform.position = Vector3.MoveTowards(options[1].transform.position, trackList[trackList.Count/2], speed * Time.deltaTime);
+                spriteRender.enabled = !spriteRender.enabled;
+                lastBlinkTime = Time.time;
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.K))
+        if(Time.time - lastSpawnTime > 3)
         {
-            TryPowerUp();
+            isInvincible = false;
+            spriteRender.enabled = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (isJustSpawned)
         {
-            if (!isUpDouble)
+            if(Time.time - lastSpawnTime > 1)
             {
-                ChangePrimaryWeapon(PrimaryWeaponType.Normal);
-            }
-            else
-            {
-                ChangePrimaryWeapon(PrimaryWeaponType.Double);
+                transform.position += Vector3.right * speed * Time.deltaTime;
+
+                float distanceToCamera = Camera.main.transform.position.x - transform.position.x;
+                float distanceToExitSpawnState = Camera.main.orthographicSize * Camera.main.aspect * spawnPos;
+
+                if (distanceToCamera < distanceToExitSpawnState)
+                {
+                    isJustSpawned = false;
+                }
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.Alpha2) && isUpLaser == true)
+        else
         {
-            ChangePrimaryWeapon(PrimaryWeaponType.Laser);
+            MoveAnim();
+
+            if (optionLevel > 0)
+            {
+                UpdataTrackList();
+
+                options[0].transform.position = Vector3.MoveTowards(options[0].transform.position, trackList[0], speed * Time.deltaTime);
+                if (optionLevel > 1)
+                {
+                    options[1].transform.position = Vector3.MoveTowards(options[1].transform.position, trackList[trackList.Count / 2], speed * Time.deltaTime);
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                TryPowerUp();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                if (!isUpDouble)
+                {
+                    ChangePrimaryWeapon(PrimaryWeaponType.Normal);
+                }
+                else
+                {
+                    ChangePrimaryWeapon(PrimaryWeaponType.Double);
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha2) && isUpLaser == true)
+            {
+                ChangePrimaryWeapon(PrimaryWeaponType.Laser);
+            }
+
+            targetIcon.transform.position = MouseTarget();
+
+            Shoot();
         }
-
-        targetIcon.transform.position = MouseTarget();
-
-        Shoot();
     }
 
     private void MoveAnim()
@@ -128,7 +182,7 @@ public class VicViper : MonoBehaviour
             anim.SetInteger("Move", 0);
         }
 
-        transform.position += (Vector3.right * h + Vector3.up * v) * speed * Time.deltaTime;
+        transform.position += (Vector3.right * h + Vector3.up * v) * speed * Time.deltaTime + Vector3.right*Time.deltaTime;
 
         ClampPlayerPosition();
     }
@@ -194,10 +248,10 @@ public class VicViper : MonoBehaviour
 
     void TryPowerUp()
     {
-        
         switch (powerUp)
         {
             case 1:
+                PowerUpSpeed();
                 break;
             case 2:
                 PowerUpMissle();
@@ -335,11 +389,17 @@ public class VicViper : MonoBehaviour
         }
     }
 
+    void PowerUpSpeed()
+    {
+        speed += 2;
+        powerUp = 0;
+    }
+
     void PowerUpDouble()
     {
         if (isUpDouble == false)
         {
-            powerUp -= (int)(PrimaryWeaponType.Double);
+            powerUp = 0;
             isUpDouble = true;
         }
         ChangePrimaryWeapon(PrimaryWeaponType.Double);
@@ -347,7 +407,7 @@ public class VicViper : MonoBehaviour
 
     void PowerUpLaser()
     {
-        powerUp -= (int)(PrimaryWeaponType.Laser);
+        powerUp = 0;
         if (isUpLaser == false)
         {
             isUpLaser = true;
@@ -364,7 +424,7 @@ public class VicViper : MonoBehaviour
         if (missileLevel < 2)
         {
             missileLevel++;
-            powerUp -= MISSILE;
+            powerUp=0;
         }
     }
 
@@ -379,15 +439,20 @@ public class VicViper : MonoBehaviour
         {
             CreatOption(optionLevel);
             optionLevel++;
-            powerUp -= OPTION;
+            powerUp=0;
         }
     }
 
     void PowerUpBarrier()
     {
-        transform.Find("Bullet_4_1").gameObject.SetActive(true);
-        transform.Find("Bullet_4_2").gameObject.SetActive(true);
+        SetBarrierActive(true);
         powerUp = 0;
+    }
+
+    private void SetBarrierActive(bool isActive)
+    {
+        transform.Find("Bullet_4_1").gameObject.SetActive(isActive);
+        transform.Find("Bullet_4_2").gameObject.SetActive(isActive);
     }
 
     void UpdataTrackList()
@@ -406,14 +471,71 @@ public class VicViper : MonoBehaviour
         }
     }
 
+    void Die()
+    {
+        Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        life--; 
+
+        if(life > 0)
+        {
+            Spawn();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    void Spawn()
+    {
+        hp = 5;
+        speed = 8;
+        powerUp = 0;
+        missileLevel = 0;
+        optionLevel = 0;
+        SetBarrierActive(false);
+        primaryWeapon = NORMAL;
+        transform.position = spawnTans.position;
+        isJustSpawned = true;
+        isInvincible = true;
+        lastSpawnTime = Time.time;
+    }
+
+    void Hurt(int damage)
+    {
+        hp-= damage;
+        if(hp == 0)
+        {
+            Die();
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //Debug.Log("Is collider " + collision.gameObject.name);
+        Enemy enemy = collision.GetComponent<Enemy>();
 
-        if(collision.tag == "PowerUp")
+        if (collision.tag == "PowerUp")
         {
             powerUp++;
+            if(powerUp > 6)
+            {
+                powerUp = 0;
+                life++;
+            }
             Destroy(collision.gameObject);
+        }
+
+        if (!isInvincible)
+        {
+            if (collision.tag == "EnemyBullet" || collision.tag == "Stage")
+            {
+                Hurt(1);
+            }
+            if (enemy != null)
+            {
+                Die();
+                enemy.Hurt(enemy.hp);
+            }
         }
     }
 
