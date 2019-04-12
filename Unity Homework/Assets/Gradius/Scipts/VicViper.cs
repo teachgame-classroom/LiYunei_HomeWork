@@ -33,6 +33,7 @@ public class VicViper : MonoBehaviour
 
     private bool isUpDouble = false;
     private bool isUpLaser = false;
+    private bool isUpBarrier = false;
     private int missileLevel = 0;
     private int optionLevel = 0;
 
@@ -445,8 +446,12 @@ public class VicViper : MonoBehaviour
 
     void PowerUpBarrier()
     {
-        SetBarrierActive(true);
-        powerUp = 0;
+        if (isUpBarrier == false)
+        {
+            SetBarrierActive(true);
+            powerUp = 0;
+            isUpBarrier = true;
+        }
     }
 
     private void SetBarrierActive(bool isActive)
@@ -488,7 +493,7 @@ public class VicViper : MonoBehaviour
 
     void Spawn()
     {
-        hp = 5;
+        hp = 20;
         speed = 8;
         powerUp = 0;
         missileLevel = 0;
@@ -527,9 +532,18 @@ public class VicViper : MonoBehaviour
 
         if (!isInvincible)
         {
-            if (collision.tag == "EnemyBullet" || collision.tag == "Stage")
+            if (collision.tag == "Stage")
             {
                 Hurt(1);
+            }
+            else
+            {
+                if (collision.tag == "EnemyBullet")
+                {
+                    Hurt(1);
+                    Destroy(collision.gameObject);
+                }
+
             }
             if (enemy != null)
             {

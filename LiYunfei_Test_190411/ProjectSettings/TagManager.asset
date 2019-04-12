@@ -3,13 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Score
-  - Ground
-  - PowerUp
-  - PlayerBullet
-  - EnemyBullet
-  - Stage
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -19,8 +13,8 @@ TagManager:
   - UI
   - 
   - 
-  - PostProcessing
-  - Stage
+  - 
+  - 
   - 
   - 
   - 
@@ -46,7 +40,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Enemy
-    uniqueID: 3982812681
     locked: 0
