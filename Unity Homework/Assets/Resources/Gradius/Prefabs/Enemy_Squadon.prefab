@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   memberCount: 5
-  moveSpeed: 10
+  moveSpeed: 3
 --- !u!1 &345599771825617032
 GameObject:
   m_ObjectHideFlags: 0

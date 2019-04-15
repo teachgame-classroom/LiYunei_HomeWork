@@ -43,6 +43,8 @@ public class Enemy : MonoBehaviour
     private List<Vector3> tracks = new List<Vector3>();
     private float lastRecordTime = 0;
 
+    private CameraMove cameraMove;
+
     private GameObject player;
     private GameObject[] playerBullets;
 
@@ -73,7 +75,7 @@ public class Enemy : MonoBehaviour
     {
         explosionPrefab = Resources.Load<GameObject>("Gradius/Prefabs/Effects/Explosion_Red");
         powerUpPrefab = Resources.Load<GameObject>("Gradius/Prefabs/PowerUp");
-
+        cameraMove = Camera.main.GetComponent<CameraMove>();
         player = GameObject.Find("Vic Viper");
 
         shotPos = transform.Find("ShotPos");
@@ -331,7 +333,7 @@ public class Enemy : MonoBehaviour
 
         transform.right = -velocity;
 
-        transform.Translate(velocity *speed* Time.deltaTime, Space.World);
+        transform.Translate(velocity *speed* Time.deltaTime+ cameraMoveDriection() * Time.deltaTime, Space.World);
     }
     /// <summary>
     /// 正弦飞行
@@ -342,7 +344,7 @@ public class Enemy : MonoBehaviour
 
         Vector3 velocity =velocity_h *speed + velocity_v;
 
-        transform.Translate(velocity * speed * Time.deltaTime, Space.World);
+        transform.Translate(velocity * speed * Time.deltaTime+ cameraMoveDriection() * Time.deltaTime, Space.World);
     }
     /// <summary>
     /// 跳跃移动
@@ -371,7 +373,6 @@ public class Enemy : MonoBehaviour
     {
         velocity_v = Vector3.up * Mathf.Sin(Mathf.PI * 2 * Time.time / changeDiectionPeriod) * sinAmp;
         Vector3 velocity = velocity_v;
-
         if (!isEvading)
         {
             float evade = GetPlayerBullets();
@@ -382,9 +383,9 @@ public class Enemy : MonoBehaviour
             float topDistance = top - transform.position.y;
             float bottomDistance = transform.position.y - bottom;
 
-            if(bottomDistance < 5)
+            if (bottomDistance < 5)
             {
-                if(evade < 0)
+                if (evade < 0)
                 {
                     evade = -evade;
                 }
@@ -406,13 +407,13 @@ public class Enemy : MonoBehaviour
             else
             {
                 velocity = velocity_v;
-                transform.Translate(velocity * Time.deltaTime + Vector3.right * Time.deltaTime, Space.World);
+                transform.Translate(velocity * Time.deltaTime + cameraMoveDriection() * Time.deltaTime, Space.World);
             }
         }
         else
         {
-            velocity =velocity_v+evadeVelocity;
-            transform.Translate(velocity * Time.deltaTime + Vector3.right * Time.deltaTime, Space.World);
+            velocity = velocity_v + evadeVelocity;
+            transform.Translate(velocity * Time.deltaTime + cameraMoveDriection() * Time.deltaTime, Space.World);
             if (Time.time - lastEvadeTime > 1f)
             {
 
@@ -421,6 +422,11 @@ public class Enemy : MonoBehaviour
         }
 
         Shoot();
+    }
+
+    private Vector3 cameraMoveDriection()
+    {
+        return cameraMove.moveDirection * cameraMove.speed;
     }
 
     bool IsCameraCloseEnough()

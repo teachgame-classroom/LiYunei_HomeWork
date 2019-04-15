@@ -46,6 +46,8 @@ public class VicViper : MonoBehaviour
 
     private int powerUp = 0;
 
+    private CameraMove cameraMove;
+
     private Transform shotPosTrans;
     private Transform spawnTans;
 
@@ -72,6 +74,7 @@ public class VicViper : MonoBehaviour
         explosionPrefab = Resources.Load<GameObject>("Gradius/Prefabs/Effects/Explosion_Player");
         optionPrefab = Resources.Load<GameObject>("Gradius/Prefabs/Option");
         shotPosTrans = transform.Find("ShotPos");
+        cameraMove =Camera.main.GetComponent<CameraMove>();
         spawnTans = Camera.main.transform.Find("PlayerSpawn");
 
         trackList.Add(transform.position);
@@ -168,8 +171,6 @@ public class VicViper : MonoBehaviour
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        //Debug.Log(h + "," + v);
-
         if (v > 0)
         {
             anim.SetInteger("Move", 1);
@@ -183,7 +184,7 @@ public class VicViper : MonoBehaviour
             anim.SetInteger("Move", 0);
         }
 
-        transform.position += (Vector3.right * h + Vector3.up * v) * speed * Time.deltaTime + Vector3.right*Time.deltaTime;
+        transform.position += (Vector3.right * h + Vector3.up * v) * speed * Time.deltaTime + cameraMove.moveDirection * cameraMove.speed * Time.deltaTime;
 
         ClampPlayerPosition();
     }
