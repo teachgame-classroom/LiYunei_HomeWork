@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum MovePattern { Static, Straight, ZigSaw, Sine, InvertSine, Evade, Normal}
-public enum Position { Up,Down}
+public enum BulletMovePattern { AimAtPlayer, Horizontal, Vertical }
 
 public class Enemy : MonoBehaviour
 {
     public MovePattern movePattern;
-    public Position position;
+    public BulletMovePattern bulletMovePattern = BulletMovePattern.AimAtPlayer;
 
     private float straightMoveTotalDistance;
 
@@ -23,7 +23,9 @@ public class Enemy : MonoBehaviour
     private Vector3 velocity_v = Vector3.up;
 
     public int hp = 1;
-    private GameObject explosionPrefab;
+    public bool invincible = false;
+    private GameObject[] explosionPrefab = new GameObject[2];
+    public bool explosionAttachToPattent = false;
 
     /// <summary>
     /// 该敌人所属小队，敌人生成时由小队脚本指定
@@ -47,6 +49,9 @@ public class Enemy : MonoBehaviour
 
     private GameObject player;
     private GameObject[] playerBullets;
+
+    public float turretMaxAngle = 180;
+    public float turretMinAngle = 0;
 
     public Sprite[] turrentSprites;
     private SpriteRenderer spriteRenderer;
@@ -73,7 +78,8 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        explosionPrefab = Resources.Load<GameObject>("Gradius/Prefabs/Effects/Explosion_Red");
+        explosionPrefab[0] = Resources.Load<GameObject>("Gradius/Prefabs/Effects/Explosion_Red");
+        explosionPrefab[1] = Resources.Load<GameObject>("Gradius/Prefabs/Effects/LoopExplosion");
         powerUpPrefab = Resources.Load<GameObject>("Gradius/Prefabs/PowerUp");
         cameraMove = Camera.main.GetComponent<CameraMove>();
         player = GameObject.Find("Vic Viper");
@@ -106,7 +112,6 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         if (activated == false)
         {
             if (IsCameraCloseEnough())
@@ -176,6 +181,12 @@ public class Enemy : MonoBehaviour
     /// </summary>
     void StaticMove()
     {
+        Vector3 aimDirection = GetAimDirection(player.transform.position);
+        float angle = Vector3.SignedAngle(Vector3.right, aimDirection, Vector3.forward);
+        bool plyaerNotInTurretAngle = (angle < turretMinAngle || angle > turretMaxAngle);
+
+        if (plyaerNotInTurretAngle) { return; }
+
         SetSpriteByAimDirection(GetAimDirection(player.transform.position));
 
         if (bulletPerfab != null)
@@ -194,15 +205,6 @@ public class Enemy : MonoBehaviour
 
         bool facingLeft = transform.right.x > 0;
         bool targetOnLeftSide = aimDirection.x < 0;//玩家是否在左边
-
-        //if(facingLeft)
-        //{
-        //    targetOnLeftSide = aimAngle > 85;
-        //}
-        //else
-        //{
-        //    targetOnLeftSide = aimAngle > 95;
-        //}
 
         float aimAngleUpperLimit_L = 150;
         float aimAngleLowerLimit_L = 120;
@@ -232,8 +234,6 @@ public class Enemy : MonoBehaviour
 
                 Quaternion rot = Quaternion.LookRotation(Vector3.forward, groundNormal);
                 transform.rotation = rot;
-                //transform.right = -direction;
-                //transform.up = groundNormal;
             }
 
             if (aimAngle < aimAngleLowerLimit_L)//玩家位置小于射击范围最小度数，玩家在右边
@@ -273,20 +273,6 @@ public class Enemy : MonoBehaviour
         }
 
         Debug.DrawLine(transform.position, transform.position + direction, Color.cyan);
-
-        //if (aimAngle > 95)
-        //{
-        //    direction = Vector3.left;
-        //    transform.rotation = Quaternion.Euler(0, 0, 0);
-
-        //    targetInRange = aimAngle < 150 && aimAngle > 120;
-        //}
-        //else if (aimAngle < 85)
-        //{
-        //    direction = Vector3.right;
-        //    transform.rotation = Quaternion.Euler(0, 180, 0);
-        //    targetInRange = aimAngle < 60 && aimAngle > 30;
-        //}
 
         if (!targetInRange)
         {
@@ -451,17 +437,44 @@ public class Enemy : MonoBehaviour
 
     Vector3 GetAimDirection(Vector3 targetPosition)
     {
-        Vector3 aimDirection = (targetPosition - shotPos.position).normalized;
+        Vector3 aimDirection = Vector3.left;
+
+        switch (bulletMovePattern)
+        {
+            case BulletMovePattern.Horizontal:
+                aimDirection = Vector3.left;
+                break;
+            case BulletMovePattern.Vertical:
+                aimDirection = Vector3.up;
+                break;
+            case BulletMovePattern.AimAtPlayer:
+                aimDirection = (targetPosition - shotPos.position).normalized;
+                break;
+            default:
+                aimDirection = Vector3.left;
+                break;
+        }
         return aimDirection;
     }
 
     void SetSpriteByAimDirection(Vector3 aimDirection)
     {
-        float angle = Vector3.Angle(Vector3.right, aimDirection)+7.5f;
+        if (turrentSprites.Length == 0) return;
 
-        int spriteIdx =Mathf.FloorToInt( angle / 15);
+        float angleStep =( turretMaxAngle - turretMinAngle )/ (turrentSprites.Length-1);
 
-        spriteRenderer.sprite = turrentSprites[spriteIdx];
+        float angle = Vector3.SignedAngle(Vector3.right, aimDirection,Vector3.forward) + angleStep / 2;
+
+        angle = Mathf.Clamp(angle, turretMinAngle, turretMaxAngle);
+
+        int spriteIdx = Mathf.Abs(Mathf.FloorToInt(angle / angleStep))-1;
+
+        spriteIdx = Mathf.Clamp(spriteIdx, 0, turrentSprites.Length - 1);
+
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.sprite = turrentSprites[spriteIdx];
+        }
 
     }
 
@@ -540,28 +553,10 @@ public class Enemy : MonoBehaviour
         {
             Vector3 direction = GetAimDirection(player.transform.position);
 
-            if (movePattern == 0)
-            {
-                if (position == 0)
-                {
-                    if (GetAngle(direction) > 0f)
-                    {
-                        direction.y = -direction.y;
-                    }
-                }
-                else
-                {
-                    if (GetAngle(direction) < 0f)
-                    {
-                        direction.y = -direction.y;
-                    }
-                }
-            }
-
             GameObject bulletInstance = Instantiate(bulletPerfab, shotPos.position, Quaternion.identity);
             bulletInstance.GetComponent<BulletMove>().moveDirection =direction;
 
-            Debug.DrawLine(shotPos.position, shotPos.position + direction * 5, Color.red, 5f);
+            //Debug.DrawLine(shotPos.position, shotPos.position + direction * 5, Color.red, 5f);
 
             lastFireTime = Time.time;
         }
@@ -569,13 +564,15 @@ public class Enemy : MonoBehaviour
 
     public void Hurt(int damage)
     {
-        if(hp > 0)
+        if (!invincible)
         {
-            hp -= damage;
-
-            if (hp <= 0)
+            if (hp > 0)
             {
-                Die();
+                hp -= damage;
+                if (hp <= 0)
+                {
+                    Die();
+                }
             }
         }
     }
@@ -586,8 +583,29 @@ public class Enemy : MonoBehaviour
         {
             squadonManager.OnMenberDestroy(transform.position);
         }
+        if (!explosionAttachToPattent)
+        {
+            Instantiate(explosionPrefab[0], transform.position, Quaternion.identity);
+        }
+        else
+        {
+            GameObject explosion = Instantiate(explosionPrefab[1], transform.position, Quaternion.identity);
 
-        Instantiate(explosionPrefab, transform.position,Quaternion.identity);
+            explosion.transform.SetParent(transform.parent);
+            LoopExplosion loopExplosion = explosion.GetComponent<LoopExplosion>();
+
+            if (loopExplosion)
+            {
+                float xMax = col2D.bounds.center.x + col2D.bounds.extents.x - transform.position.x;
+                float xMin = col2D.bounds.center.x - col2D.bounds.extents.x - transform.position.x;
+                float yMax = col2D.bounds.center.y + col2D.bounds.extents.y - transform.position.y;
+                float yMin = col2D.bounds.center.y - col2D.bounds.extents.y - transform.position.y;
+
+                loopExplosion.explosionAreaMin = Vector2.right * xMin + Vector2.up * yMin;
+                loopExplosion.explosionAreaMax = Vector2.right * xMax + Vector2.up * yMax;
+            }
+        }
+
 
         if (dropPowerUp)
         {

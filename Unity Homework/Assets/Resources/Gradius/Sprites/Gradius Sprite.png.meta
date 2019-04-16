@@ -138,7 +138,7 @@ TextureImporter:
     21300266: Gradius Sprite_133
     21300268: Gradius Sprite_134
     21300270: Gradius Sprite_135
-    21300272: Gradius Sprite_136
+    21300272: Bullet_12
     21300274: Enemy_7_0
     21300276: Enemy_7_1
     21300278: Enemy_7_2
@@ -148,10 +148,10 @@ TextureImporter:
     21300286: Gradius Sprite_143
     21300288: Gradius Sprite_144
     21300290: Gradius Sprite_145
-    21300292: Gradius Sprite_146
-    21300294: Gradius Sprite_147
-    21300296: Gradius Sprite_148
-    21300298: Gradius Sprite_149
+    21300292: Spawn1_0
+    21300294: Spawn1_1
+    21300296: Spawn1_2
+    21300298: Spawn1_3
     21300300: Gradius Sprite_150
     21300302: Gradius Sprite_151
     21300304: Gradius Sprite_152
@@ -280,7 +280,7 @@ TextureImporter:
     21300550: Gradius Sprite_275
     21300552: Gradius Sprite_276
     21300554: Gradius Sprite_277
-    21300556: Gradius Sprite_278
+    21300556: Bullet_11
     21300558: Gradius Sprite_279
     21300560: Gradius Sprite_280
     21300562: Gradius Sprite_281
@@ -299,7 +299,7 @@ TextureImporter:
     21300588: Boss_1
     21300590: Gradius Sprite_295
     21300592: Gradius Sprite_296
-    21300594: Gradius Sprite_297
+    21300594: shield_2
     21300596: Gradius Sprite_298
     21300598: Gradius Sprite_299
     21300600: Gradius Sprite_300
@@ -311,10 +311,10 @@ TextureImporter:
     21300612: Gradius Sprite_306
     21300614: Gradius Sprite_307
     21300616: Gradius Sprite_308
-    21300618: Gradius Sprite_309
+    21300618: Explosion_3_0
     21300620: Gradius Sprite_310
     21300622: Gradius Sprite_311
-    21300624: Gradius Sprite_312
+    21300624: Explosion_3_2
     21300626: Explosion_Red_0
     21300628: Explosion_Red_1
     21300630: Explosion_Red_2
@@ -325,7 +325,7 @@ TextureImporter:
     21300640: core_3
     21300642: core_4
     21300644: Gradius Sprite_322
-    21300646: Gradius Sprite_323
+    21300646: Explosion_3_1
     21300648: Gradius Sprite_324
     21300650: Gradius Sprite_325
     21300652: Gradius Sprite_326
@@ -538,6 +538,8 @@ TextureImporter:
     21301066: Gradius Sprite_533
     21301068: PowerUp_2
     21301070: Bullet_02
+    21301072: Explosion_3_3
+    21301074: Explosion_3_4
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -3353,15 +3355,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_136
+      name: Bullet_12
       rect:
         serializedVersion: 2
         x: 361
         y: 680
         width: 30
         height: 4
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 5
+      pivot: {x: 1, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -3553,7 +3555,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_146
+      name: Spawn1_0
       rect:
         serializedVersion: 2
         x: 7
@@ -3573,7 +3575,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_147
+      name: Spawn1_1
       rect:
         serializedVersion: 2
         x: 22
@@ -3593,7 +3595,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_148
+      name: Spawn1_2
       rect:
         serializedVersion: 2
         x: 39
@@ -3613,13 +3615,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_149
+      name: Spawn1_3
       rect:
         serializedVersion: 2
         x: 58
         y: 657
         width: 16
-        height: 8
+        height: 9
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -6193,15 +6195,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_278
+      name: Bullet_11
       rect:
         serializedVersion: 2
         x: 29
         y: 466
         width: 16
         height: 4
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 5
+      pivot: {x: 1, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -6573,7 +6575,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_297
+      name: shield_2
       rect:
         serializedVersion: 2
         x: 256
@@ -6813,7 +6815,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_309
+      name: Explosion_3_0
       rect:
         serializedVersion: 2
         x: 228
@@ -6833,53 +6835,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_310
-      rect:
-        serializedVersion: 2
-        x: 248
-        y: 389
-        width: 5
-        height: 4
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9b61acbac7fed6d419261f43b53830ea
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gradius Sprite_311
-      rect:
-        serializedVersion: 2
-        x: 255
-        y: 391
-        width: 7
-        height: 4
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5643cf9fa0b49064fa424dc66ff6c72d
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gradius Sprite_312
+      name: Explosion_3_2
       rect:
         serializedVersion: 2
         x: 266
-        y: 382
-        width: 25
-        height: 13
+        y: 381
+        width: 14
+        height: 14
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -7073,13 +7035,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_323
+      name: Explosion_3_1
       rect:
         serializedVersion: 2
-        x: 248
-        y: 380
-        width: 14
-        height: 11
+        x: 247
+        y: 379
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -11308,6 +11270,46 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c9b35b2b19563da49a33e1b15f25f89d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Explosion_3_3
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 383
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2f52b017a861ff4bb73c40d810ca292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Explosion_3_4
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 385
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 297f13cbf2e157a4e86a279968f86b13
       vertices: []
       indices: 
       edges: []

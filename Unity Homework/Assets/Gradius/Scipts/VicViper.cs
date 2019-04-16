@@ -166,6 +166,8 @@ public class VicViper : MonoBehaviour
         }
     }
 
+    
+
     private void MoveAnim()
     {
         float h = Input.GetAxis("Horizontal");
@@ -550,6 +552,13 @@ public class VicViper : MonoBehaviour
             {
                 Die();
                 enemy.Hurt(enemy.hp);
+            }
+        }
+        else
+        {
+            if(collision.tag == "Boss")
+            {
+                Die();
             }
         }
     }

@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ActiveType { Camera ,Player}
+
 public class SquadonManager : MonoBehaviour
 {
+    public ActiveType activeType = ActiveType.Camera;
+
     /// <summary>
     /// 小队的敌人数量
     /// </summary>
@@ -39,7 +43,7 @@ public class SquadonManager : MonoBehaviour
     /// <summary>
     /// 存放玩家
     /// </summary>
-    private GameObject Player;
+    private GameObject player;
     /// <summary>
     /// 小队成员是否已被激活
     /// </summary>
@@ -48,7 +52,9 @@ public class SquadonManager : MonoBehaviour
     /// <summary>
     /// 激活小队成员的摄像机距离
     /// </summary>
-    private float activeDistance;
+    private float CameraActiveDistance;
+    public float CamerActiveFloat = 2;
+    public float PlayerActiveDistance = 5;
 
     // Start is called before the first frame update
     void Start()
@@ -76,9 +82,9 @@ public class SquadonManager : MonoBehaviour
             waypoints[i] = transform.GetChild(i);
         }
 
-        Player = GameObject.Find("Vic Viper");
+        player = GameObject.Find("Vic Viper");
 
-        activeDistance = Camera.main.orthographicSize * Camera.main.aspect + 2;
+        CameraActiveDistance = Camera.main.orthographicSize * Camera.main.aspect + CamerActiveFloat;
     }
 
     // Update is called once per frame
@@ -86,9 +92,20 @@ public class SquadonManager : MonoBehaviour
     {
         if (!isMemberActivated)
         {
-            if (IsCameraCloseEnough())
+            switch (activeType)
             {
-                ActivateMembers();
+                case ActiveType.Camera:
+                    if (IsCameraCloseEnough())
+                    {
+                        ActivateMembers();
+                    }
+                    break;
+                case ActiveType.Player:
+                    if(IsPlayerCloseEnough())
+                    {
+                        ActivateMembers();
+                    }
+                    break;
             }
         }
         else
@@ -112,7 +129,36 @@ public class SquadonManager : MonoBehaviour
     {
         float CameraDistanceX = transform.position.x - Camera.main.transform.position.x;
 
-        return CameraDistanceX < activeDistance;
+        return CameraDistanceX < CameraActiveDistance;
+    }
+
+    private bool IsPlayerCloseEnough()
+    {
+        if (player != null)
+        {
+            bool playerPosXClose = false;
+            bool playerPosYClose = false;
+            if (player.transform.position.x > transform.position.x)
+            {
+                playerPosXClose = (player.transform.position.x - transform.position.x) < PlayerActiveDistance;
+
+            }
+            else
+            {
+                playerPosXClose = (transform.position.x - player.transform.position.x) < PlayerActiveDistance;
+            }
+            if (player.transform.position.y > transform.position.y)
+            {
+                playerPosYClose = (player.transform.position.y - transform.position.y) < PlayerActiveDistance;
+            }
+            else
+            {
+                playerPosYClose = (transform.position.y - player.transform.position.y) < PlayerActiveDistance;
+            }
+
+            return (playerPosXClose == true && playerPosYClose == true);
+        }
+        return false;
     }
 
     private void ActivateMembers()
@@ -183,6 +229,9 @@ public class SquadonManager : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, PlayerActiveDistance);
+
         if(waypoints == null)
         {
             waypoints = new Transform[transform.childCount];
