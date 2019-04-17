@@ -521,6 +521,7 @@ public class VicViper : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Enemy enemy = collision.GetComponent<Enemy>();
+        BulletDamage bullet = collision.GetComponent<BulletDamage>();
 
         if (collision.tag == "PowerUp")
         {
@@ -543,7 +544,7 @@ public class VicViper : MonoBehaviour
             {
                 if (collision.tag == "EnemyBullet")
                 {
-                    Hurt(1);
+                    Hurt(bullet.damage);
                     Destroy(collision.gameObject);
                 }
 
@@ -551,14 +552,14 @@ public class VicViper : MonoBehaviour
             if (enemy != null)
             {
                 Die();
-                enemy.Hurt(enemy.hp);
-            }
-        }
-        else
-        {
-            if(collision.tag == "Boss")
-            {
-                Die();
+                if (enemy.canColliderDesity)
+                {
+                    enemy.Hurt(enemy.hp);
+                }
+                else
+                {
+                    enemy.Hurt(3);
+                }
             }
         }
     }
@@ -594,7 +595,7 @@ public class VicViper : MonoBehaviour
         GUILayout.BeginVertical();
         GUILayout.Label(string.Format("PowerUp:{0}", powerUp));
         GUILayout.Label(string.Format("Missle level:{0}", missileLevel));
-        GUILayout.Label(string.Format("Track Node Count:" + trackList.Count));
+        GUILayout.Label(string.Format("Hp:{0} , Life:{1}",hp,life));
         GUILayout.EndVertical();
     }
 }

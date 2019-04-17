@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum MovePattern { Static, Straight, ZigSaw, Sine, InvertSine, Evade, Normal}
-public enum BulletMovePattern { AimAtPlayer, Horizontal, Vertical }
+public enum BulletMovePattern { AimAtPlayer, Horizontal, Vertical}
 
 public class Enemy : MonoBehaviour
 {
@@ -24,8 +24,12 @@ public class Enemy : MonoBehaviour
 
     public int hp = 1;
     public bool invincible = false;
+    public bool canColliderDesity = true;
     private GameObject[] explosionPrefab = new GameObject[2];
     public bool explosionAttachToPattent = false;
+
+    public bool playDamageEffect = false;
+    public Color EffectColor = new Color(1,0,0);
 
     /// <summary>
     /// 该敌人所属小队，敌人生成时由小队脚本指定
@@ -61,6 +65,8 @@ public class Enemy : MonoBehaviour
     private Animator anim;
 
     public GameObject bulletPerfab;
+    public GameObject bulletEffect;
+    private GameObject effect;
     public float fireInterval;
     private float lastFireTime;
 
@@ -549,17 +555,32 @@ public class Enemy : MonoBehaviour
 
     public void Shoot()
     {
-        if(Time.time - lastFireTime > fireInterval)
+        if (bulletEffect != null)
+        {
+            if (Time.time - lastFireTime +2> fireInterval)
+            {
+                if (effect == null)
+                {
+                    effect = Instantiate(bulletEffect, shotPos.position, Quaternion.identity);
+                }
+            }
+            if (Time.time - lastFireTime > fireInterval)
+            {
+                Destroy(effect);
+            }
+        }
+
+        if (Time.time - lastFireTime > fireInterval)
         {
             Vector3 direction = GetAimDirection(player.transform.position);
 
             GameObject bulletInstance = Instantiate(bulletPerfab, shotPos.position, Quaternion.identity);
-            bulletInstance.GetComponent<BulletMove>().moveDirection =direction;
-
-            //Debug.DrawLine(shotPos.position, shotPos.position + direction * 5, Color.red, 5f);
+            bulletInstance.GetComponent<BulletMove>().moveDirection = direction;
 
             lastFireTime = Time.time;
         }
+
+
     }
 
     public void Hurt(int damage)
@@ -573,8 +594,18 @@ public class Enemy : MonoBehaviour
                 {
                     Die();
                 }
+                else if(playDamageEffect)
+                {
+                    spriteRenderer.color = EffectColor;
+                    Invoke("ChangeSprite", 0.1f);
+                }
             }
         }
+    }
+
+    public void ChangeSprite()
+    {
+        spriteRenderer.color = Color.white;
     }
 
     public void Die()

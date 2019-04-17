@@ -30,7 +30,11 @@ public class BulletDamage : MonoBehaviour
         {
             if (enemy != null)
             {
-                enemy.Hurt(damage);
+                if(transform.tag != "EnemyBullet")
+                {
+                    enemy.Hurt(damage);
+
+                }
                 if ((int)bulletType == 2)
                 {
                     laserCount--;

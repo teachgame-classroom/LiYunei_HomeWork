@@ -27,6 +27,11 @@ public class LoopExplosion : MonoBehaviour
 
             float posX = Random.Range(explosionAreaMin.x, explosionAreaMax.x);
             float posY = Random.Range(explosionAreaMin.y, explosionAreaMax.y);
+
+            effect.position =transform.position + Vector3.right * posX + Vector3.up * posY;
+
+            effect.gameObject.SetActive(false);
+            effect.gameObject.SetActive(true);
         }
     }
 }
