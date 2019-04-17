@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3146742238207157060}
   - component: {fileID: 7208798552078165092}
   - component: {fileID: 2868960015027232000}
+  - component: {fileID: 7672834041264799320}
   m_Layer: 0
   m_Name: Bullet_11
   m_TagString: EnemyBullet
@@ -145,3 +146,18 @@ MonoBehaviour:
   isMissle: 0
   isBarrier: 0
   moveDirection: {x: -1, y: 0, z: 0}
+--- !u!114 &7672834041264799320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3601276063166312340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eab3567213faad94c9816f69438cb9fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletType: 0
+  damage: 5
+  laserCount: 3

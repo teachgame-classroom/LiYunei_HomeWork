@@ -512,7 +512,7 @@ public class VicViper : MonoBehaviour
     void Hurt(int damage)
     {
         hp-= damage;
-        if(hp == 0)
+        if(hp <= 0)
         {
             Die();
         }

@@ -33,19 +33,18 @@ public class BulletDamage : MonoBehaviour
                 if(transform.tag != "EnemyBullet")
                 {
                     enemy.Hurt(damage);
-
-                }
-                if ((int)bulletType == 2)
-                {
-                    laserCount--;
-                    if (laserCount == 0)
+                    if ((int)bulletType == 2)
+                    {
+                        laserCount--;
+                        if (laserCount == 0)
+                        {
+                            Destroy(gameObject);
+                        }
+                    }
+                    else
                     {
                         Destroy(gameObject);
                     }
-                }
-                else
-                {
-                    Destroy(gameObject);
                 }
             }
         }

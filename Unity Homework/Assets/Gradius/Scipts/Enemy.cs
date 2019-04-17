@@ -642,7 +642,7 @@ public class Enemy : MonoBehaviour
         {
             Instantiate(powerUpPrefab, transform.position, Quaternion.identity);
         }
-
+        Destroy(effect);
         Destroy(gameObject);
     }
 

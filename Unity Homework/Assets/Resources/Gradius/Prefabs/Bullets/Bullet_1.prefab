@@ -178,6 +178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eab3567213faad94c9816f69438cb9fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isBarrier: 0
-  isLaser: 0
+  bulletType: 0
+  damage: 10
   laserCount: 3
