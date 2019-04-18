@@ -1,0 +1,46 @@
+1. 创建一个描述“发动机”的类型CarEngine，按以下要求实现：
+
+CarEngine类型包含以下成员变量和函数：
+
+protected:
+bool isOn;	// “发动机是否启动”标记
+
+public:
+CarEngine();		// 构造函数，在这里将isOn初始化为false，并在控制台显示“创建引擎”
+void TurnOn();		// 启动发动机，将isOn设为true，并在控制台显示“引擎发动”
+void TurnOff();		// 关闭发动机，将isOn设为false，并在控制台显示“引擎熄火”
+bool IsOn();		// 查看引擎的当前状态，返回isOn的值
+
+
+2.将CarEngine类型的TurnOn和TurnOff方法修改为virtual虚方法。
+
+
+3.创建一个描述“超级发动机”的类型SuperEngine，按以下要求实现：
+
+SuperEngine类型继承CarEngine类型，重写TurnOn和TurnOff方法，新增Turbo()方法：
+
+void Turbo();
+// 在控制台显示“超级引擎增压”
+
+void TurnOn();
+// 调用CarEngine的TurnOn方法，调用新增的Turbo方法，在控制台显示“超级引擎发动”
+
+void TurnOff();
+// 调用CarEngine的TurnOff方法，并在控制台显示“超级引擎熄火”
+
+
+4.在main函数中创建一个CarEngine对象carEngine，一个SuperEngine对象superEngine
+
+
+5.创建一个CarEngine类型的变量engine。
+
+
+6.让engine指向carEngine，调用TurnOn、TurnOff方法。写出控制台的输出内容。
+
+
+7.让engine指向superEngine，调用TurnOn、TurnOff方法。写出控制台的输出内容。
+
+
+8.通过engine指向engine和superEngine时，调用的虚方法有所不同。这种特性叫做（ A  ）
+
+A. 继承		B. 抽象		C. 多态		D. 派生
