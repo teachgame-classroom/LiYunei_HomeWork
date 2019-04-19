@@ -14,7 +14,7 @@ namespace _19_04_18_Homework
 
             SuperEngine superEngine = new SuperEngine();
 
-            CarEngine engine = new CarEngine();
+            CarEngine engine;
 
             engine = carEngine;
 

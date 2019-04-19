@@ -77,6 +77,12 @@
     <Compile Include="Assets\Gradius\Scipts\LoopExplosion.cs" />
     <Compile Include="Assets\Gradius\Scipts\SquadonManager.cs" />
     <Compile Include="Assets\Gradius\Scipts\VicViper.cs" />
+    <Compile Include="Assets\Gradius\Scipts\Weapon\DoubleCannon.cs" />
+    <Compile Include="Assets\Gradius\Scipts\Weapon\Laser.cs" />
+    <Compile Include="Assets\Gradius\Scipts\Weapon\Missile.cs" />
+    <Compile Include="Assets\Gradius\Scipts\Weapon\MouseGuideWeapon.cs" />
+    <Compile Include="Assets\Gradius\Scipts\Weapon\NormalWeapon.cs" />
+    <Compile Include="Assets\Gradius\Scipts\Weapon\Weapon.cs" />
     <Compile Include="Assets\ParticleTest.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/CSharp/LiYunei_HomeWork/Unity Homework/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>

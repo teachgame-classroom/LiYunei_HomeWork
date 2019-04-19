@@ -15,11 +15,15 @@ namespace _19_04_18_Homework
 
         public override void TurnOn()
         {
+            base.TurnOn();
+            Turbo();
             Console.WriteLine("Run super engine");
         }
 
         public override void TurnOff()
         {
+            base.TurnOff();
+            Turbo();
             Console.WriteLine("Colse super engine");
         }
     }
