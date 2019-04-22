@@ -18,8 +18,11 @@ public class Laser : Weapon
     {
         for(int i =0; i<shotPosTrans.Length; i++)
         {
-            shotPosTrans[i].rotation = Quaternion.identity;
+            if( i <= optionLevel)
+            {
+                shotPosTrans[i].rotation = Quaternion.identity;
+                base.Shoot();
+            }
         }
-        base.Shoot();
     }
 }

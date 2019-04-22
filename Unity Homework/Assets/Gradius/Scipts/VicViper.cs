@@ -14,7 +14,7 @@ public class VicViper : MonoBehaviour
     public int hp = 5;
     public int life = 10;
     public float speed = 8;
-    public int optionMax = 3;
+    public int optionMax = 4;
     private PrimaryWeaponType primaryWeapon;
 
     private bool isJustSpawned = true;
@@ -87,13 +87,11 @@ public class VicViper : MonoBehaviour
         targetIconPrefab.transform.position = v;
         targetIcon = Instantiate(targetIconPrefab, targetIconPrefab.transform.position, Quaternion.identity);
 
-        options = new GameObject[optionMax];
         anim = GetComponent<Animator>();
         spriteRender = GetComponent<SpriteRenderer>();
-
-        shotPosTrans = new Transform[optionMax + 1];
+        options = new GameObject[optionMax];
+        shotPosTrans = new Transform[optionMax+1];
         shotPosTrans[0] = transform.Find("ShotPos");
-        // shotPosTrans = transform.Find("ShotPos");
 
         InitWeapon();
 
@@ -108,7 +106,7 @@ public class VicViper : MonoBehaviour
 
         missile = new Missile(shotPosTrans);
 
-        currentWeaponIdx = 1;
+        currentWeaponIdx = 0;
         currentWeapon = weapons[currentWeaponIdx];
     }
 
@@ -152,18 +150,11 @@ public class VicViper : MonoBehaviour
             {
                 UpdataTrackList();
 
-                options[0].transform.position = Vector3.MoveTowards(options[0].transform.position, trackList[0], speed * Time.deltaTime);
-                if (optionLevel > 1)
+                for (int i = 0; i < optionLevel; i++)
                 {
-                    options[1].transform.position = Vector3.MoveTowards(options[1].transform.position, trackList[trackList.Count / 2], speed * Time.deltaTime);
-                }
-
-                
-                for (int i = 0; i < optionMax; i++)
-                {
+                    options[i].transform.position = Vector3.MoveTowards(options[i].transform.position, trackList[i * 8], speed * Time.deltaTime);
                     shotPosTrans[i + 1] = options[i].transform;
                 }
-                
             }
             
             if (Input.GetKeyDown(KeyCode.K))
@@ -175,20 +166,17 @@ public class VicViper : MonoBehaviour
             {
                 if (!isUpDouble)
                 {
-                    ChangePrimaryWeapon(NORMAL);
-                    //ChangePrimaryWeapon(PrimaryWeaponType.Normal);
+                    ChangePrimaryWeapon(0);
                 }
                 else
                 {
-                    ChangePrimaryWeapon(DOUBLE);
-                    //ChangePrimaryWeapon(PrimaryWeaponType.Double);
+                    ChangePrimaryWeapon(1);
                 }
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha2) && isUpLaser == true)
             {
-                ChangePrimaryWeapon(LASER);
-                //ChangePrimaryWeapon(PrimaryWeaponType.Laser);
+                ChangePrimaryWeapon(2);
             }
 
             targetIcon.transform.position = MouseTarget();
@@ -296,38 +284,6 @@ public class VicViper : MonoBehaviour
         }
     }
 
-    void ShootNormal()
-    {
-        /*
-        Vector3 direction = (MouseTarget() - shotPosTrans.position).normalized;
-
-        if (GetAngle(direction) > shootAngle)
-        {
-            direction = Quaternion.Euler(0, 0, shootAngle) * Vector3.right;
-        }
-        if (GetAngle(direction) < -shootAngle)
-        {
-            direction = Quaternion.Euler(0, 0, -shootAngle) * Vector3.right;
-        }
-
-        GameObject bullet = Instantiate(bullets[NORMAL], shotPosTrans.position, Quaternion.identity);
-        bullet.transform.right = direction;
-        bullet.GetComponent<BulletMove>().moveDirection = direction;
-
-        if (optionLevel >0)
-        {
-            for(int i =0; i<optionLevel; i++)
-            {
-                Vector3 optionsDirenction = (MouseTarget() - options[i].transform.position).normalized;
-
-                GameObject optoinsBullet = Instantiate(bullets[NORMAL], options[i].transform.position, Quaternion.identity);
-                optoinsBullet.transform.right = optionsDirenction;
-                optoinsBullet.GetComponent<BulletMove>().moveDirection = optionsDirenction;
-            }
-        }
-        */
-    }
-
     void ShootDouble()
     {
         /*
@@ -425,7 +381,7 @@ public class VicViper : MonoBehaviour
             powerUp = 0;
             isUpDouble = true;
         }
-        ChangePrimaryWeapon(0);
+        ChangePrimaryWeapon(1);
     }
 
     void PowerUpLaser()
@@ -439,7 +395,7 @@ public class VicViper : MonoBehaviour
         {
             bullets[1].GetComponent<BulletDamage>().laserCount++;
         }
-        ChangePrimaryWeapon(PrimaryWeaponType.Laser);
+        ChangePrimaryWeapon(2);
     }
 
     void PowerUpMissle()
@@ -455,16 +411,17 @@ public class VicViper : MonoBehaviour
 
     void PowerUpOption()
     {
-        if(optionLevel < optionMax)
+        if(optionLevel <= optionMax)
         {
+            powerUp = 0;
             CreatOption(optionLevel);
-            
-            for(int i = 0; i < weapons.Length; i++)
+            optionLevel++;
+
+            for (int i = 0; i < weapons.Length; i++)
             {
                 weapons[i].PowerOpint();
             }
-            optionLevel++;
-            powerUp=0;
+            missile.PowerOpint();
         }
     }
 
@@ -486,16 +443,13 @@ public class VicViper : MonoBehaviour
 
     void UpdataTrackList()
     {
-        if(optionLevel > 0)
+        if (Vector3.SqrMagnitude(transform.position - trackList[trackList.Count - 1]) > trackNodeDistance)
         {
-            if (Vector3.SqrMagnitude(transform.position - trackList[trackList.Count - 1]) > trackNodeDistance)
-            {
-                trackList.Add(transform.position);
+            trackList.Add(transform.position);
 
-                if (trackList.Count > optionLevel * 8) 
-                {
-                    trackList.RemoveAt(0);
-                }
+            if (trackList.Count > (optionLevel+1) * 8)
+            {
+                trackList.RemoveAt(0);
             }
         }
     }

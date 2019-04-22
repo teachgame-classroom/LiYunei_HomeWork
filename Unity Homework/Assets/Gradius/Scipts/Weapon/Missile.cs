@@ -18,12 +18,19 @@ public class Missile : Weapon
 
     protected override void Shoot(Transform shotPos)
     {
-        if (this.level > 0)
+        for (int i =0; i < shotPosTrans.Length; i++)
         {
-            GameObject missleInstance = GameObject.Instantiate(bulletPrefab, shotPos.position, Quaternion.Euler(0, 0, -45));
-            if (level > 1)
+            if(i <= optionLevel)
             {
-                GameObject.Instantiate(bulletPrefab, shotPos.position + shotPos.right * 0.5f, Quaternion.Euler(0, 0, -45));
+                if (this.level > 0)
+                {
+                    GameObject missleInstance = GameObject.Instantiate(bulletPrefab, shotPosTrans[i].transform.position, Quaternion.Euler(0, 0, -45));
+                    if (level > 1)
+                    {
+                        GameObject.Instantiate(bulletPrefab, shotPosTrans[i].transform.position + shotPos.right * 0.5f, Quaternion.Euler(0, 0, -45));
+                    }
+
+                }
             }
         }
     }

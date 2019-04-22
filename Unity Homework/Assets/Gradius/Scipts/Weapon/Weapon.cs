@@ -14,8 +14,6 @@ public abstract class Weapon
 
     public Weapon(int bulletPrefabIndedx, Transform[] shotPosTrans)
     {
-        Debug.Log("Weapon ShotPos Length:" + shotPosTrans.Length);
-
         string bulletPrefabName = "Gradius/Prefabs/Bullets/Bullet_" + bulletPrefabIndedx;
         bulletPrefab = Resources.Load<GameObject>(bulletPrefabName);
         this.shotPosTrans = shotPosTrans;
@@ -25,8 +23,6 @@ public abstract class Weapon
     {
         bulletPrefab = Resources.Load<GameObject>("Gradius/Prefabs/Bullets/" + bulletPrefabName);
         this.shotPosTrans = shotPosTrans;
-
-        Debug.Log("Length:" + shotPosTrans.Length);
     }
 
     public void TryShoot()
@@ -52,14 +48,13 @@ public abstract class Weapon
 
     protected virtual void Shoot()
     {
-        for (int i = 0; i < shotPosTrans.Length; i++)
+        for (int i = 0; i <  shotPosTrans.Length; i++)
         {
             if(i <= optionLevel)
             {
                 Shoot(shotPosTrans[i]);
             }
         }
-        
     }
 
     protected virtual void Shoot(Transform shotPos)
@@ -70,9 +65,6 @@ public abstract class Weapon
 
     public void PowerOpint()
     {
-        if (optionLevel <= 2)
-        {
-            optionLevel++;
-        }
+        optionLevel++;
     }
 }
