@@ -6,7 +6,7 @@ public abstract class MouseGuideWeapon : Weapon
 {
     protected float maxAngle = 30f;
 
-    public MouseGuideWeapon(int bulletPrefabIndex, Transform[] shotPosTrans) : base(bulletPrefabIndex, shotPosTrans)
+    public MouseGuideWeapon(int bulletPrefabIndex, Transform[] shotPosTrans,bool isPlayerWeapon) : base(bulletPrefabIndex, shotPosTrans, isPlayerWeapon)
     {
 
     }
@@ -19,9 +19,9 @@ public abstract class MouseGuideWeapon : Weapon
             {
                 SetDirection(shotPosTrans[i]);
             }
-
-            base.Shoot();
         }
+
+        base.Shoot();
     }
 
     protected void SetDirection(Transform shotPos)

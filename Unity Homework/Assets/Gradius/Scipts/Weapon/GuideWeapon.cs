@@ -4,17 +4,27 @@ using UnityEngine;
 
 public class GuidedWeapon : Weapon
 {
+    public Sprite[] turretSprites;
+    protected SpriteRenderer spriteRenderer;
     public float searchRange = 5;
     protected string targetTag;
+    protected float minAngle;
+    protected float maxAngle;
 
-    protected override float fireInterval
+    protected override float FireInterval
     {
         get { return 0.2f; }
     }
 
-    public GuidedWeapon(Transform[] shotPosTrans, string targetTag) : base(0, shotPosTrans)
+    public GuidedWeapon(Transform[] shotPosTrans, string targetTag, float minAngle, float maxAngle,SpriteRenderer spriteRenderer, Sprite[] turretSprites,bool isPlayerWeapon) : base(0, shotPosTrans, isPlayerWeapon)
     {
         this.targetTag = targetTag;
+        this.minAngle = minAngle;
+        this.maxAngle = maxAngle;
+        this.spriteRenderer = spriteRenderer;
+
+        this.turretSprites = turretSprites;
+
     }
 
     protected override void Shoot(Transform shotPos)
@@ -23,8 +33,21 @@ public class GuidedWeapon : Weapon
 
         if (FindTargetPosition(targetTag,out pos))
         {
+            //Debug.Log("Target:" + pos);
             SetAimDirection(shotPos, pos);
-            base.Shoot(shotPos);
+
+            float angle = Vector3.SignedAngle(Vector3.right, shotPosTrans[0].right, Vector3.forward);
+            bool plyaerNotInTurretAngle = (angle < minAngle || angle > maxAngle);
+
+            if(!plyaerNotInTurretAngle)
+            {
+                base.Shoot(shotPos);
+                SetSpriteByAimDirection(shotPosTrans[0].right);
+            }
+        }
+        else
+        {
+            //Debug.Log("No Target");
         }
     }
 
@@ -49,5 +72,25 @@ public class GuidedWeapon : Weapon
         }
         targetPos = Vector3.zero;
         return false;
+    }
+
+    void SetSpriteByAimDirection(Vector3 aimDirection)
+    {
+        if (turretSprites.Length == 0) return;
+
+        float angleStep = (maxAngle - minAngle) / (turretSprites.Length - 1);
+
+        float angle = Vector3.SignedAngle(Vector3.left, aimDirection, Vector3.back) + angleStep / 2;
+
+        angle = Mathf.Clamp(angle, minAngle, maxAngle);
+
+        int spriteIdx = Mathf.Abs(Mathf.FloorToInt(angle / angleStep)) - 1;
+
+        spriteIdx = Mathf.Clamp(spriteIdx, 0, turretSprites.Length - 1);
+
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.sprite = turretSprites[spriteIdx];
+        }
     }
 }

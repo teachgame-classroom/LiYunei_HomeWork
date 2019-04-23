@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Laser : Weapon
 {
-    protected override float fireInterval
+    protected override float FireInterval
     {
         get { return 0.3f; }
     }
 
-    public Laser(Transform[] shotPosTrans) : base(1, shotPosTrans)
+    public Laser(Transform[] shotPosTrans,bool isPlayerWeapon) : base(1, shotPosTrans, isPlayerWeapon)
     {
 
     }

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBase : Character
+public class Boss_1 : EnemyBase
 {
+    protected Animator anim;
+
     protected override void Start()
     {
         base.Start();
@@ -17,16 +19,6 @@ public class EnemyBase : Character
     protected override void InitCharacter()
     {
         base.InitCharacter();
-        if(hurtTags.Length == 0)
-        {
-            hurtTags = new string[] { "PlayerBullet" };
-        }
 
-        LoadDamgeEffect();
-    }
-
-    protected virtual void LoadDamgeEffect()
-    {
-        dieEffect = Resources.Load<GameObject>("Gradius/Prefabs/Effects/explosion_Red");
     }
 }

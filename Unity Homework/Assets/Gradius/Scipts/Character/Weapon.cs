@@ -4,25 +4,30 @@ using UnityEngine;
 
 public abstract class Weapon
 {
+    public bool isPlayerWeapon;
+
     protected GameObject bulletPrefab;
     protected Transform[] shotPosTrans;
+    protected List<Transform> shotPosTransList;
 
-    protected abstract float fireInterval { get; }
+    protected abstract float FireInterval { get; }
     protected float lastFireTime;
 
     protected int optionLevel;
 
-    public Weapon(int bulletPrefabIndedx, Transform[] shotPosTrans)
+    public Weapon(int bulletPrefabIndedx, Transform[] shotPosTrans,bool isPlayerWeapon)
     {
         string bulletPrefabName = "Gradius/Prefabs/Bullets/Bullet_" + bulletPrefabIndedx;
         bulletPrefab = Resources.Load<GameObject>(bulletPrefabName);
         this.shotPosTrans = shotPosTrans;
+        this.isPlayerWeapon = isPlayerWeapon;
     }
 
-    public Weapon(string bulletPrefabName, Transform[] shotPosTrans)
+    public Weapon(string bulletPrefabName, Transform[] shotPosTrans, bool isPlayerWeapon)
     {
         bulletPrefab = Resources.Load<GameObject>("Gradius/Prefabs/Bullets/" + bulletPrefabName);
         this.shotPosTrans = shotPosTrans;
+        this.isPlayerWeapon = isPlayerWeapon;
     }
 
     public void TryShoot()
@@ -35,7 +40,7 @@ public abstract class Weapon
 
     public bool CanFire()
     {
-        if (Time.time - lastFireTime > fireInterval)
+        if (Time.time - lastFireTime > FireInterval)
         {
             lastFireTime = Time.time;
             return true;
@@ -60,6 +65,15 @@ public abstract class Weapon
     protected virtual void Shoot(Transform shotPos)
     {
         GameObject bullet = GameObject.Instantiate(bulletPrefab, shotPos.position, shotPos.rotation);
+
+        if (isPlayerWeapon)
+        {
+            bullet.tag = "PlayerBullet";
+        }
+        else
+        {
+            bullet.tag = "EnemyBullet";
+        }
     }
 
 

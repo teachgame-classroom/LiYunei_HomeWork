@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class DoubleCannon : MouseGuideWeapon
 {
-    protected override float fireInterval
+    protected override float FireInterval
     {
         get { return 0.2f; }
     }
 
-    public DoubleCannon(Transform[] shotPosTrans) : base(0,shotPosTrans)
+    public DoubleCannon(Transform[] shotPosTrans,bool isPlayerWeapon) : base(0,shotPosTrans, isPlayerWeapon)
     {
 
     }

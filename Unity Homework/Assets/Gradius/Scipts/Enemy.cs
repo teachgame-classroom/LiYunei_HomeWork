@@ -325,7 +325,7 @@ public class Enemy : MonoBehaviour
 
         transform.right = -velocity;
 
-        transform.Translate(velocity *speed* Time.deltaTime+ cameraMoveDriection() * Time.deltaTime, Space.World);
+        transform.Translate(velocity *speed* Time.deltaTime+ CameraMoveDriection() * Time.deltaTime, Space.World);
     }
     /// <summary>
     /// 正弦飞行
@@ -336,7 +336,7 @@ public class Enemy : MonoBehaviour
 
         Vector3 velocity =velocity_h *speed + velocity_v;
 
-        transform.Translate(velocity * speed * Time.deltaTime+ cameraMoveDriection() * Time.deltaTime, Space.World);
+        transform.Translate(velocity * speed * Time.deltaTime+ CameraMoveDriection() * Time.deltaTime, Space.World);
     }
     /// <summary>
     /// 跳跃移动
@@ -399,13 +399,13 @@ public class Enemy : MonoBehaviour
             else
             {
                 velocity = velocity_v;
-                transform.Translate(velocity * Time.deltaTime + cameraMoveDriection() * Time.deltaTime, Space.World);
+                transform.Translate(velocity * Time.deltaTime + CameraMoveDriection() * Time.deltaTime, Space.World);
             }
         }
         else
         {
             velocity = velocity_v + evadeVelocity;
-            transform.Translate(velocity * Time.deltaTime + cameraMoveDriection() * Time.deltaTime, Space.World);
+            transform.Translate(velocity * Time.deltaTime + CameraMoveDriection() * Time.deltaTime, Space.World);
             if (Time.time - lastEvadeTime > 1f)
             {
 
@@ -416,7 +416,7 @@ public class Enemy : MonoBehaviour
         Shoot();
     }
 
-    private Vector3 cameraMoveDriection()
+    private Vector3 CameraMoveDriection()
     {
         return cameraMove.moveDirection * cameraMove.speed;
     }

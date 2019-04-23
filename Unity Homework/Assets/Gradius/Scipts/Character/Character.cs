@@ -4,22 +4,39 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    public float moveSpeed;
+    public string[] hurtTags;
+    public int maxHp=1;
+
+    public bool invincible = false;
+    public bool dropPowerUp = false;
+
+    protected int hp;
+
+    public float baseSpeed =1;
     public bool drawMovetrail = false;
+
+    protected Transform[] shotPosTrans;
+    protected Weapon currentWeapon;
 
     protected List<Vector3> tracks = new List<Vector3>();
     protected float lastRecordTime;
 
+    protected Animator animator;
     protected SpriteRenderer spriteRenderer;
+    protected GameObject dieEffect;
+
+    protected GameObject powerUpPrefab;
 
     protected virtual void Start()
     {
         InitCharacter();
+        InitWeapon();
     }
 
     protected virtual void Update()
     {
         Move();
+        Shoot();
 
         if (drawMovetrail)
         {
@@ -29,7 +46,29 @@ public class Character : MonoBehaviour
 
     protected virtual void InitCharacter()
     {
+        hp = maxHp;
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        animator = GetComponent<Animator>();
+
+        if (dropPowerUp)
+        {
+            powerUpPrefab = Resources.Load<GameObject>("Gradius/Prefabs/PowerUp");
+        }
+    }
+
+    protected virtual void InitWeapon()
+    {
+        ShotPosMarker[] markers = GetComponentsInChildren<ShotPosMarker>();
+
+        if (markers.Length > 0)
+        {
+            shotPosTrans = new Transform[markers.Length];
+
+            for (int i = 0; i < markers.Length; i++)
+            {
+                shotPosTrans[i] = markers[i].transform;
+            }
+        }
     }
 
     protected virtual void Move()
@@ -39,8 +78,49 @@ public class Character : MonoBehaviour
 
     protected void Move(Vector3 moveDirection)
     {
-        transform.Translate(moveDirection * moveSpeed * Time.deltaTime, Space.World);
+        transform.Translate(moveDirection * baseSpeed * Time.deltaTime, Space.World);
     }
+
+    protected virtual void Shoot()
+    {
+        if (currentWeapon != null)
+        {
+            currentWeapon.TryShoot();
+        }
+    }
+
+    public void Hurt(int damage)
+    {
+        if(!invincible)
+        {
+            hp -= damage;
+            if (hp <= 0)
+            {
+                Die();
+            }
+        }
+    }
+    
+    protected virtual void PlayDieEffect()
+    {
+        Instantiate(dieEffect, transform.position, Quaternion.identity);
+    }
+
+    protected virtual void Die()
+    {
+        if (dropPowerUp)
+        {
+            Instantiate(powerUpPrefab, transform.position, Quaternion.identity);
+        }
+
+        if (dieEffect)
+        {
+            PlayDieEffect();
+        }
+
+        Destroy(gameObject);
+    }
+
 
     protected void RecordMoveTrail()
     {
@@ -62,6 +142,27 @@ public class Character : MonoBehaviour
             for(int i = 0; i < tracks.Count; i++)
             {
                 Gizmos.DrawSphere(tracks[i], 0.1f);
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!invincible)
+        {
+            for (int i = 0; i < hurtTags.Length; i++)
+            {
+                if (collision.tag == hurtTags[i])
+                {
+                    int damage = maxHp;
+                    BulletDamage bullet = collision.GetComponent<BulletDamage>();
+
+                    if (bullet) damage = bullet.damage;
+
+                    Hurt(damage);
+
+                    bullet.OnHit();
+                }
             }
         }
     }

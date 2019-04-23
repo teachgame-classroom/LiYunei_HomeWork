@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class NormalWeapon : MouseGuideWeapon
 {
-    protected override float fireInterval
+    protected override float FireInterval
     {
         get { return 0.2f; }
     }
-    public NormalWeapon(Transform[] shotPosTrans) : base(0, shotPosTrans)
+    public NormalWeapon(Transform[] shotPosTrans, bool isPlayerWeapon) : base(0, shotPosTrans, isPlayerWeapon)
     {
 
     }

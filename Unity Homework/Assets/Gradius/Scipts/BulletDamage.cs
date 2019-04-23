@@ -10,20 +10,10 @@ public class BulletDamage : MonoBehaviour
     public int damage = 1;
     public int laserCount = 3;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        /*
         Enemy enemy = collision.GetComponent<Enemy>();
 
         if((int)bulletType != 3)
@@ -58,7 +48,26 @@ public class BulletDamage : MonoBehaviour
             {
                 enemy.Hurt(damage);
             }
-        }
+        }*/
     }
 
+    public void OnHit()
+    {
+        switch (bulletType)
+        {
+            case (BulletType)0:
+                Destroy(gameObject);
+                break;
+            case (BulletType)1:
+                Destroy(gameObject);
+                break;
+            case (BulletType)2:
+                laserCount--;
+                if(laserCount == 0)
+                {
+                    Destroy(gameObject);
+                }
+                break;
+        }
+    }
 }

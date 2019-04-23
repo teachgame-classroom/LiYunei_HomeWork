@@ -27,7 +27,7 @@ public class NewEnemy_1 : EnemyBase
             lastChangeDirectionTime = Time.time;
         }
 
-        Vector3 velocity_h = Vector3.left * moveSpeed;
+        Vector3 velocity_h = Vector3.left * baseSpeed;
 
         Vector3 velocity = velocity_h + velocity_v;
 
