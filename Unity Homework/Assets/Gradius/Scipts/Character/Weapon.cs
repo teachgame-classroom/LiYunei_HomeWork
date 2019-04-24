@@ -8,7 +8,8 @@ public abstract class Weapon
 
     protected GameObject bulletPrefab;
     protected Transform[] shotPosTrans;
-    protected List<Transform> shotPosTransList;
+
+    protected ObjectPool bulletPool;
 
     protected abstract float FireInterval { get; }
     protected float lastFireTime;
@@ -17,17 +18,24 @@ public abstract class Weapon
 
     public Weapon(int bulletPrefabIndedx, Transform[] shotPosTrans,bool isPlayerWeapon)
     {
-        string bulletPrefabName = "Gradius/Prefabs/Bullets/Bullet_" + bulletPrefabIndedx;
-        bulletPrefab = Resources.Load<GameObject>(bulletPrefabName);
-        this.shotPosTrans = shotPosTrans;
-        this.isPlayerWeapon = isPlayerWeapon;
+        string bulletPrefabPath = "Gradius/Prefabs/Bullets/Bullet_" + bulletPrefabIndedx;
+        Init(shotPosTrans, isPlayerWeapon, bulletPrefabPath);
     }
+
 
     public Weapon(string bulletPrefabName, Transform[] shotPosTrans, bool isPlayerWeapon)
     {
-        bulletPrefab = Resources.Load<GameObject>("Gradius/Prefabs/Bullets/" + bulletPrefabName);
+        string bulletPrefabPath = "Gradius/Prefabs/Bullets/" + bulletPrefabName;
+        Init(shotPosTrans, isPlayerWeapon, bulletPrefabName);
+    }
+
+    private void Init(Transform[] shotPosTrans, bool isPlayerWeapon, string bulletPrefabName)
+    {
+        bulletPrefab = Resources.Load<GameObject>(bulletPrefabName);
         this.shotPosTrans = shotPosTrans;
         this.isPlayerWeapon = isPlayerWeapon;
+
+        bulletPool = new ObjectPool(bulletPrefab, 50);
     }
 
     public void TryShoot()
@@ -64,15 +72,18 @@ public abstract class Weapon
 
     protected virtual void Shoot(Transform shotPos)
     {
-        GameObject bullet = GameObject.Instantiate(bulletPrefab, shotPos.position, shotPos.rotation);
+        GameObject instance = bulletPool.Get(shotPos.position, shotPos.rotation);
+
+        instance.GetComponent<BulletMove>().moveDirection = instance.transform.right;
+
 
         if (isPlayerWeapon)
         {
-            bullet.tag = "PlayerBullet";
+            instance.tag = "PlayerBullet";
         }
         else
         {
-            bullet.tag = "EnemyBullet";
+            instance.tag = "EnemyBullet";
         }
     }
 

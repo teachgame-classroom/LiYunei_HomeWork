@@ -24,10 +24,12 @@ public class Missile : Weapon
             {
                 if (this.level > 0)
                 {
-                    GameObject missleInstance = GameObject.Instantiate(bulletPrefab, shotPosTrans[i].transform.position, Quaternion.Euler(0, 0, -45));
+                    //GameObject missleInstance = GameObject.Instantiate(bulletPrefab, shotPosTrans[i].transform.position, Quaternion.Euler(0, 0, -45));
+                    GameObject missileInstance = bulletPool.Get(shotPosTrans[i].transform.position, Quaternion.Euler(0, 0, -45));
                     if (level > 1)
                     {
-                        GameObject.Instantiate(bulletPrefab, shotPosTrans[i].transform.position + shotPos.right * 0.5f, Quaternion.Euler(0, 0, -45));
+                        //GameObject.Instantiate(bulletPrefab, shotPosTrans[i].transform.position + shotPos.right * 0.5f, Quaternion.Euler(0, 0, -45));
+                        GameObject instance = bulletPool.Get(shotPosTrans[i].transform.position + shotPos.right * 0.5f, Quaternion.Euler(0, 0, -45));
                     }
 
                 }

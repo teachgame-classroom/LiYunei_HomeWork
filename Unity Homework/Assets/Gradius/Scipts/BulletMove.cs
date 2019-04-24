@@ -23,8 +23,6 @@ public class BulletMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
         if (isMissle)
         {
             if(GetGroundNormal()!= Vector3.zero)
@@ -37,7 +35,6 @@ public class BulletMove : MonoBehaviour
         if (isBarrier)
         {
             transform.RotateAround(transform.parent.position, Vector3.forward, speed * Time.deltaTime);
-            
         }
         else
         {
@@ -54,9 +51,11 @@ public class BulletMove : MonoBehaviour
 
         if (pos.x < left || pos.x > right || pos.y < bottom || pos.y > top)
         {
+            gameObject.SetActive(false);
+
             if (!isBarrier)
             {
-                Destroy(gameObject);
+                //Destroy(gameObject);
             }
         }
     }
@@ -68,7 +67,6 @@ public class BulletMove : MonoBehaviour
         if(hit.transform != null)
         {
             //Debug.DrawLine(hit.point, hit.point + hit.normal, Color.red, 1f);
-
             return hit.normal;
         }
         else

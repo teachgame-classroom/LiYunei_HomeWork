@@ -25,8 +25,14 @@ public class DoubleCannon : MouseGuideWeapon
                 float distance = GetMouseDistance();
                 SetDirection(shotPos);
 
-                GameObject bulletUpper = GameObject.Instantiate(bulletPrefab, shotPosTrans[i].position, Quaternion.Euler(0, 0, 50 / distance) * shotPosTrans[i].rotation);
-                GameObject bulletLower = GameObject.Instantiate(bulletPrefab, shotPosTrans[i].position, Quaternion.Euler(0, 0, -50 / distance) * shotPosTrans[i].rotation);
+                GameObject bulletUpper = bulletPool.Get(shotPosTrans[i].position, Quaternion.Euler(0, 0, 50 / distance) * shotPosTrans[i].rotation);
+                bulletUpper.GetComponent<BulletMove>().moveDirection = bulletUpper.transform.right;
+
+                //GameObject bulletUpper = GameObject.Instantiate(bulletPrefab, shotPosTrans[i].position, Quaternion.Euler(0, 0, 50 / distance) * shotPosTrans[i].rotation);
+                GameObject bulletLower = bulletPool.Get(shotPosTrans[i].position, Quaternion.Euler(0, 0, -50 / distance) * shotPosTrans[i].rotation);
+                bulletLower.GetComponent<BulletMove>().moveDirection = bulletLower.transform.right;
+
+                //GameObject bulletLower = GameObject.Instantiate(bulletPrefab, shotPosTrans[i].position, Quaternion.Euler(0, 0, -50 / distance) * shotPosTrans[i].rotation);
             }
         }
     }

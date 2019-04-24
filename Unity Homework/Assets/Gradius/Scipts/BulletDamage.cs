@@ -56,16 +56,19 @@ public class BulletDamage : MonoBehaviour
         switch (bulletType)
         {
             case (BulletType)0:
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                gameObject.SetActive(false);
                 break;
             case (BulletType)1:
-                Destroy(gameObject);
+                gameObject.SetActive(false);
+                //Destroy(gameObject);
                 break;
             case (BulletType)2:
                 laserCount--;
                 if(laserCount == 0)
                 {
-                    Destroy(gameObject);
+                    gameObject.SetActive(false);
+                    //Destroy(gameObject);
                 }
                 break;
         }

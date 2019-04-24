@@ -81,6 +81,7 @@
     <Compile Include="Assets\Gradius\Scipts\Enemy.cs" />
     <Compile Include="Assets\Gradius\Scipts\Gate.cs" />
     <Compile Include="Assets\Gradius\Scipts\LoopExplosion.cs" />
+    <Compile Include="Assets\Gradius\Scipts\ObjectPool.cs" />
     <Compile Include="Assets\Gradius\Scipts\SquadonManager.cs" />
     <Compile Include="Assets\Gradius\Scipts\VicViper.cs" />
     <Compile Include="Assets\Gradius\Scipts\Weapon\DoubleCannon.cs" />
