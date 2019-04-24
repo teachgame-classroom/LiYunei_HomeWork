@@ -8,6 +8,7 @@ public class Boss_1 : EnemyBase
     private Animator bossAnim;
 
     protected float lastSpawnTime;
+    protected bool isSpawn;
 
     protected override void Start()
     {
@@ -18,10 +19,10 @@ public class Boss_1 : EnemyBase
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
+            isSpawn = true;
             bossAnim.SetBool("IsSpawn", true);
             lastSpawnTime = Time.time;
         }
-
 
         base.Update();
     }
@@ -36,14 +37,24 @@ public class Boss_1 : EnemyBase
 
     protected override void Move()
     {
-        if (Time.time - lastSpawnTime > 5)
+        if (!(Time.time - lastSpawnTime > 4) )
         {
-            Debug.Log("true");
-            Move(Vector3.left);
+            Move(Vector3.zero);
         }
         else
         {
-            Move(Vector3.zero);
+            if (isSpawn)
+            {
+                transform.position += Vector3.left * baseSpeed * Time.deltaTime;
+
+                float distanceToCamera = Camera.main.transform.position.x + transform.position.x;
+                float distanceToExitSpawnState = Camera.main.orthographicSize * Camera.main.aspect * 0.5f;
+
+                if (distanceToCamera < distanceToExitSpawnState)
+                {
+                    isSpawn = false;
+                }
+            }
         }
     }
 

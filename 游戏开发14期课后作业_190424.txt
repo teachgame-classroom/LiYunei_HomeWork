@@ -1,0 +1,38 @@
+﻿1. 对象池是预先生成大量对象然后重复利用的设计手法，这种手法会（ D ）用于生成和销毁对象的时间，也会（   ）内存开销
+
+A. 增加，减少
+B. 减少，减少
+C. 增加，增加
+D. 减少，增加
+
+
+2. 以下情况中，适合使用对象池进行管理的是（ C ）
+
+A. 管理游戏进行状态的GameController
+B. 在游戏中不会消失的场景模型
+C. 大量发射，离开画面后自动销毁的子弹
+D. 游戏场景中只有一个的终极武器
+
+
+3. Unity脚本中可以使用（ B ）获取本次Update的开始时间
+
+A. Time.deltaTime
+B. Time.time
+C. Time.realtimeSinceStartup
+D. Time.timeScale
+
+
+4. 现在需要测定Unity脚本中一段代码的执行耗时，应该使用（ C ）来记录代码执行前后的时间
+
+A. Time.deltaTime
+B. Time.time
+C. Time.realtimeSinceStartup
+D. Time.timeScale
+
+
+5. 制作一个用于测量代码执行耗时的类型StopWatch
+
+
+6. 在横版空战中用对象池生成子弹
+
+

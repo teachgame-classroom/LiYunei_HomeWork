@@ -76,6 +76,7 @@
     <Compile Include="Assets\Gradius\Scipts\Character\NewEnemy_2.cs" />
     <Compile Include="Assets\Gradius\Scipts\Character\NewEnemy_3.cs" />
     <Compile Include="Assets\Gradius\Scipts\Character\NewEnemy_4.cs" />
+    <Compile Include="Assets\Gradius\Scipts\Character\NewEnemy_5.cs" />
     <Compile Include="Assets\Gradius\Scipts\Character\PlayerBase.cs" />
     <Compile Include="Assets\Gradius\Scipts\Character\Weapon.cs" />
     <Compile Include="Assets\Gradius\Scipts\Enemy.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Assets\Gradius\Scipts\LoopExplosion.cs" />
     <Compile Include="Assets\Gradius\Scipts\ObjectPool.cs" />
     <Compile Include="Assets\Gradius\Scipts\SquadonManager.cs" />
+    <Compile Include="Assets\Gradius\Scipts\StopWatch.cs" />
     <Compile Include="Assets\Gradius\Scipts\VicViper.cs" />
     <Compile Include="Assets\Gradius\Scipts\Weapon\DoubleCannon.cs" />
     <Compile Include="Assets\Gradius\Scipts\Weapon\GuideWeapon.cs" />
@@ -91,6 +93,7 @@
     <Compile Include="Assets\Gradius\Scipts\Weapon\MouseGuideWeapon.cs" />
     <Compile Include="Assets\Gradius\Scipts\Weapon\NormalWeapon.cs" />
     <Compile Include="Assets\Gradius\Scipts\Weapon\ShotPosMarker.cs" />
+    <Compile Include="Assets\Gradius\Scipts\Weapon\StraightWeapon.cs" />
     <Compile Include="Assets\ParticleTest.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/CSharp/LiYunei_HomeWork/Unity Homework/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
