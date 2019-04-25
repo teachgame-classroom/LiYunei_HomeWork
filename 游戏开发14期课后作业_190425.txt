@@ -1,0 +1,80 @@
+﻿1. Unity的UI元素都需要放置在（ D ）对象下
+
+A. UI
+B. Panel
+C. Image
+D. Canvas
+
+
+2. 要在脚本中访问各种UI组件，需要引用（ B ）命名空间
+
+A. UnityEngine
+B. UnityEngine.UI
+C. UnityEditor
+D. System
+
+
+3. UI元素的位置信息存放在（ C ）组件
+
+A. Canvas
+B. Transform
+C. Rect Transform
+D. Image
+
+
+4. UI元素上用于显示图片的组件是（ B ）
+
+A. Sprite Renderer
+B. Image
+C. Button
+D. Text
+
+
+5. 要创建一个UI按钮，必须用到（ B ）组件
+
+A. Image
+B. Button
+C. Text
+D. Input Field
+
+
+6. 由矩形对角线的两点可以确定一个矩形的大小和位置，已知矩形左下角坐标（0.1,0.3），右上角坐标（0.4,0.7），可以得出左上角坐标是（ A ）
+
+A. （0.1,0.7）
+B. （0.3,0.7）
+C. （0.4,0.3）
+D. （0.4,0.1）
+
+
+7. UI元素是通过锚点确定位置和大小的，Anchor Min代表（ D ）锚点的相对位置，Anchor Max代表（   ）锚点的相对位置
+
+A. 右上角，左下角
+B. 右下角，左上角
+C. 左上角，右下角
+D. 左下角，右上角
+
+
+8. 若一个UI元素的锚点位置是 Min：X = 0，Y = 0；Max：X = 0.5，Y = 0.5，那么它的锚点围成的矩形面积是它的父对象面积的（ D ）
+
+A. 两倍
+B. 一倍
+C. 一半
+D. 四分之一
+
+
+9. 若一个UI元素的锚点位置是 Min：X = 0，Y = 0；Max：X = 0.5，Y = 1，那么它的锚点围成的矩形将位于它的父对象的（ A ）
+
+A. 左半边
+B. 右半边
+C. 上半边
+D. 下半边
+
+
+10. 若想让一个UI元素与父对象的中心点的相对位置保持不变，应该将它的锚点设置为（B ）
+
+A. Min：X = 0，Y = 0；Max：X = 0，Y = 0
+B. Min：X = 0.5，Y = 0.5；Max：X = 0.5，Y = 0.5
+C. Min：X = 1，Y = 1；Max：X = 1，Y = 1
+D. Min：X = 0，Y = 0.5；Max：X = 1，Y = 0.5
+
+

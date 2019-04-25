@@ -95,6 +95,7 @@
     <Compile Include="Assets\Gradius\Scipts\Weapon\ShotPosMarker.cs" />
     <Compile Include="Assets\Gradius\Scipts\Weapon\StraightWeapon.cs" />
     <Compile Include="Assets\ParticleTest.cs" />
+    <Compile Include="Assets\test\GameColltroller.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/CSharp/LiYunei_HomeWork/Unity Homework/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
