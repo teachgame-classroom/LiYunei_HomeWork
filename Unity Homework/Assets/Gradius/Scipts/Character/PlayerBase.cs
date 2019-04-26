@@ -22,7 +22,7 @@ public class PlayerBase : Character
     protected int currentWeaponIdx = 0;
     protected Missile missile ;
 
-    protected int powerUp = 0;
+    protected int powerup = 0;
     protected float finalSpeed = 0;
     protected int speedLevel = 0;
 
@@ -69,20 +69,27 @@ public class PlayerBase : Character
                 spriteRenderer.enabled = !spriteRenderer.enabled;
                 lastBlinkTime = Time.time;
             }
+
         if (Time.time - lastSpawnTime > 3f)
         {
             invincible = false;
             spriteRenderer.enabled = true;
         }
 
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            PowerupChange(true);
+        }
+
         base.Update();
     }
+
 
     protected override void InitCharacter()
     {
         base.InitCharacter();
 
-        powerUp = 0;
+        powerup = 0;
         speedLevel = 0;
 
         isUpDouble = false;
@@ -164,11 +171,7 @@ public class PlayerBase : Character
 
     protected override void Shoot()
     {
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            powerUp++;
-            powerUp = powerUp % 7;
-        }
+
 
         if (KeyState[KEY_1]) TryChangePrimaryWeapon(1);//Normal or Double
         if (KeyState[KEY_2]) TryChangePrimaryWeapon(2);//Laser
@@ -212,7 +215,7 @@ public class PlayerBase : Character
 
     protected void ChangePrimaryWeapon(int newWeaponIdx)
     {
-        powerUp = 0;
+        powerup = 0;
 
         newWeaponIdx = Mathf.Clamp(newWeaponIdx, 0, weapons.Length - 1);
         currentWeaponIdx = newWeaponIdx;
@@ -220,9 +223,34 @@ public class PlayerBase : Character
         currentWeapon = weapons[currentWeaponIdx];
     }
 
+    void PowerupChange(bool isAdd)
+    {
+        if (isAdd)
+        {
+            powerup++;
+            if (powerup > 6)
+            {
+                powerup = 0;
+                life++;
+                life = Mathf.Min(life,9);
+            }
+            UI.instance.OnPowerupChanged(powerup);
+        }
+        else
+        {
+            powerup = 0;
+            UI.instance.OnPowerupChanged(powerup);
+        }
+    }
+
     void TryPowerUp()
     {
-        switch (powerUp)
+        if (powerup > 0)
+        {
+            UI.instance.OnPowerup();
+        }
+
+        switch (powerup)
         {
             case 1:
                 PowerUpSpeed();
@@ -247,7 +275,7 @@ public class PlayerBase : Character
 
     void PowerUpSpeed()
     {
-        powerUp = 0;
+        powerup = 0;
 
         speedLevel++;
         speedLevel = Mathf.Min(5, speedLevel);
@@ -264,7 +292,7 @@ public class PlayerBase : Character
     {
         if (missile.level < 2)
         {
-            powerUp = 0;
+            powerup = 0;
             missile.LevelUp();
         }
     }
@@ -273,7 +301,7 @@ public class PlayerBase : Character
     {
         if (isUpDouble == false)
         {
-            powerUp = 0;
+            powerup = 0;
             isUpDouble = true;
         }
         ChangePrimaryWeapon(1);
@@ -281,7 +309,7 @@ public class PlayerBase : Character
 
     void PowerUpLaser()
     {
-        powerUp = 0;
+        powerup = 0;
         if (isUpLaser == false)
         {
             isUpLaser = true;
@@ -295,7 +323,7 @@ public class PlayerBase : Character
 
     void PowerUpOption()
     {
-        powerUp = 0;
+        powerup = 0;
         CreatOption();
 
         for (int i = 0; i < weapons.Length; i++)
@@ -327,7 +355,7 @@ public class PlayerBase : Character
     {
         if (!isUpBarrier)
         {
-            powerUp = 0;
+            powerup = 0;
             SetBarrierActive(true);
         }
     }
@@ -356,7 +384,7 @@ public class PlayerBase : Character
     void Spawn()
     {
         hp = maxHp;
-        powerUp = 0;
+        PowerupChange(false);
 
         finalSpeed = baseSpeed;
         missile.Reset();
@@ -372,12 +400,22 @@ public class PlayerBase : Character
         lastSpawnTime = Time.time;
     }
 
+    protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+        base.OnTriggerEnter2D(collision);
+
+        if(collision.tag == "PowerUp")
+        {
+            PowerupChange(true);
+        }
+    }
+
     private void OnGUI()
     {
         GUILayout.BeginVertical();
-        GUILayout.Label(string.Format("Power Up:{0}", powerUp));
+        //GUILayout.Label(string.Format("Power Up:{0}", powerup));
         GUILayout.Label(string.Format("Current weapon:{0}", currentWeaponIdx));
-        GUILayout.Label(string.Format("HP:{0}", hp));
+        //GUILayout.Label(string.Format("HP:{0}", hp));
         GUILayout.Label(string.Format("Speed:{0}", finalSpeed));
         GUILayout.Label(string.Format("Missle level:{0}",missile.level));
         GUILayout.EndVertical();
