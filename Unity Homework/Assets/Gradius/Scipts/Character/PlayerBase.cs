@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerBase : Character
 {
-    public int life = 5;
-
     protected const int KEY_W = 0;
     protected const int KEY_S = 1;
     protected const int KEY_A = 2;
@@ -20,11 +18,21 @@ public class PlayerBase : Character
     protected const int TOTAL_WEAPON = 3;
     protected Weapon[] weapons = new Weapon[TOTAL_WEAPON];
     protected int currentWeaponIdx = 0;
-    protected Missile missile ;
+    public Missile missile { get; protected set; }
+    public BulletDamage laser { get; protected set; }
+
+    protected const int START_LIFE = 5;
+    public int life { get; protected set; }
 
     protected int powerup = 0;
     protected float finalSpeed = 0;
-    protected int speedLevel = 0;
+    public int speedLevel { get; protected set; }
+
+    protected override string deathClipName { get { return "Sound Effect (17)"; } }
+    protected string getPowerupClipName = "Sound Effect (14)";
+    protected AudioClip getPowerupClip;
+    protected string powerupClipName = "Sound Effect (16)";
+    protected AudioClip powerupClip;
 
     protected GameObject optionPrefab;
 
@@ -46,8 +54,6 @@ public class PlayerBase : Character
         base.Start();
 
         trackList.Add(transform.position);
-
-        Spawn();
     }
 
     protected override void Update()
@@ -84,21 +90,12 @@ public class PlayerBase : Character
         base.Update();
     }
 
-
     protected override void InitCharacter()
     {
         base.InitCharacter();
 
-        powerup = 0;
-        speedLevel = 0;
-
-        isUpDouble = false;
-        isUpLaser = false;
-        isUpBarrier = false;
-
-        SetSpeed();
-
-        SetBarrierActive(false);
+        life = START_LIFE;
+        UI.instance.OnLifeChange(life);
 
         if(hurtTags.Length == 0)
         {
@@ -107,8 +104,12 @@ public class PlayerBase : Character
 
         dieEffect = Resources.Load<GameObject>("Gradius/Prefabs/Effects/Explosion_player");
         optionPrefab = Resources.Load<GameObject>("Gradius/Prefabs/Option");
+        getPowerupClip = Resources.Load<AudioClip>("Gradius/Prefabs/Sounds/" + getPowerupClipName);
+        powerupClip = Resources.Load<AudioClip>("Gradius/Prefabs/Sounds/" + powerupClipName);
 
         spawnTans = Camera.main.transform.Find("PlayerSpawn");
+
+        Spawn();
     }
 
     protected override void InitWeapon()
@@ -130,6 +131,7 @@ public class PlayerBase : Character
         weapons[2] = new Laser(shotPosTrans,true);
 
         missile = new Missile(shotPosTrans,true);
+        laser = new BulletDamage();
 
         currentWeaponIdx = 0;
         currentWeapon = weapons[currentWeaponIdx];
@@ -169,10 +171,13 @@ public class PlayerBase : Character
         }
     }
 
+    protected override void Move(Vector3 moveDirection)
+    {
+        transform.Translate(moveDirection * finalSpeed * Time.deltaTime, Space.World);
+    }
+
     protected override void Shoot()
     {
-
-
         if (KeyState[KEY_1]) TryChangePrimaryWeapon(1);//Normal or Double
         if (KeyState[KEY_2]) TryChangePrimaryWeapon(2);//Laser
 
@@ -181,7 +186,10 @@ public class PlayerBase : Character
             missile.TryShoot();
         }
 
-        base.Shoot();
+        if (!isJustSpawn)
+        {
+            base.Shoot();
+        }
     }
 
     protected void UpdataKeyState()
@@ -228,11 +236,13 @@ public class PlayerBase : Character
         if (isAdd)
         {
             powerup++;
+
             if (powerup > 6)
             {
                 powerup = 0;
                 life++;
                 life = Mathf.Min(life,9);
+                UI.instance.OnLifeChange(life);
             }
             UI.instance.OnPowerupChanged(powerup);
         }
@@ -248,6 +258,7 @@ public class PlayerBase : Character
         if (powerup > 0)
         {
             UI.instance.OnPowerup();
+            AudioSource.PlayClipAtPoint(powerupClip, Camera.main.transform.position);
         }
 
         switch (powerup)
@@ -275,12 +286,13 @@ public class PlayerBase : Character
 
     void PowerUpSpeed()
     {
-        powerup = 0;
+        if (speedLevel < 5)
+        {
+            powerup = 0;
+            speedLevel++;
+            SetSpeed();
+        }
 
-        speedLevel++;
-        speedLevel = Mathf.Min(5, speedLevel);
-
-        SetSpeed();
     }
 
     void SetSpeed()
@@ -309,28 +321,28 @@ public class PlayerBase : Character
 
     void PowerUpLaser()
     {
-        powerup = 0;
-        if (isUpLaser == false)
+        if (laser.laserCount < 5)
         {
+            powerup = 0;
+            laser.laserCount++;
             isUpLaser = true;
+            ChangePrimaryWeapon(2);
         }
-        //else
-        //{
-        //    bullets[1].GetComponent<BulletDamage>().laserCount++;
-        //}
-        ChangePrimaryWeapon(2);
     }
 
     void PowerUpOption()
     {
         powerup = 0;
-        CreatOption();
-
-        for (int i = 0; i < weapons.Length; i++)
+        if (optionList.Count < 5)
         {
-            weapons[i].PowerOpint();
+            CreatOption();
+
+            for (int i = 0; i < weapons.Length; i++)
+            {
+                weapons[i].PowerOpint();
+            }
+            missile.PowerOpint();
         }
-        missile.PowerOpint();
     }
 
     void CreatOption()
@@ -367,9 +379,17 @@ public class PlayerBase : Character
         isUpBarrier = isActice;
     }
 
+    protected override void Hurt(int damage)
+    {
+        base.Hurt(damage);
+        UI.instance.OnMetersChange(hp);
+    }
+
     protected override void Die()
     {
         life--;
+        UI.instance.OnLifeChange(life);
+        PlayDieEffect();
 
         if (life > 0)
         {
@@ -386,13 +406,18 @@ public class PlayerBase : Character
         hp = maxHp;
         PowerupChange(false);
 
-        finalSpeed = baseSpeed;
-        missile.Reset();
-        SetBarrierActive(false);
-        ChangePrimaryWeapon(0);
-
+        speedLevel = 0;
+        SetSpeed();
+        if (missile!=null) missile.Reset();
         isUpDouble = false;
         isUpLaser = false;
+        if(laser!=null)laser.laserCount = 3;
+
+        optionList.Clear();
+        SetBarrierActive(false);
+
+        ChangePrimaryWeapon(0);
+        UI.instance.ResetAll();
 
         transform.position = spawnTans.position;
         invincible = true;
@@ -407,13 +432,18 @@ public class PlayerBase : Character
         if(collision.tag == "PowerUp")
         {
             PowerupChange(true);
+
+            GameController.instance.AddScore(500);
+            Destroy(collision.gameObject);
+
+            AudioSource.PlayClipAtPoint(getPowerupClip, Camera.main.transform.position);
         }
     }
 
     private void OnGUI()
     {
         GUILayout.BeginVertical();
-        //GUILayout.Label(string.Format("Power Up:{0}", powerup));
+        GUILayout.Label(string.Format("Power Up:{0}", powerup));
         GUILayout.Label(string.Format("Current weapon:{0}", currentWeaponIdx));
         //GUILayout.Label(string.Format("HP:{0}", hp));
         GUILayout.Label(string.Format("Speed:{0}", finalSpeed));

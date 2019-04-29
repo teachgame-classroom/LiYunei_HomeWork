@@ -9,6 +9,8 @@ public class StraightWeapon : Weapon
         get { return 0.5f; }
     }
 
+    protected override string fireClipName { get { return "Sound Effect (4)"; } }
+
     public StraightWeapon(Transform[] shotPosTrans, bool isPlayerWeapon) : base(11, shotPosTrans, isPlayerWeapon)
     {
 

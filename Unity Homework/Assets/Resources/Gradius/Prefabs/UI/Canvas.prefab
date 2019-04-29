@@ -330,9 +330,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '5
-
-'
+  m_Text: 5
 --- !u!1 &6268320710044138758
 GameObject:
   m_ObjectHideFlags: 0
@@ -1020,11 +1018,9 @@ MonoBehaviour:
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: '1P
-
-'
+  m_Text: 1P
 --- !u!1 &6268320710458466509
 GameObject:
   m_ObjectHideFlags: 0
@@ -1342,7 +1338,7 @@ GameObject:
   - component: {fileID: 6268320710644562403}
   - component: {fileID: 6268320710644562402}
   m_Layer: 5
-  m_Name: Score
+  m_Name: ScoreName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2048,7 +2044,7 @@ GameObject:
   - component: {fileID: 6268320711429528990}
   - component: {fileID: 6268320711429528985}
   m_Layer: 5
-  m_Name: HighScore
+  m_Name: Score
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2112,11 +2108,9 @@ MonoBehaviour:
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: '000000
-
-'
+  m_Text: 000000
 --- !u!1 &6268320711483784730
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class EnemyBase : Character
 {
+    public int score = 100;
+
+    protected override string deathClipName { get { return "Sound Effect (7)"; } }
+
     protected override void Start()
     {
         base.Start();
@@ -23,6 +27,12 @@ public class EnemyBase : Character
         }
 
         LoadDamgeEffect();
+    }
+
+    protected override void Die()
+    {
+        GameController.instance.AddScore(score);
+        base.Die();
     }
 
     protected virtual void LoadDamgeEffect()

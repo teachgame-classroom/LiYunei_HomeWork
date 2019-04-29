@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class Missile : Weapon
 {
-    public  int level { get; protected set; }
+    public int level { get; protected set; }
 
     protected override float FireInterval
     {
         get { return 2f; }
     }
 
+    protected override string fireClipName { get { return "Sound Effect (11)"; } }
+
     public Missile(Transform[] shotPosTrans,bool isPlayerWeapon) : base(2, shotPosTrans, isPlayerWeapon)
     {
         this.level = 0;
     }
 
-    protected override void Shoot(Transform shotPos)
+    protected override void Shoot()
     {
         for (int i =0; i < shotPosTrans.Length; i++)
         {
@@ -24,12 +26,11 @@ public class Missile : Weapon
             {
                 if (this.level > 0)
                 {
-                    //GameObject missleInstance = GameObject.Instantiate(bulletPrefab, shotPosTrans[i].transform.position, Quaternion.Euler(0, 0, -45));
-                    GameObject missileInstance = bulletPool.Get(shotPosTrans[i].transform.position, Quaternion.Euler(0, 0, -45));
+                    bulletPool.Get(shotPosTrans[i].position, Quaternion.Euler(0, 0, -45));
+
                     if (level > 1)
                     {
-                        //GameObject.Instantiate(bulletPrefab, shotPosTrans[i].transform.position + shotPos.right * 0.5f, Quaternion.Euler(0, 0, -45));
-                        GameObject instance = bulletPool.Get(shotPosTrans[i].transform.position + shotPos.right * 0.5f, Quaternion.Euler(0, 0, -45));
+                        bulletPool.Get(shotPosTrans[i].position + shotPosTrans[i].right * 0.5f, Quaternion.Euler(0, 0, -45));
                     }
 
                 }

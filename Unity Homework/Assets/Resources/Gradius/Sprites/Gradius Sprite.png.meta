@@ -457,7 +457,7 @@ TextureImporter:
     21300904: Gradius Sprite_452
     21300906: Gradius Sprite_453
     21300908: Gradius Sprite_454
-    21300910: Gradius Sprite_455
+    21300910: Logo_1
     21300912: Gradius Sprite_456
     21300914: Gradius Sprite_457
     21300916: Gradius Sprite_458
@@ -500,7 +500,7 @@ TextureImporter:
     21300990: Gradius Sprite_495
     21300992: Gradius Sprite_496
     21300994: Gradius Sprite_497
-    21300996: Gradius Sprite_498
+    21300996: Logo_2
     21300998: Gradius Sprite_499
     21301000: Gradius Sprite_500
     21301002: Gradius Sprite_501
@@ -540,6 +540,9 @@ TextureImporter:
     21301070: Bullet_02
     21301072: Explosion_3_3
     21301074: Explosion_3_4
+    21301076: Text_0
+    21301078: Text_1
+    21301080: Text_2
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -9135,46 +9138,6 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_430
-      rect:
-        serializedVersion: 2
-        x: 9
-        y: 119
-        width: 12
-        height: 11
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 66248d8006a6dd647bd0c42d9d828107
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gradius Sprite_431
-      rect:
-        serializedVersion: 2
-        x: 129
-        y: 115
-        width: 22
-        height: 19
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 14da680a3c9c3be4b805408c387157f9
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Gradius Sprite_432
       rect:
         serializedVersion: 2
@@ -9335,26 +9298,6 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_440
-      rect:
-        serializedVersion: 2
-        x: 23
-        y: 119
-        width: 7
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 233ca74ddd3653f459ffaa61cd70e152
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Gradius Sprite_441
       rect:
         serializedVersion: 2
@@ -9375,86 +9318,6 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_442
-      rect:
-        serializedVersion: 2
-        x: 39
-        y: 119
-        width: 7
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9c897d02145e35940b3a7bf95a502e23
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gradius Sprite_443
-      rect:
-        serializedVersion: 2
-        x: 47
-        y: 119
-        width: 13
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 85e5ec9a7b8757543a4b9ad0e1e006a3
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gradius Sprite_444
-      rect:
-        serializedVersion: 2
-        x: 62
-        y: 119
-        width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ec373268ebca04f42b426b7ff5f9992d
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gradius Sprite_445
-      rect:
-        serializedVersion: 2
-        x: 72
-        y: 119
-        width: 43
-        height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 21acb5bff1aed924fb042b28f9e5ae24
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Gradius Sprite_446
       rect:
         serializedVersion: 2
@@ -9470,26 +9333,6 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e8fe383761701b946acedc8c739dfd9d
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gradius Sprite_447
-      rect:
-        serializedVersion: 2
-        x: 119
-        y: 119
-        width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5336ef7e02cc7004caff83c1ba0bdc7d
       vertices: []
       indices: 
       edges: []
@@ -9635,7 +9478,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_455
+      name: Logo_1
       rect:
         serializedVersion: 2
         x: 9
@@ -10375,127 +10218,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gradius Sprite_492
-      rect:
-        serializedVersion: 2
-        x: 89
-        y: 62
-        width: 21
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 86687d720cfb57e4da95568155a1ce53
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gradius Sprite_493
-      rect:
-        serializedVersion: 2
-        x: 114
-        y: 62
-        width: 5
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6de98874e7f449f4cbe20be779ec005b
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gradius Sprite_494
-      rect:
-        serializedVersion: 2
-        x: 123
-        y: 62
-        width: 5
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fea2e1317f2b8ad43b6f033b4daaafb3
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gradius Sprite_495
-      rect:
-        serializedVersion: 2
-        x: 132
-        y: 62
-        width: 5
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: da63f8e500851964397093e37d916f73
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gradius Sprite_496
-      rect:
-        serializedVersion: 2
-        x: 146
-        y: 62
-        width: 5
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: eb20430533995ff45ab299cb3cb09e0b
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gradius Sprite_497
-      rect:
-        serializedVersion: 2
-        x: 155
-        y: 62
-        width: 21
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 93107b0f6225fd34b8be0f9f26563f75
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gradius Sprite_498
+      name: Logo_2
       rect:
         serializedVersion: 2
         x: 9
@@ -11283,7 +11006,7 @@ TextureImporter:
         width: 10
         height: 10
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -11303,13 +11026,53 @@ TextureImporter:
         width: 6
         height: 6
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 297f13cbf2e157a4e86a279968f86b13
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Text_0
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 119
+        width: 61
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2d44c38dcd5f724a8629cf3d33ef16b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Text_2
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 115
+        width: 79
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5ca6d8715e6a6c458072ab8c985928e
       vertices: []
       indices: 
       edges: []

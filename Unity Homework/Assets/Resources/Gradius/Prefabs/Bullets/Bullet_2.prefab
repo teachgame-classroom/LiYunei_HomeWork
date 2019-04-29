@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6504441417055541739}
   - component: {fileID: 4496916540722513384}
   m_Layer: 0
-  m_Name: Bullet_3
+  m_Name: Bullet_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -116,6 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c2825691ae04d342933f7076730aa2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletMoveType: 1
   speed: 5
   isMissle: 1
   isBarrier: 0
@@ -159,4 +160,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletType: 1
+  damage: 1
   laserCount: 3

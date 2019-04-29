@@ -10,45 +10,15 @@ public class BulletDamage : MonoBehaviour
     public int damage = 1;
     public int laserCount = 3;
 
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        /*
-        Enemy enemy = collision.GetComponent<Enemy>();
-
-        if((int)bulletType != 3)
+        if(bulletType == (BulletType)3)
         {
-            if (enemy != null)
+            if(collision.tag == "EnemyBullet")
             {
-                if(transform.tag != "EnemyBullet")
-                {
-                    enemy.Hurt(damage);
-                    if ((int)bulletType == 2)
-                    {
-                        laserCount--;
-                        if (laserCount == 0)
-                        {
-                            Destroy(gameObject);
-                        }
-                    }
-                    else
-                    {
-                        Destroy(gameObject);
-                    }
-                }
+                collision.gameObject.SetActive(false);
             }
         }
-        else
-        {
-            if (collision.tag == "EnemyBullet")
-            {
-                Destroy(collision.gameObject);
-            }
-            if (enemy != null)
-            {
-                enemy.Hurt(damage);
-            }
-        }*/
     }
 
     public void OnHit()
@@ -70,6 +40,8 @@ public class BulletDamage : MonoBehaviour
                     gameObject.SetActive(false);
                     //Destroy(gameObject);
                 }
+                break;
+            case (BulletType)3:
                 break;
         }
     }
