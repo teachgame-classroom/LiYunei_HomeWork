@@ -10,7 +10,7 @@ public class Character : MonoBehaviour
     public bool invincible = false;
     public bool dropPowerUp = false;
 
-    public int hp { get; protected set; }
+    protected int hp;
 
     public float baseSpeed =1;
     public bool drawMovetrail = false;
@@ -146,7 +146,7 @@ public class Character : MonoBehaviour
         }
     }
 
-    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!invincible)
         {
