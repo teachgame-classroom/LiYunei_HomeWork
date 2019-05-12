@@ -24,7 +24,7 @@ public class PlayerBase : Character
     protected const int START_LIFE = 5;
     public int life { get; protected set; }
 
-    protected int powerup = 0;
+    protected int powerUp = 0;
     protected float finalSpeed = 0;
     public int speedLevel { get; protected set; }
 
@@ -75,16 +75,10 @@ public class PlayerBase : Character
                 spriteRenderer.enabled = !spriteRenderer.enabled;
                 lastBlinkTime = Time.time;
             }
-
         if (Time.time - lastSpawnTime > 3f)
         {
             invincible = false;
             spriteRenderer.enabled = true;
-        }
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            PowerupChange(true);
         }
 
         base.Update();
@@ -94,8 +88,21 @@ public class PlayerBase : Character
     {
         base.InitCharacter();
 
+<<<<<<< HEAD
         life = START_LIFE;
         UI.instance.OnLifeChange(life);
+=======
+        powerUp = 0;
+        speedLevel = 0;
+
+        isUpDouble = false;
+        isUpLaser = false;
+        isUpBarrier = false;
+
+        SetSpeed();
+
+        SetBarrierActive(false);
+>>>>>>> parent of 07a3960... updata UI
 
         if(hurtTags.Length == 0)
         {
@@ -173,11 +180,20 @@ public class PlayerBase : Character
 
     protected override void Move(Vector3 moveDirection)
     {
+<<<<<<< HEAD
         transform.Translate(moveDirection * finalSpeed * Time.deltaTime, Space.World);
     }
 
     protected override void Shoot()
     {
+=======
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            powerUp++;
+            powerUp = powerUp % 7;
+        }
+
+>>>>>>> parent of 07a3960... updata UI
         if (KeyState[KEY_1]) TryChangePrimaryWeapon(1);//Normal or Double
         if (KeyState[KEY_2]) TryChangePrimaryWeapon(2);//Laser
 
@@ -223,7 +239,7 @@ public class PlayerBase : Character
 
     protected void ChangePrimaryWeapon(int newWeaponIdx)
     {
-        powerup = 0;
+        powerUp = 0;
 
         newWeaponIdx = Mathf.Clamp(newWeaponIdx, 0, weapons.Length - 1);
         currentWeaponIdx = newWeaponIdx;
@@ -231,6 +247,7 @@ public class PlayerBase : Character
         currentWeapon = weapons[currentWeaponIdx];
     }
 
+<<<<<<< HEAD
     void PowerupChange(bool isAdd)
     {
         if (isAdd)
@@ -262,6 +279,11 @@ public class PlayerBase : Character
         }
 
         switch (powerup)
+=======
+    void TryPowerUp()
+    {
+        switch (powerUp)
+>>>>>>> parent of 07a3960... updata UI
         {
             case 1:
                 PowerUpSpeed();
@@ -286,12 +308,19 @@ public class PlayerBase : Character
 
     void PowerUpSpeed()
     {
+<<<<<<< HEAD
         if (speedLevel < 5)
         {
             powerup = 0;
             speedLevel++;
             SetSpeed();
         }
+=======
+        powerUp = 0;
+
+        speedLevel++;
+        speedLevel = Mathf.Min(5, speedLevel);
+>>>>>>> parent of 07a3960... updata UI
 
     }
 
@@ -304,7 +333,7 @@ public class PlayerBase : Character
     {
         if (missile.level < 2)
         {
-            powerup = 0;
+            powerUp = 0;
             missile.LevelUp();
         }
     }
@@ -313,7 +342,7 @@ public class PlayerBase : Character
     {
         if (isUpDouble == false)
         {
-            powerup = 0;
+            powerUp = 0;
             isUpDouble = true;
         }
         ChangePrimaryWeapon(1);
@@ -321,7 +350,12 @@ public class PlayerBase : Character
 
     void PowerUpLaser()
     {
+<<<<<<< HEAD
         if (laser.laserCount < 5)
+=======
+        powerUp = 0;
+        if (isUpLaser == false)
+>>>>>>> parent of 07a3960... updata UI
         {
             powerup = 0;
             laser.laserCount++;
@@ -332,8 +366,15 @@ public class PlayerBase : Character
 
     void PowerUpOption()
     {
+<<<<<<< HEAD
         powerup = 0;
         if (optionList.Count < 5)
+=======
+        powerUp = 0;
+        CreatOption();
+
+        for (int i = 0; i < weapons.Length; i++)
+>>>>>>> parent of 07a3960... updata UI
         {
             CreatOption();
 
@@ -367,7 +408,7 @@ public class PlayerBase : Character
     {
         if (!isUpBarrier)
         {
-            powerup = 0;
+            powerUp = 0;
             SetBarrierActive(true);
         }
     }
@@ -404,7 +445,7 @@ public class PlayerBase : Character
     void Spawn()
     {
         hp = maxHp;
-        PowerupChange(false);
+        powerUp = 0;
 
         speedLevel = 0;
         SetSpeed();
@@ -425,6 +466,7 @@ public class PlayerBase : Character
         lastSpawnTime = Time.time;
     }
 
+<<<<<<< HEAD
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
         base.OnTriggerEnter2D(collision);
@@ -444,8 +486,14 @@ public class PlayerBase : Character
     {
         GUILayout.BeginVertical();
         GUILayout.Label(string.Format("Power Up:{0}", powerup));
+=======
+    private void OnGUI()
+    {
+        GUILayout.BeginVertical();
+        GUILayout.Label(string.Format("Power Up:{0}", powerUp));
+>>>>>>> parent of 07a3960... updata UI
         GUILayout.Label(string.Format("Current weapon:{0}", currentWeaponIdx));
-        //GUILayout.Label(string.Format("HP:{0}", hp));
+        GUILayout.Label(string.Format("HP:{0}", hp));
         GUILayout.Label(string.Format("Speed:{0}", finalSpeed));
         GUILayout.Label(string.Format("Missle level:{0}",missile.level));
         GUILayout.EndVertical();

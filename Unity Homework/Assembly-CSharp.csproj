@@ -85,8 +85,11 @@
     <Compile Include="Assets\Gradius\Scipts\ObjectPool.cs" />
     <Compile Include="Assets\Gradius\Scipts\SquadonManager.cs" />
     <Compile Include="Assets\Gradius\Scipts\StopWatch.cs" />
+<<<<<<< HEAD
     <Compile Include="Assets\Gradius\Scipts\UI\TitleControler.cs" />
     <Compile Include="Assets\Gradius\Scipts\UI\UI.cs" />
+=======
+>>>>>>> parent of 07a3960... updata UI
     <Compile Include="Assets\Gradius\Scipts\VicViper.cs" />
     <Compile Include="Assets\Gradius\Scipts\Weapon\DoubleCannon.cs" />
     <Compile Include="Assets\Gradius\Scipts\Weapon\GuideWeapon.cs" />
