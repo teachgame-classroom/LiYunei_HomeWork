@@ -16,9 +16,6 @@ public abstract class Weapon
 
     protected int optionLevel;
 
-    protected abstract string fireClipName { get; }
-    protected AudioClip fireClip;
-
     public Weapon(int bulletPrefabIndedx, Transform[] shotPosTrans,bool isPlayerWeapon)
     {
         string bulletPrefabPath = "Gradius/Prefabs/Bullets/Bullet_" + bulletPrefabIndedx;
@@ -39,8 +36,6 @@ public abstract class Weapon
         this.isPlayerWeapon = isPlayerWeapon;
 
         bulletPool = new ObjectPool(bulletPrefab, 50);
-
-        fireClip = Resources.Load<AudioClip>("Gradius/Prefabs/Sounds/"+fireClipName);
     }
 
     public void TryShoot()
@@ -73,8 +68,6 @@ public abstract class Weapon
                 Shoot(shotPosTrans[i]);
             }
         }
-
-        AudioSource.PlayClipAtPoint(fireClip, Camera.main.transform.position);
     }
 
     protected virtual void Shoot(Transform shotPos)

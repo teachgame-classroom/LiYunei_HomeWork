@@ -2,15 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public  class MouseGuideWeapon : Weapon
+public abstract class MouseGuideWeapon : Weapon
 {
-    protected override float FireInterval
-    {
-        get { return 0.2f; }
-    }
-
-    protected override string fireClipName { get { return "Sound Effect (7)"; } }
-
     protected float maxAngle = 30f;
 
     public MouseGuideWeapon(int bulletPrefabIndex, Transform[] shotPosTrans,bool isPlayerWeapon) : base(bulletPrefabIndex, shotPosTrans, isPlayerWeapon)

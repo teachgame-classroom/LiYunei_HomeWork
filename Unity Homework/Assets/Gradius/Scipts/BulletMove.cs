@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum BulletMoveType { Normal, Missile, Laser, Barrier }
-
 public class BulletMove : MonoBehaviour
 {
-    public BulletMoveType bulletMoveType;
     public float speed = 15;
     public bool isMissle;
     public bool isBarrier;
@@ -14,6 +11,7 @@ public class BulletMove : MonoBehaviour
 
     private string[] stageLayeMask = new string[]{"Stage"};
 
+    // Start is called before the first frame update
     void Start()
     {
         if(moveDirection == Vector3.zero)
@@ -22,33 +20,26 @@ public class BulletMove : MonoBehaviour
         }
     }
 
+    // Update is called once per frame
     void Update()
     {
-        switch (bulletMoveType)
+        if (isMissle)
         {
-            case (BulletMoveType)0:
-                CameraClamp();
-                break;
-            case (BulletMoveType)1:
-                if (GetGroundNormal() != Vector3.zero)
-                {
-                    transform.up = GetGroundNormal();
-                    moveDirection = transform.right;
-                }
-                CameraClamp();
-                break;
-            case (BulletMoveType)2:
-                CameraClamp();
-                break;
-            case (BulletMoveType)3:
-                transform.RotateAround(transform.parent.position, Vector3.forward, speed * Time.deltaTime);
-                break;
+            if(GetGroundNormal()!= Vector3.zero)
+            {
+                transform.up = GetGroundNormal();
+                moveDirection = transform.right;
+            }
         }
-    }
 
-    void CameraClamp()
-    {
-        transform.Translate(moveDirection * speed * Time.deltaTime, Space.World);
+        if (isBarrier)
+        {
+            transform.RotateAround(transform.parent.position, Vector3.forward, speed * Time.deltaTime);
+        }
+        else
+        {
+            transform.Translate(moveDirection * speed * Time.deltaTime, Space.World);
+        }
 
         Vector3 pos = transform.position;
 
@@ -61,6 +52,11 @@ public class BulletMove : MonoBehaviour
         if (pos.x < left || pos.x > right || pos.y < bottom || pos.y > top)
         {
             gameObject.SetActive(false);
+
+            if (!isBarrier)
+            {
+                //Destroy(gameObject);
+            }
         }
     }
 

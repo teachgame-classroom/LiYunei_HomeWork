@@ -16,8 +16,6 @@ public class GuidedWeapon : Weapon
         get { return 0.2f; }
     }
 
-    protected override string fireClipName { get { return "Sound Effect (1)"; } }
-
     public GuidedWeapon(Transform[] shotPosTrans, string targetTag, float minAngle, float maxAngle,SpriteRenderer spriteRenderer, Sprite[] turretSprites,bool isPlayerWeapon) : base(0, shotPosTrans, isPlayerWeapon)
     {
         this.targetTag = targetTag;
@@ -35,6 +33,7 @@ public class GuidedWeapon : Weapon
 
         if (FindTargetPosition(targetTag,out pos))
         {
+            //Debug.Log("Target:" + pos);
             SetAimDirection(shotPos, pos);
 
             float angle = Vector3.SignedAngle(Vector3.right, shotPosTrans[0].right, Vector3.forward);
@@ -48,7 +47,7 @@ public class GuidedWeapon : Weapon
         }
         else
         {
-
+            //Debug.Log("No Target");
         }
     }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Character : MonoBehaviour
+public class Character : MonoBehaviour
 {
     public string[] hurtTags;
     public int maxHp=1;
@@ -27,9 +27,6 @@ public abstract class Character : MonoBehaviour
 
     protected GameObject powerUpPrefab;
 
-    protected abstract string deathClipName { get; }
-    protected AudioClip deathClip;
-
     protected virtual void Start()
     {
         InitCharacter();
@@ -52,7 +49,6 @@ public abstract class Character : MonoBehaviour
         hp = maxHp;
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        deathClip = Resources.Load<AudioClip>("Gradius/Prefabs/Sounds/");
 
         if (dropPowerUp)
         {
@@ -80,7 +76,7 @@ public abstract class Character : MonoBehaviour
         Move(Vector3.left);
     }
 
-    protected virtual void Move(Vector3 moveDirection)
+    protected void Move(Vector3 moveDirection)
     {
         transform.Translate(moveDirection * baseSpeed * Time.deltaTime, Space.World);
     }
@@ -93,7 +89,7 @@ public abstract class Character : MonoBehaviour
         }
     }
 
-    protected virtual void Hurt(int damage)
+    public void Hurt(int damage)
     {
         if(!invincible)
         {
@@ -121,8 +117,6 @@ public abstract class Character : MonoBehaviour
         {
             PlayDieEffect();
         }
-
-        AudioSource.PlayClipAtPoint(deathClip, Camera.main.transform.position);
 
         Destroy(gameObject);
     }

@@ -9,8 +9,6 @@ public class Laser : Weapon
         get { return 0.3f; }
     }
 
-    protected override string fireClipName { get { return "Sound Effect (10)"; } }
-
     public Laser(Transform[] shotPosTrans,bool isPlayerWeapon) : base(1, shotPosTrans, isPlayerWeapon)
     {
 
