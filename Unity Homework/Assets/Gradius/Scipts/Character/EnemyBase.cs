@@ -6,7 +6,11 @@ public class EnemyBase : Character
 {
     public int score = 100;
 
+    public bool waitForPlayer = true;
+
     protected override string deathClipName { get { return "Sound Effect (7)"; } }
+
+    
 
     protected override void Start()
     {
@@ -38,5 +42,13 @@ public class EnemyBase : Character
     protected virtual void LoadDamgeEffect()
     {
         dieEffect = Resources.Load<GameObject>("Gradius/Prefabs/Effects/explosion_Red");
+    }
+
+    protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "PlayerBullet")
+        {
+            base.OnTriggerEnter2D(collision);
+        }
     }
 }

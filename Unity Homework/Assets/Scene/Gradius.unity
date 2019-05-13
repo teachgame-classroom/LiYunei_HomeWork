@@ -164,6 +164,7 @@ MonoBehaviour:
   baseSpeed: 1
   drawMovetrail: 0
   score: 100
+  waitForPlayer: 1
 --- !u!50 &8990996
 Rigidbody2D:
   serializedVersion: 4
@@ -1725,6 +1726,7 @@ MonoBehaviour:
   baseSpeed: 0
   drawMovetrail: 0
   score: 100
+  waitForPlayer: 1
   turretSprites:
   - {fileID: 21300232, guid: f5660b541b7396a478e0048879cdc18e, type: 3}
   - {fileID: 21300234, guid: f5660b541b7396a478e0048879cdc18e, type: 3}
@@ -2601,6 +2603,7 @@ MonoBehaviour:
   baseSpeed: 0
   drawMovetrail: 0
   score: 100
+  waitForPlayer: 1
 --- !u!1 &223260822
 GameObject:
   m_ObjectHideFlags: 0
@@ -3278,6 +3281,7 @@ MonoBehaviour:
   baseSpeed: 0
   drawMovetrail: 0
   score: 100
+  waitForPlayer: 1
   turretSprites:
   - {fileID: 21300232, guid: f5660b541b7396a478e0048879cdc18e, type: 3}
   - {fileID: 21300234, guid: f5660b541b7396a478e0048879cdc18e, type: 3}
@@ -3709,6 +3713,7 @@ MonoBehaviour:
   baseSpeed: 0
   drawMovetrail: 0
   score: 100
+  waitForPlayer: 1
   turretSprites:
   - {fileID: 21300232, guid: f5660b541b7396a478e0048879cdc18e, type: 3}
   - {fileID: 21300234, guid: f5660b541b7396a478e0048879cdc18e, type: 3}
@@ -4882,6 +4887,7 @@ MonoBehaviour:
   baseSpeed: 0
   drawMovetrail: 0
   score: 100
+  waitForPlayer: 1
   turretSprites:
   - {fileID: 21300232, guid: f5660b541b7396a478e0048879cdc18e, type: 3}
   - {fileID: 21300234, guid: f5660b541b7396a478e0048879cdc18e, type: 3}
@@ -7001,6 +7007,7 @@ MonoBehaviour:
   baseSpeed: 0
   drawMovetrail: 0
   score: 100
+  waitForPlayer: 1
 --- !u!50 &562753483
 Rigidbody2D:
   serializedVersion: 4
@@ -14116,6 +14123,7 @@ MonoBehaviour:
   baseSpeed: 0
   drawMovetrail: 0
   score: 100
+  waitForPlayer: 1
   turretSprites:
   - {fileID: 21300232, guid: f5660b541b7396a478e0048879cdc18e, type: 3}
   - {fileID: 21300234, guid: f5660b541b7396a478e0048879cdc18e, type: 3}
@@ -14768,6 +14776,7 @@ MonoBehaviour:
   baseSpeed: 0
   drawMovetrail: 0
   score: 100
+  waitForPlayer: 1
   turretSprites:
   - {fileID: 21300232, guid: f5660b541b7396a478e0048879cdc18e, type: 3}
   - {fileID: 21300234, guid: f5660b541b7396a478e0048879cdc18e, type: 3}
@@ -15988,6 +15997,7 @@ MonoBehaviour:
   baseSpeed: 0
   drawMovetrail: 0
   score: 100
+  waitForPlayer: 1
   turretSprites:
   - {fileID: 21300232, guid: f5660b541b7396a478e0048879cdc18e, type: 3}
   - {fileID: 21300234, guid: f5660b541b7396a478e0048879cdc18e, type: 3}
@@ -21582,6 +21592,7 @@ MonoBehaviour:
   baseSpeed: 0
   drawMovetrail: 0
   score: 100
+  waitForPlayer: 1
 --- !u!50 &1603935851
 Rigidbody2D:
   serializedVersion: 4
@@ -27389,6 +27400,7 @@ MonoBehaviour:
   baseSpeed: 0
   drawMovetrail: 0
   score: 100
+  waitForPlayer: 1
   turretSprites:
   - {fileID: 21300232, guid: f5660b541b7396a478e0048879cdc18e, type: 3}
   - {fileID: 21300234, guid: f5660b541b7396a478e0048879cdc18e, type: 3}
@@ -27703,6 +27715,7 @@ MonoBehaviour:
   baseSpeed: 0
   drawMovetrail: 0
   score: 100
+  waitForPlayer: 1
 --- !u!50 &2062687856
 Rigidbody2D:
   serializedVersion: 4
@@ -28745,7 +28758,7 @@ PrefabInstance:
     - target: {fileID: 6778505592902771638, guid: 211429409a622b742afa3942465ce340,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4037442153742366504, guid: 211429409a622b742afa3942465ce340,
         type: 3}

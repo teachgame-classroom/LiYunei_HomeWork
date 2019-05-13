@@ -390,6 +390,7 @@ public class PlayerBase : Character
         life--;
         UI.instance.OnLifeChange(life);
         PlayDieEffect();
+        AudioSource.PlayClipAtPoint(deathClip, Camera.main.transform.position);
 
         if (life > 0)
         {
@@ -427,9 +428,16 @@ public class PlayerBase : Character
 
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
-        base.OnTriggerEnter2D(collision);
+        if (collision.tag != "Enemy")
+        {
+            base.OnTriggerEnter2D(collision);
+        }
+        if (collision.tag == "Enemy")
+        {
+            Die();
+        }
 
-        if(collision.tag == "PowerUp")
+        if (collision.tag == "PowerUp")
         {
             PowerupChange(true);
 

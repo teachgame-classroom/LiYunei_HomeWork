@@ -52,7 +52,7 @@ public abstract class Character : MonoBehaviour
         hp = maxHp;
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        deathClip = Resources.Load<AudioClip>("Gradius/Prefabs/Sounds/");
+        deathClip = Resources.Load<AudioClip>("Gradius/Prefabs/Sounds/"+deathClipName);
 
         if (dropPowerUp)
         {

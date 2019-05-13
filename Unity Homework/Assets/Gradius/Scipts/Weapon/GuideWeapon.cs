@@ -29,6 +29,17 @@ public class GuidedWeapon : Weapon
 
     }
 
+    protected override void Shoot()
+    {
+        for (int i = 0; i < shotPosTrans.Length; i++)
+        {
+            if (i <= optionLevel)
+            {
+                Shoot(shotPosTrans[i]);
+            }
+        }
+    }
+
     protected override void Shoot(Transform shotPos)
     {
         Vector3 pos;
@@ -44,11 +55,8 @@ public class GuidedWeapon : Weapon
             {
                 base.Shoot(shotPos);
                 SetSpriteByAimDirection(shotPosTrans[0].right);
+                AudioSource.PlayClipAtPoint(fireClip, Camera.main.transform.position);
             }
-        }
-        else
-        {
-
         }
     }
 
